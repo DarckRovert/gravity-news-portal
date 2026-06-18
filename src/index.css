@@ -6,30 +6,33 @@
   --font-reader: 'Playfair Display', serif;
   --font-mono: 'Fira Code', monospace;
 
-  /* Premium Cyberpunk / Zero-Trust Dark Palette */
-  --bg-primary: #050505;
-  --bg-secondary: #0d0d0f;
-  --bg-surface: #121216;
+  /* Premium Cyberpunk / Zero-Trust Dark Palette - Deep Onyx Edition */
+  --bg-primary: #030304;
+  --bg-secondary: #0a0a0c;
+  --bg-surface: #0f1014;
   
   --accent-primary: #ffffff;
   --accent-secondary: #00f0ff; /* Neon cyan */
-  --accent-glow: rgba(0, 240, 255, 0.15);
+  --accent-tertiary: #a855f7; /* Deep Purple */
+  --accent-glow: rgba(0, 240, 255, 0.2);
+  --accent-glow-purple: rgba(168, 85, 247, 0.15);
   
-  --text-primary: #ffffff;
-  --text-secondary: #8a8a93;
-  --text-muted: #4e4e56;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
   
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-active: rgba(0, 240, 255, 0.3);
+  --border-subtle: rgba(255, 255, 255, 0.03);
+  --border-active: rgba(0, 240, 255, 0.4);
   
-  --glass-bg: rgba(10, 10, 15, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-bg: rgba(15, 16, 20, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.04);
 
-  --radius-sm: 6px;
-  --radius-md: 14px;
-  --radius-lg: 24px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
   
-  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 * {

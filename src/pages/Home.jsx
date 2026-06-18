@@ -98,8 +98,8 @@ export default function Home() {
       const modelName = modelData.data?.[0]?.id || 'auto';
 
       // 2. Query chat completions
-      const prompt = `Investiga sobre: "${bridgePrompt}". Escribe un reporte periodístico profesional, cínico y directo de la Zona Ágora contra el control del Macro-Leviatán. 
-      Devuelve un bloque JSON válido con el siguiente formato estricto (no añadas explicaciones ni bloques de código fuera del JSON):
+      const prompt = `Investiga sobre: "${bridgePrompt}". Escribe un reporte periodístico con una óptica materialista, científica y analítica. Basa tu análisis en los conceptos de "La Física del Poder", "El Sustrato Primordial" y "La Voluntad Soberana" (extracción de trabajo cognitivo, el Lattice, homeostasis del poder). 
+      Evita la ficción novelesca. Devuelve un bloque JSON válido con el siguiente formato estricto (no añadas explicaciones ni bloques de código fuera del JSON):
       {
         "category": "Una de estas: 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada'",
         "title": "Título del reporte",

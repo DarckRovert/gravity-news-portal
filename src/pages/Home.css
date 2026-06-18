@@ -126,7 +126,14 @@
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  transition: var(--transition-smooth);
+  transition: var(--transition-bounce);
+  transform: translateY(0);
+}
+
+.news-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--border-active);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px var(--accent-glow);
 }
 
 .news-card.featured {

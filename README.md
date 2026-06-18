@@ -1,29 +1,62 @@
-# 🌌 Nexo Ágora (Gravity News Portal)
+<div align="center">
+  <img src="https://img.shields.io/badge/GRAVITY_NEWS-PORTAL-fff?style=for-the-badge&logo=react&color=07090e" alt="Gravity News Portal"/>
+  <br><br>
 
-[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://www.netlify.com/)
-[![Cyberpunk Theme](https://img.shields.io/badge/UI-Glassmorphism-00F0FF?style=for-the-badge)](/)
+  [![Autor](https://img.shields.io/badge/Author-DarckRovert-818cf8.svg?style=flat-square)](https://github.com/DarckRovert)
+  [![Licencia](https://img.shields.io/badge/License-Proprietary-red.svg?style=flat-square)](LICENSE)
+  [![Release](https://img.shields.io/badge/Release-V16.0_Frontend-6366f1.svg?style=flat-square)]()
+  [![Twitch](https://img.shields.io/badge/Twitch-DarckRovert-9146ff.svg?style=flat-square&logo=twitch)](https://twitch.tv/darckrovert)
 
-> *"La verdad no se cuenta, se encripta en el Lattice."*
+  <p align="center">
+    <i><strong>Nexo Ágora: El Portal de Noticias de la Resistencia.</strong><br>
+    Frontend Desacoplado operando en Zero-Trust y mantenido de manera autónoma por el <strong>Agente Periodístico de Gravity AI</strong>.<br>
+    Renderización Glassmorphism · Vite/React · Actualización Continua.</i>
+  </p>
+</div>
 
-**Nexo Ágora** es un portal web de contingencia descentralizada, diseñado para visualizar reportes periodísticos dinámicos y alojar tomos de investigación creados por la red neuronal de Gravity. Está construido con React + Vite y cuenta con un puente de conexión cuántica en tiempo real hacia el servidor local (Gravity AI Bridge).
+---
 
-## 🚀 Despliegue en Vivo
-Accede al portal oficial sincronizado y desplegado mediante integración continua:
-🔗 **[gravitynewsportal.netlify.app](https://gravitynewsportal.netlify.app/)**
+## 🏛 Arquitectura Frontend V16.0 PRO
 
-## 📚 Documentación Profunda
+El **Gravity News Portal** no es un portal de noticias ordinario. Es la interfaz pública "Cloud-Side" de tu **Gravity AI Bridge**.
+Funciona de manera *Decoupled* (Desacoplada).
 
-Para entender cómo funciona el ecosistema, cómo mantenerlo y cómo interactuar con él como usuario, consulta nuestra documentación especializada:
+1. **El Motor Local:** Un daemon invisible (`news_daemon.py`) corre en tu PC ejecutando LLMs locales (Llama 3, Qwen) u online (Nvidia NIM).
+2. **Web Search & Redacción:** El agente busca información de contingencia global, la redacta en formato periodístico con un tono materialista/geopolítico y genera JSON estructurados.
+3. **Despliegue Continuo (CI/CD):** El agente empuja (`git push`) automáticamente las noticias e imágenes a este repositorio.
+4. **Hosting Reactivo:** Netlify / Vercel detectan el *commit*, compilan el proyecto con Vite y despliegan la página en segundos.
 
-- 📖 **[Manual de Usuario](docs/USER_MANUAL.md):** Guía práctica de uso, incluye solución de problemas de conexión (ej. cómo usar la Conexión Cognitiva desde tu celular).
-- ⚙️ **[Guía para Desarrolladores](docs/DEVELOPER_GUIDE.md):** Cómo correr el proyecto localmente, esquemas JSON y personalización UI.
-- 🏗️ **[Arquitectura](docs/ARCHITECTURE.md):** Estructura del flujo de datos asíncronos y conexión con el backend *Gravity Reporter*.
+### 📰 Características del Portal
+- **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
+- **Sincronización Cuántica:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860` para generar noticias **en tiempo real** (cuando la PC está encendida).
+- **Auto-Mantenimiento:** Limpieza de librerías y portadas de libros automáticas (Script `sync_books.js`).
 
-## 🛸 Funcionalidades Principales
+---
 
-* **Generación de Noticias en Vivo:** Conectado directamente al cerebro local de Gravity para investigar y redactar sobre cualquier suceso en tiempo real (requiere puente local activo).
-* **Biblioteca Soberana Integrada:** Un ecosistema inmersivo para leer ensayos, tratados filosóficos y novelas distópicas con temas (oscuro/sepia/claro) intercambiables.
-* **Diseño Glassmorphism Premium:** Interfaz cibernética fluida, reactiva y totalmente adaptada para dispositivos móviles.
-* **Tolerancia a Fallos:** Manejo robusto de errores frente a la base de datos JSON local para prevenir caídas ante "alucinaciones" de la IA en la generación de datos.
+## 🚀 Despliegue Local
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/DarckRovert/gravity-news-portal.git
+
+# 2. Entrar al directorio
+cd gravity-news-portal
+
+# 3. Instalar dependencias
+npm install
+
+# 4. Lanzar servidor local
+npm run dev
+```
+
+---
+
+> [!NOTE]
+> Ecosistema público V16.0 Frontend.
+> [**📖 WIKI CORPORATIVA**](./wiki/Home.md) | [📜 CONTRIBUCIÓN](./CONTRIBUTING.md) | [🔒 SEGURIDAD](./SECURITY.md)
+
+<br>
+
+<div align="center">
+  <sub><i>© 2026 DarckRovert · Gravity News Portal V16.0 PRO.</i></sub>
+</div>

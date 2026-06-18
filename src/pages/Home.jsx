@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle } from 'lucide-react';
+import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2 } from 'lucide-react';
 import newsData from '../data/news.json';
 import booksData from '../data/books.json';
 import './Home.css';
@@ -68,7 +68,31 @@ export default function Home() {
     setSearchQuery(e.target.value);
   };
 
-  const categories = ['Todas', 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada', 'Geopolítica y Macro-Leviatán'];
+  const categories = ['Todas', ...new Set(news.map(item => item.category).filter(Boolean))];
+
+  const getReadingTime = (text) => {
+    if (!text) return 1;
+    const words = text.split(/\s+/).length;
+    return Math.max(1, Math.ceil(words / 200));
+  };
+
+  const handleShare = async (article) => {
+    const shareData = {
+      title: article.title,
+      text: article.excerpt,
+      url: window.location.href,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${article.title}\\n${window.location.href}`);
+        alert('Enlace cuántico copiado al portapapeles');
+      }
+    } catch (e) {
+      console.log('Error al compartir', e);
+    }
+  };
 
   // Filter news based on search query and active category
   const filteredNews = news.filter((item) => {
@@ -211,6 +235,7 @@ export default function Home() {
                     <div className="news-meta">
                       <Clock size={14} />
                       <span>{featuredNews.date}</span>
+                      <span className="reading-time">⏱ {getReadingTime(featuredNews.fullText)} min</span>
                       <span className="featured-tag">REPORTE DESTACADO</span>
                     </div>
                     <h2 className="news-title">{featuredNews.title}</h2>
@@ -240,6 +265,7 @@ export default function Home() {
                       <div className="news-meta">
                         <Clock size={14} />
                         <span>{item.date}</span>
+                        <span className="reading-time">⏱ {getReadingTime(item.fullText)} min</span>
                       </div>
                       <h3 className="news-title">{item.title}</h3>
                       <p className="news-excerpt">{item.excerpt}</p>
@@ -357,10 +383,19 @@ export default function Home() {
               <span className="badge-futuristic modal-category">{selectedArticle.category}</span>
             </div>
             <div className="modal-content">
-              <div className="modal-meta">
+              <div className="modal-meta" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                 <Clock size={14} />
                 <span>{selectedArticle.date}</span>
                 <span>• Autor: DarckRovert (Gravity AI)</span>
+                <span>• ⏱ {getReadingTime(selectedArticle.fullText)} min de lectura</span>
+                <button 
+                  className="btn-share hover-lift" 
+                  onClick={() => handleShare(selectedArticle)} 
+                  title="Compartir Transmisión"
+                  style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px', background: 'var(--accent-glow-purple)', border: '1px solid var(--accent-tertiary)', color: 'var(--text-primary)', padding: '4px 12px', borderRadius: '100px', cursor: 'pointer' }}
+                >
+                  <Share2 size={14} /> Compartir
+                </button>
               </div>
               <h2 className="modal-title">{selectedArticle.title}</h2>
               <div className="modal-fulltext">

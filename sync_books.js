@@ -86,7 +86,7 @@ SOURCE_DIRS.forEach(source => {
         description: description,
         htmlUrl: `/books/${bookId}.html`,
         // Portada generica premium si no hay (se pueden generar luego)
-        cover: `https://images.unsplash.com/photo-1618172193763-c511deb635ce?q=80&w=600&auto=format&fit=crop&sig=${bookId.length}`
+        cover: `https://picsum.photos/seed/${bookId}/800/600`
       });
       
       console.log(`[Synced] ${title}`);

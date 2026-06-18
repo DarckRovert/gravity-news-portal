@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import newsData from '../data/news.json';
@@ -40,7 +40,7 @@ const playSound = (type) => {
       osc.start();
       osc.stop(ctx.currentTime + 0.03);
     }
-  } catch(e) {
+  } catch {
     // Silently fail if audio context is restricted
   }
 };
@@ -80,11 +80,7 @@ function parseMarkdown(text) {
 // Typewriter Component for the Article Modal
 const TypewriterMarkdown = ({ text }) => {
   const [visibleLines, setVisibleLines] = useState(0);
-  const lines = text ? text.split('\n') : [];
-  
-  useEffect(() => {
-    setVisibleLines(0);
-  }, [text]);
+  const lines = useMemo(() => text ? text.split('\n') : [], [text]);
 
   useEffect(() => {
     if (visibleLines < lines.length) {
@@ -577,7 +573,7 @@ export default function Home() {
                 <h2 className="modal-title">{selectedArticle.title}</h2>
                 
                 <div className="modal-fulltext">
-                  <TypewriterMarkdown text={selectedArticle.fullText} />
+                  <TypewriterMarkdown key={selectedArticle.id} text={selectedArticle.fullText} />
                 </div>
                 
                 {/* Related Articles Section */}

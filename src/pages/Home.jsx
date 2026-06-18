@@ -12,8 +12,10 @@ function parseMarkdown(text) {
     const trimmed = line.trim();
     
     const parseInline = (str) => {
+      // 1. Reemplazamos negritas primero para eliminar doble asteriscos
       let parsed = str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      parsed = parsed.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+      // 2. Reemplazamos cursivas con un regex cross-browser seguro (Safari no soporta lookbehinds)
+      parsed = parsed.replace(/\*(.*?)\*/g, '<em>$1</em>');
       return parsed;
     };
 
@@ -241,7 +243,7 @@ export default function Home() {
                       src={featuredNews.image} 
                       alt={featuredNews.title} 
                       className="news-image" 
-                      onError={(e) => { e.target.onerror = null; e.target.src = 'https://picsum.photos/seed/fallback_featured/800/600'; }}
+                      onError={(e) => { e.target.onerror = null; e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%23050508"/><text x="50%" y="50%" fill="%2300f0ff" font-family="monospace" font-size="20" text-anchor="middle">[IMAGEN ENCRIPTADA - CONTINGENCIA ACTIVADA]</text></svg>'; }}
                     />
                     <div className="news-overlay"></div>
                     <span className="badge-futuristic news-category-badge">{featuredNews.category}</span>
@@ -276,7 +278,7 @@ export default function Home() {
                         src={item.image} 
                         alt={item.title} 
                         className="news-image" 
-                        onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/fallback_${item.id}/800/600`; }}
+                        onError={(e) => { e.target.onerror = null; e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%23050508"/><text x="50%" y="50%" fill="%2300f0ff" font-family="monospace" font-size="20" text-anchor="middle">[IMAGEN ENCRIPTADA - CONTINGENCIA ACTIVADA]</text></svg>'; }}
                       />
                       <div className="news-overlay"></div>
                       <span className="badge-futuristic news-category-badge">{item.category}</span>
@@ -402,7 +404,7 @@ export default function Home() {
                 src={selectedArticle.image} 
                 alt={selectedArticle.title} 
                 className="modal-image" 
-                onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/fallback_${selectedArticle.id}/800/600`; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%23050508"/><text x="50%" y="50%" fill="%2300f0ff" font-family="monospace" font-size="20" text-anchor="middle">[IMAGEN ENCRIPTADA - CONTINGENCIA ACTIVADA]</text></svg>'; }}
               />
               <div className="modal-image-overlay"></div>
               <span className="badge-futuristic modal-category">{selectedArticle.category}</span>

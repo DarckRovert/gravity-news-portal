@@ -20,8 +20,11 @@ export default function Books() {
 
   // Filter books based on search query and category tab
   const filteredBooks = booksData.filter((book) => {
-    const matchesSearch = book.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          book.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const title = book.title || '';
+    const description = book.description || '';
+    
+    const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTab = activeTab === 'Todos' || book.category === activeTab;
     return matchesSearch && matchesTab;
   });

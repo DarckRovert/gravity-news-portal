@@ -66,8 +66,12 @@ export default function Home() {
 
   // Filter news based on search query and active category
   const filteredNews = news.filter((item) => {
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          item.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    // Robustness check: avoid crashing if JSON entries are malformed
+    const title = item.title || '';
+    const excerpt = item.excerpt || '';
+    
+    const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory === 'Todas' || item.category === activeCategory;
     return matchesSearch && matchesCategory;
   });

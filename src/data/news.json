@@ -1,35 +1,5 @@
 [
   {
-    "choices": [
-      {
-        "delta": {
-          "content": "\n\n[**SYSTEM ERROR**: Fallo crítico de conexión con la nube. Error: 401 Client Error: Unauthorized for url: https://integrate.api.nvidia.com/v1/chat/completions]\n\n"
-        }
-      }
-    ],
-    "title": "Transmisión Clandestina de la Zona Ágora",
-    "excerpt": "Reporte interceptado de los nodos de Gravity AI en el subsuelo.",
-    "fullText": "### Canal de contingencia activo\n\nNo se pudo decodificar el contenido completo.",
-    "category": "Tecnología Descentralizada",
-    "featured": false,
-    "id": "transmisin-clandestina-de-la-zona-gora",
-    "date": "2026-06-18",
-    "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
-  },
-  {
-    "choices": [
-      {
-        "delta": {
-          "content": "\n\n[**SYSTEM ERROR**: Fallo crítico de conexión con la nube. Error: 401 Client Error: Unauthorized for url: https://integrate.api.nvidia.com/v1/chat/completions]\n\n"
-        }
-      }
-    ],
-    "id": "reporte-258",
-    "category": "Tecnología Descentralizada",
-    "date": "2026-06-18",
-    "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
-  },
-  {
     "id": "la-marcha-de-las-cbdc-y-el-contrato-biometrico-global",
     "category": "Control Biométrico",
     "title": "La marcha de las CBDCs y la sombra del Contrato Biométrico Global",

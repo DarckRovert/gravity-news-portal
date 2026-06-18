@@ -320,6 +320,30 @@
   color: var(--text-secondary);
 }
 
+.bridge-url-input {
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.bridge-url-input input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--accent-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 10px 12px;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.bridge-url-input input:focus {
+  border-color: var(--border-active);
+  box-shadow: 0 0 10px var(--accent-glow);
+  background: rgba(0, 0, 0, 0.8);
+}
+
 .bridge-desc, .books-desc {
   font-size: 0.85rem;
   color: var(--text-secondary);

@@ -700,3 +700,28 @@
     font-size: 1.8rem;
   }
 }
+
+/* Typewriter & New UI UX */
+.typewriter-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1.2em;
+  background-color: var(--accent-secondary);
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+  margin-left: 5px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.related-card {
+  transition: var(--transition-bounce);
+}
+.related-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-secondary) !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 240, 255, 0.2);
+}

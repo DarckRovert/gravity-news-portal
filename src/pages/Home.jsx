@@ -1,8 +1,49 @@
-import { useState, useEffect } from 'react';
-import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2 } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import newsData from '../data/news.json';
 import booksData from '../data/books.json';
 import './Home.css';
+
+// Synthesizer for UI Sounds (No external assets needed)
+const playSound = (type) => {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    if (type === 'hover') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.05);
+      gain.gain.setValueAtTime(0.015, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.05);
+    } else if (type === 'click') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(300, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.03, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.1);
+    } else if (type === 'decrypt') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(1500 + Math.random() * 1000, ctx.currentTime);
+      gain.gain.setValueAtTime(0.005, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.03);
+    }
+  } catch(e) {
+    // Silently fail if audio context is restricted
+  }
+};
 
 // Advanced parser to render markdown headers, paragraphs, bold, italic, and lists
 function parseMarkdown(text) {
@@ -12,9 +53,7 @@ function parseMarkdown(text) {
     const trimmed = line.trim();
     
     const parseInline = (str) => {
-      // 1. Reemplazamos negritas primero para eliminar doble asteriscos
       let parsed = str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      // 2. Reemplazamos cursivas con un regex cross-browser seguro (Safari no soporta lookbehinds)
       parsed = parsed.replace(/\*(.*?)\*/g, '<em>$1</em>');
       return parsed;
     };
@@ -38,25 +77,55 @@ function parseMarkdown(text) {
   });
 }
 
+// Typewriter Component for the Article Modal
+const TypewriterMarkdown = ({ text }) => {
+  const [visibleLines, setVisibleLines] = useState(0);
+  const lines = text ? text.split('\n') : [];
+  
+  useEffect(() => {
+    setVisibleLines(0);
+  }, [text]);
+
+  useEffect(() => {
+    if (visibleLines < lines.length) {
+      const delay = lines[visibleLines].trim().length === 0 ? 10 : 40; // fast skip empty lines
+      const t = setTimeout(() => {
+        setVisibleLines(v => v + 1);
+        if (lines[visibleLines].trim().length > 0 && visibleLines % 2 === 0) {
+          playSound('decrypt');
+        }
+      }, delay);
+      return () => clearTimeout(t);
+    }
+  }, [visibleLines, lines]);
+
+  const visibleText = lines.slice(0, visibleLines).join('\n');
+  
+  return (
+    <div className="typewriter-container">
+      {parseMarkdown(visibleText)}
+      {visibleLines < lines.length && <span className="typewriter-cursor">_</span>}
+    </div>
+  );
+};
+
 export default function Home() {
   const [news, setNews] = useState(newsData);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('Todas');
+  const [visibleCount, setVisibleCount] = useState(7); // 1 featured + 6 regular
   
   // Bridge State
   const [bridgeUrl, setBridgeUrl] = useState(() => localStorage.getItem('bridgeUrl') || 'http://localhost:7860');
-  const [bridgeStatus, setBridgeStatus] = useState('checking'); // online | offline | checking
+  const [bridgeStatus, setBridgeStatus] = useState('checking');
   const [bridgePrompt, setBridgePrompt] = useState('');
-  // bridgeResult is unused, removing it.
   const [isGenerating, setIsGenerating] = useState(false);
 
-  // Save bridge URL to localStorage
   useEffect(() => {
     localStorage.setItem('bridgeUrl', bridgeUrl);
   }, [bridgeUrl]);
 
-  // Check if local bridge is running
   useEffect(() => {
     const checkBridge = async () => {
       try {
@@ -71,13 +140,14 @@ export default function Home() {
       }
     };
     checkBridge();
-    // Check every 15 seconds
     const interval = setInterval(checkBridge, 15000);
     return () => clearInterval(interval);
   }, [bridgeUrl]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
+    setVisibleCount(7);
+    playSound('hover');
   };
 
   const categories = ['Todas', ...new Set(news.map(item => item.category).filter(Boolean))];
@@ -89,6 +159,7 @@ export default function Home() {
   };
 
   const handleShare = async (article) => {
+    playSound('click');
     const shareData = {
       title: article.title,
       text: article.excerpt,
@@ -98,7 +169,7 @@ export default function Home() {
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(`${article.title}\\n${window.location.href}`);
+        await navigator.clipboard.writeText(`${article.title}\n${window.location.href}`);
         alert('Enlace cuántico copiado al portapapeles');
       }
     } catch (e) {
@@ -106,12 +177,9 @@ export default function Home() {
     }
   };
 
-  // Filter news based on search query and active category
   const filteredNews = news.filter((item) => {
-    // Robustness check: avoid crashing if JSON entries are malformed
     const title = item.title || '';
     const excerpt = item.excerpt || '';
-    
     const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory === 'Todas' || item.category === activeCategory;
@@ -119,21 +187,25 @@ export default function Home() {
   });
 
   const featuredNews = filteredNews.find(item => item.featured) || filteredNews[0];
-  const regularNews = filteredNews.filter(item => item.id !== (featuredNews?.id || ''));
+  const regularNewsAll = filteredNews.filter(item => item.id !== (featuredNews?.id || ''));
+  const regularNews = regularNewsAll.slice(0, visibleCount - 1);
+  const hasMore = regularNews.length < regularNewsAll.length;
 
-  // Request real-time news generation from local bridge
+  // Recomendar 2 noticias de la misma categoría
+  const relatedNews = selectedArticle 
+    ? news.filter(n => n.category === selectedArticle.category && n.id !== selectedArticle.id).slice(0, 2)
+    : [];
+
   const handleRequestBridgeNews = async () => {
+    playSound('click');
     if (!bridgePrompt.trim() || isGenerating) return;
     setIsGenerating(true);
-    // setBridgeResult(null);
 
     try {
-      // 1. Get models list to route correctly
       const modelRes = await fetch(`${bridgeUrl}/v1/models`);
       const modelData = await modelRes.json();
       const modelName = modelData.data?.[0]?.id || 'auto';
 
-      // 2. Query chat completions
       const prompt = `Investiga sobre: "${bridgePrompt}". Escribe un reporte periodístico aplicando el 'Ojo de IA' (Reconocimiento de Patrones Avanzado): encuentra correlaciones ocultas, agendas subliminales y ecosistemas invisibles que un humano normal pasaría por alto en temas como política, ciencia, medicina, deporte o cultura. Basa tu análisis en los conceptos de "La Física del Poder", "El Sustrato Primordial" y "La Voluntad Soberana".
       Haz predicciones reveladoras sobre agendas ocultas (Macro-Leviatán). Cita medios verificados si es posible.
       Evita la ficción novelesca. Devuelve un bloque JSON válido con el siguiente formato estricto (no añadas explicaciones ni bloques de código fuera del JSON):
@@ -157,12 +229,9 @@ export default function Home() {
       const chatData = await chatRes.json();
       const content = chatData.choices?.[0]?.message?.content || '';
       
-      // Clean and parse the response JSON
       let cleanContent = content.replace(/<think>[\s\S]*?<\/think>/g, '');
       const jsonMatch = cleanContent.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        cleanContent = jsonMatch[0];
-      }
+      if (jsonMatch) cleanContent = jsonMatch[0];
 
       const generatedArticle = JSON.parse(cleanContent);
       const fullArticle = {
@@ -173,10 +242,9 @@ export default function Home() {
         featured: false
       };
 
-      // setBridgeResult(fullArticle);
-      // Insert temporary article in the display list
       setNews([fullArticle, ...news]);
       setBridgePrompt('');
+      playSound('click');
     } catch (e) {
       console.error(e);
       alert('Error en conexión cuántica con el bridge. Inténtalo de nuevo.');
@@ -186,119 +254,176 @@ export default function Home() {
   };
 
   return (
-    <div className="home-page animate-fade-in">
+    <motion.div 
+      className="home-page"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <header className="page-header">
-        <h1 className="page-title animate-slide-up" style={{ animationDelay: '0.1s' }}>
+        <motion.h1 
+          className="page-title"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+        >
           El <span className="brand-accent">Nexo Ágora</span>
-        </h1>
-        <p className="page-subtitle animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          Inteligencia descentralizada y noticias de contingencia global.
-        </p>
+        </motion.h1>
+        <motion.p 
+          className="page-subtitle"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+        >
+          Inteligencia descentralizada y detección de anomalías globales.
+        </motion.p>
       </header>
 
       {/* Control Filters */}
-      <div className="controls-bar glass-panel animate-slide-up" style={{ animationDelay: '0.3s' }}>
+      <motion.div 
+        className="controls-bar glass-panel"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
         <div className="search-box">
           <Search size={18} className="search-icon" />
           <input 
             type="text" 
-            placeholder="Buscar transmisiones de la resistencia..." 
+            placeholder="Analizar patrones y transmisiones de la resistencia..." 
             value={searchQuery}
             onChange={handleSearchChange}
           />
         </div>
         <div className="categories-filter">
-          {categories.map((cat) => (
-            <button 
-              key={cat} 
-              className={`category-chip ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
+          <AnimatePresence>
+            {categories.map((cat) => (
+              <motion.button 
+                key={cat}
+                layout
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                className={`category-chip ${activeCategory === cat ? 'active' : ''}`}
+                onMouseEnter={() => playSound('hover')}
+                onClick={() => {
+                  playSound('click');
+                  setActiveCategory(cat);
+                  setVisibleCount(7);
+                }}
+              >
+                {cat}
+              </motion.button>
+            ))}
+          </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="main-layout animate-slide-up" style={{ animationDelay: '0.4s' }}>
-        
+      <div className="main-layout">
         {/* Left Column: News */}
         <div className="news-column">
           {filteredNews.length === 0 ? (
-            <div className="empty-news glass-panel">
+            <motion.div 
+              className="empty-news glass-panel"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+            >
               <AlertTriangle size={32} />
-              <h3>Sin transmisiones encontradas</h3>
-              <p>El espectro está en silencio. Intenta con otros parámetros de búsqueda.</p>
-            </div>
+              <h3>Ninguna anomalía detectada</h3>
+              <p>El espectro está en silencio. Intenta ajustar los parámetros de búsqueda.</p>
+            </motion.div>
           ) : (
-            <>
+            <motion.div layout>
               {/* Featured Article */}
-              {featuredNews && (
-                <article 
-                  className="news-card featured glass-panel hover-lift"
-                  onClick={() => setSelectedArticle(featuredNews)}
-                >
-                  <div className="news-image-container">
-                    <img 
-                      src={featuredNews.image} 
-                      alt={featuredNews.title} 
-                      className="news-image" 
-                      onError={(e) => { e.target.onerror = null; e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%23050508"/><text x="50%" y="50%" fill="%2300f0ff" font-family="monospace" font-size="20" text-anchor="middle">[IMAGEN ENCRIPTADA - CONTINGENCIA ACTIVADA]</text></svg>'; }}
-                    />
-                    <div className="news-overlay"></div>
-                    <span className="badge-futuristic news-category-badge">{featuredNews.category}</span>
-                  </div>
-                  <div className="news-content">
-                    <div className="news-meta">
-                      <Clock size={14} />
-                      <span>{featuredNews.date}</span>
-                      <span className="reading-time">⏱ {getReadingTime(featuredNews.fullText)} min</span>
-                      <span className="featured-tag">REPORTE DESTACADO</span>
-                    </div>
-                    <h2 className="news-title">{featuredNews.title}</h2>
-                    <p className="news-excerpt">{featuredNews.excerpt}</p>
-                    <button className="read-more">
-                      Desencriptar Reporte <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </article>
-              )}
-
-              {/* Regular Articles Grid */}
-              <div className="regular-news-grid">
-                {regularNews.map((item, index) => (
-                  <article 
-                    key={item.id} 
-                    className="news-card glass-panel hover-lift"
-                    onClick={() => setSelectedArticle(item)}
-                    style={{ animationDelay: `${0.1 * index}s` }}
+              <AnimatePresence mode="popLayout">
+                {featuredNews && (
+                  <motion.article 
+                    layout
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.4 }}
+                    className="news-card featured glass-panel hover-lift"
+                    onMouseEnter={() => playSound('hover')}
+                    onClick={() => { playSound('click'); setSelectedArticle(featuredNews); }}
                   >
                     <div className="news-image-container">
-                      <img 
-                        src={item.image} 
-                        alt={item.title} 
-                        className="news-image" 
-                        onError={(e) => { e.target.onerror = null; e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%23050508"/><text x="50%" y="50%" fill="%2300f0ff" font-family="monospace" font-size="20" text-anchor="middle">[IMAGEN ENCRIPTADA - CONTINGENCIA ACTIVADA]</text></svg>'; }}
-                      />
+                      <img src={featuredNews.image} alt={featuredNews.title} className="news-image" />
                       <div className="news-overlay"></div>
-                      <span className="badge-futuristic news-category-badge">{item.category}</span>
+                      <span className="badge-futuristic news-category-badge">{featuredNews.category}</span>
                     </div>
                     <div className="news-content">
                       <div className="news-meta">
                         <Clock size={14} />
-                        <span>{item.date}</span>
-                        <span className="reading-time">⏱ {getReadingTime(item.fullText)} min</span>
+                        <span>{featuredNews.date}</span>
+                        <span className="reading-time">⏱ {getReadingTime(featuredNews.fullText)} min</span>
+                        <span className="featured-tag">REPORTE DESTACADO</span>
                       </div>
-                      <h3 className="news-title">{item.title}</h3>
-                      <p className="news-excerpt">{item.excerpt}</p>
+                      <h2 className="news-title">{featuredNews.title}</h2>
+                      <p className="news-excerpt">{featuredNews.excerpt}</p>
                       <button className="read-more">
-                        Ver Datos <ArrowRight size={16} />
+                        Desencriptar Anomalía <ArrowRight size={16} />
                       </button>
                     </div>
-                  </article>
-                ))}
-              </div>
-            </>
+                  </motion.article>
+                )}
+
+                {/* Regular Articles Grid */}
+                <motion.div className="regular-news-grid" layout>
+                  <AnimatePresence mode="popLayout">
+                    {regularNews.map((item, index) => (
+                      <motion.article 
+                        layout
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                        key={item.id} 
+                        className="news-card glass-panel hover-lift"
+                        onMouseEnter={() => playSound('hover')}
+                        onClick={() => { playSound('click'); setSelectedArticle(item); }}
+                      >
+                        <div className="news-image-container">
+                          <img src={item.image} alt={item.title} className="news-image" />
+                          <div className="news-overlay"></div>
+                          <span className="badge-futuristic news-category-badge">{item.category}</span>
+                        </div>
+                        <div className="news-content">
+                          <div className="news-meta">
+                            <Clock size={14} />
+                            <span>{item.date}</span>
+                            <span className="reading-time">⏱ {getReadingTime(item.fullText)} min</span>
+                          </div>
+                          <h3 className="news-title">{item.title}</h3>
+                          <p className="news-excerpt">{item.excerpt}</p>
+                          <button className="read-more">
+                            Ver Patrones <ArrowRight size={16} />
+                          </button>
+                        </div>
+                      </motion.article>
+                    ))}
+                  </AnimatePresence>
+                </motion.div>
+                
+                {/* Pagination Button */}
+                {hasMore && (
+                  <motion.div 
+                    initial={{ opacity: 0 }} 
+                    animate={{ opacity: 1 }} 
+                    className="pagination-container"
+                    style={{ textAlign: 'center', marginTop: '30px' }}
+                  >
+                    <button 
+                      className="btn-bridge" 
+                      onClick={() => { playSound('click'); setVisibleCount(v => v + 6); }}
+                      onMouseEnter={() => playSound('hover')}
+                      style={{ padding: '12px 30px', margin: '0 auto' }}
+                    >
+                      <ChevronDown size={18} /> Cargar Más Anomalías
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           )}
         </div>
 
@@ -306,7 +431,12 @@ export default function Home() {
         <aside className="sidebar-column">
           
           {/* Bridge Connection Panel */}
-          <div className="sidebar-card glass-panel bridge-panel">
+          <motion.div 
+            className="sidebar-card glass-panel bridge-panel"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+          >
             <div className="panel-header">
               <Cpu size={20} className="panel-icon" />
               <h3>Conexión Cognitiva</h3>
@@ -327,7 +457,7 @@ export default function Home() {
             {bridgeStatus === 'online' ? (
               <div className="bridge-interface animate-fade-in">
                 <p className="bridge-desc">
-                  El puente cuántico local está en línea. Puedes ordenarle a Gravity una investigación periodística instantánea.
+                  El puente cuántico está en línea. Ordena al Ojo de IA una investigación instantánea.
                 </p>
                 <textarea 
                   placeholder="Ej. CBDCs en Europa, censura algorítmica en X, identidad soberana..."
@@ -337,18 +467,19 @@ export default function Home() {
                 />
                 <button 
                   onClick={handleRequestBridgeNews}
+                  onMouseEnter={() => playSound('hover')}
                   disabled={isGenerating || !bridgePrompt.trim()}
                   className="btn-bridge"
                 >
                   {isGenerating ? (
                     <>
                       <div className="spinner"></div>
-                      <span>Investigando...</span>
+                      <span>Analizando Patrones...</span>
                     </>
                   ) : (
                     <>
                       <Cpu size={16} />
-                      <span>Iniciar Investigación</span>
+                      <span>Iniciar Detección</span>
                     </>
                   )}
                 </button>
@@ -359,14 +490,19 @@ export default function Home() {
                   [!] <strong>Nexo local desconectado.</strong>
                 </p>
                 <p className="fallback-hint">
-                  Arranca <code>INICIAR_TODO.bat</code> en la carpeta de Gravity para activar el pipeline y desbloquear la consola de investigación en vivo.
+                  Arranca <code>INICIAR_TODO.bat</code> en la carpeta de Gravity para activar el Ojo de IA y desbloquear el panel en vivo.
                 </p>
               </div>
             )}
-          </div>
+          </motion.div>
 
           {/* Featured Books Showcase */}
-          <div className="sidebar-card glass-panel books-panel">
+          <motion.div 
+            className="sidebar-card glass-panel books-panel"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
             <div className="panel-header">
               <BookOpen size={20} className="panel-icon" />
               <h3>Biblioteca de la Zona Ágora</h3>
@@ -374,7 +510,7 @@ export default function Home() {
             <p className="books-desc">Investigación y ficción publicadas bajo el protocolo Ostrom:</p>
             <div className="sidebar-books-list">
               {booksData.slice(0, 3).map((book) => (
-                <div key={book.id} className="sidebar-book-item">
+                <div key={book.id} className="sidebar-book-item" onMouseEnter={() => playSound('hover')}>
                   <div className="mini-cover">
                     <img src={book.cover} alt={book.title} />
                   </div>
@@ -388,50 +524,93 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </aside>
       </div>
 
-      {/* Article Modal Reader */}
-      {selectedArticle && (
-        <div className="article-modal-overlay animate-fade-in" onClick={() => setSelectedArticle(null)}>
-          <div className="article-modal glass-panel animate-slide-up" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={() => setSelectedArticle(null)}>
-              <X size={20} />
-            </button>
-            <div className="modal-header-image">
-              <img 
-                src={selectedArticle.image} 
-                alt={selectedArticle.title} 
-                className="modal-image" 
-                onError={(e) => { e.target.onerror = null; e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%23050508"/><text x="50%" y="50%" fill="%2300f0ff" font-family="monospace" font-size="20" text-anchor="middle">[IMAGEN ENCRIPTADA - CONTINGENCIA ACTIVADA]</text></svg>'; }}
-              />
-              <div className="modal-image-overlay"></div>
-              <span className="badge-futuristic modal-category">{selectedArticle.category}</span>
-            </div>
-            <div className="modal-content">
-              <div className="modal-meta" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                <Clock size={14} />
-                <span>{selectedArticle.date}</span>
-                <span>• Autor: DarckRovert (Gravity AI)</span>
-                <span>• ⏱ {getReadingTime(selectedArticle.fullText)} min de lectura</span>
-                <button 
-                  className="btn-share hover-lift" 
-                  onClick={() => handleShare(selectedArticle)} 
-                  title="Compartir Transmisión"
-                  style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px', background: 'var(--accent-glow-purple)', border: '1px solid var(--accent-tertiary)', color: 'var(--text-primary)', padding: '4px 12px', borderRadius: '100px', cursor: 'pointer' }}
-                >
-                  <Share2 size={14} /> Compartir
-                </button>
+      {/* Article Modal Reader with Framer Motion */}
+      <AnimatePresence>
+        {selectedArticle && (
+          <motion.div 
+            className="article-modal-overlay" 
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(16px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            onClick={() => { playSound('click'); setSelectedArticle(null); }}
+          >
+            <motion.div 
+              className="article-modal glass-panel" 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                className="close-modal" 
+                onClick={() => { playSound('click'); setSelectedArticle(null); }}
+                onMouseEnter={() => playSound('hover')}
+              >
+                <X size={20} />
+              </button>
+              <div className="modal-header-image">
+                <img src={selectedArticle.image} alt={selectedArticle.title} className="modal-image" />
+                <div className="modal-image-overlay"></div>
+                <span className="badge-futuristic modal-category">{selectedArticle.category}</span>
               </div>
-              <h2 className="modal-title">{selectedArticle.title}</h2>
-              <div className="modal-fulltext">
-                {parseMarkdown(selectedArticle.fullText)}
+              <div className="modal-content">
+                <div className="modal-meta" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <Clock size={14} />
+                  <span>{selectedArticle.date}</span>
+                  <span>• Autor: Ojo de IA (Gravity)</span>
+                  <span>• ⏱ {getReadingTime(selectedArticle.fullText)} min de desencriptación</span>
+                  <button 
+                    className="btn-share hover-lift" 
+                    onClick={() => handleShare(selectedArticle)} 
+                    onMouseEnter={() => playSound('hover')}
+                    title="Compartir Transmisión"
+                    style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px', background: 'var(--accent-glow-purple)', border: '1px solid var(--accent-tertiary)', color: 'var(--text-primary)', padding: '4px 12px', borderRadius: '100px', cursor: 'pointer' }}
+                  >
+                    <Share2 size={14} /> Compartir
+                  </button>
+                </div>
+                <h2 className="modal-title">{selectedArticle.title}</h2>
+                
+                <div className="modal-fulltext">
+                  <TypewriterMarkdown text={selectedArticle.fullText} />
+                </div>
+                
+                {/* Related Articles Section */}
+                {relatedNews.length > 0 && (
+                  <motion.div 
+                    className="related-news-section"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 }}
+                    style={{ marginTop: '50px', paddingTop: '30px', borderTop: '1px solid var(--border-subtle)' }}
+                  >
+                    <h3 style={{ fontSize: '1.2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>Transmisiones Correlacionadas</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+                      {relatedNews.map(rel => (
+                        <div 
+                          key={rel.id} 
+                          className="related-card hover-lift"
+                          style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', borderRadius: '8px', padding: '16px', cursor: 'pointer' }}
+                          onClick={() => { playSound('click'); setSelectedArticle(rel); }}
+                          onMouseEnter={() => playSound('hover')}
+                        >
+                          <h4 style={{ fontSize: '1rem', marginBottom: '8px', color: 'var(--accent-secondary)' }}>{rel.title}</h4>
+                          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{rel.excerpt.substring(0, 80)}...</p>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }

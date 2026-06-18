@@ -33,16 +33,22 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('Todas');
   
   // Bridge State
+  const [bridgeUrl, setBridgeUrl] = useState(() => localStorage.getItem('bridgeUrl') || 'http://localhost:7860');
   const [bridgeStatus, setBridgeStatus] = useState('checking'); // online | offline | checking
   const [bridgePrompt, setBridgePrompt] = useState('');
   const [bridgeResult, setBridgeResult] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // Save bridge URL to localStorage
+  useEffect(() => {
+    localStorage.setItem('bridgeUrl', bridgeUrl);
+  }, [bridgeUrl]);
+
   // Check if local bridge is running
   useEffect(() => {
     const checkBridge = async () => {
       try {
-        const res = await fetch('http://localhost:7860/v1/models', { mode: 'cors' });
+        const res = await fetch(`${bridgeUrl}/v1/models`, { mode: 'cors' });
         if (res.ok) {
           setBridgeStatus('online');
         } else {
@@ -56,7 +62,7 @@ export default function Home() {
     // Check every 15 seconds
     const interval = setInterval(checkBridge, 15000);
     return () => clearInterval(interval);
-  }, []);
+  }, [bridgeUrl]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -87,7 +93,7 @@ export default function Home() {
 
     try {
       // 1. Get models list to route correctly
-      const modelRes = await fetch('http://localhost:7860/v1/models');
+      const modelRes = await fetch(`${bridgeUrl}/v1/models`);
       const modelData = await modelRes.json();
       const modelName = modelData.data?.[0]?.id || 'auto';
 
@@ -101,7 +107,7 @@ export default function Home() {
         "fullText": "Texto detallado en párrafos estructurados"
       }`;
 
-      const chatRes = await fetch('http://localhost:7860/v1/chat/completions', {
+      const chatRes = await fetch(`${bridgeUrl}/v1/chat/completions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -126,7 +132,7 @@ export default function Home() {
         ...generatedArticle,
         id: `temp-${Date.now()}`,
         date: new Date().toISOString().split('T')[0],
-        image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop',
+        image: `https://picsum.photos/seed/temp${Date.now()}/800/600`,
         featured: false
       };
 
@@ -259,6 +265,14 @@ export default function Home() {
                 {bridgeStatus === 'online' ? <Wifi size={14} /> : <WifiOff size={14} />}
                 <span>{bridgeStatus === 'online' ? 'Online' : bridgeStatus === 'checking' ? 'Buscando...' : 'Offline'}</span>
               </div>
+            </div>
+            <div className="bridge-url-input">
+              <input 
+                type="text" 
+                value={bridgeUrl} 
+                onChange={(e) => setBridgeUrl(e.target.value)} 
+                title="URL del Bridge Local"
+              />
             </div>
             
             {bridgeStatus === 'online' ? (

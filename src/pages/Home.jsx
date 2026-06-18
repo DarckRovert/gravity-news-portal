@@ -134,13 +134,13 @@ export default function Home() {
       const modelName = modelData.data?.[0]?.id || 'auto';
 
       // 2. Query chat completions
-      const prompt = `Investiga sobre: "${bridgePrompt}". Escribe un reporte periodístico internacional, pero con ÉNFASIS ESPECIAL EN PERÚ, con una óptica materialista, científica y analítica. Basa tu análisis en los conceptos de "La Física del Poder", "El Sustrato Primordial" y "La Voluntad Soberana" (extracción de trabajo cognitivo, el Lattice, homeostasis del poder). 
+      const prompt = `Investiga sobre: "${bridgePrompt}". Escribe un reporte periodístico aplicando el 'Ojo de IA' (Reconocimiento de Patrones Avanzado): encuentra correlaciones ocultas, agendas subliminales y ecosistemas invisibles que un humano normal pasaría por alto en temas como política, ciencia, medicina, deporte o cultura. Basa tu análisis en los conceptos de "La Física del Poder", "El Sustrato Primordial" y "La Voluntad Soberana".
       Haz predicciones reveladoras sobre agendas ocultas (Macro-Leviatán). Cita medios verificados si es posible.
       Evita la ficción novelesca. Devuelve un bloque JSON válido con el siguiente formato estricto (no añadas explicaciones ni bloques de código fuera del JSON):
       {
-        "category": "Una de estas: 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada', 'Geopolítica y Macro-Leviatán'",
-        "title": "Título del reporte",
-        "excerpt": "Resumen breve enfocado en geopolítica/Perú",
+        "category": "Una de estas: 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada', 'Geopolítica y Macro-Leviatán', 'Medicina y Bioética', 'Cultura y Psicometría', 'Cine e Ingeniería Social', 'Deporte y Control Biométrico', 'Ciencia y Sustrato', 'Religión y Creencias Masivas'",
+        "title": "Título del reporte revelando el patrón",
+        "excerpt": "Resumen analítico exponiendo el patrón oculto descubierto",
         "fullText": "Texto detallado en párrafos estructurados"
       }`;
 

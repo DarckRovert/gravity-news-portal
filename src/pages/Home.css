@@ -725,3 +725,106 @@
   border-color: var(--accent-secondary) !important;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 240, 255, 0.2);
 }
+
+/* Telemetry Panel */
+.telemetry-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  margin-bottom: 24px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  background: rgba(0, 240, 255, 0.05);
+  border: 1px solid var(--accent-secondary);
+  color: var(--accent-secondary);
+  border-radius: 4px;
+}
+
+.telemetry-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.blinking-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-secondary);
+  border-radius: 50%;
+  animation: telemetry-blink 1.5s infinite;
+}
+
+@keyframes telemetry-blink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent-secondary); }
+  50% { opacity: 0.3; box-shadow: none; }
+}
+
+.telemetry-last-sync {
+  opacity: 0.8;
+}
+
+/* Related Transmissions Refined */
+.related-transmissions {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.related-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.related-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.related-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.related-card:hover img {
+  opacity: 1;
+}
+
+.related-info {
+  padding: 12px;
+}
+
+.related-date {
+  font-size: 0.75rem;
+  color: var(--accent-secondary);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.related-info h5 {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}

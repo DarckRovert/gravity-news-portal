@@ -45,6 +45,29 @@ const playSound = (type) => {
   }
 };
 
+// Relative Time Calculator
+const getRelativeTime = (dateString) => {
+  if (!dateString) return 'Desconocido';
+  const target = new Date(dateString);
+  const now = new Date();
+  const diffMs = now - target;
+  
+  // If it's a future date or very recent
+  if (diffMs < 60000) return 'Hace unos segundos';
+  
+  const diffMins = Math.floor(diffMs / 60000);
+  if (diffMins < 60) return `Hace ${diffMins} min`;
+  
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `Hace ${diffHours} hr`;
+  
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays === 1) return 'Ayer';
+  if (diffDays < 30) return `Hace ${diffDays} días`;
+  
+  return dateString.split('T')[0]; // fallback
+};
+
 // Advanced parser to render markdown headers, paragraphs, bold, italic, and lists
 function parseMarkdown(text) {
   if (!text) return '';
@@ -257,6 +280,16 @@ export default function Home() {
       transition={{ duration: 0.5 }}
     >
       <header className="page-header">
+        <div className="telemetry-panel glass-panel">
+          <div className="telemetry-status">
+            <span className="blinking-dot"></span>
+            GRAVITY DAEMON: <span className="status-text">{bridgeStatus === 'online' ? 'CONECTADO AL NODO LOCAL' : 'MODO DESCONECTADO (ESTÁTICO)'}</span>
+          </div>
+          <div className="telemetry-last-sync">
+            ÚLTIMA TRANSMISIÓN INTERCEPTADA: {news.length > 0 ? getRelativeTime(news[0].date) : 'N/A'}
+          </div>
+        </div>
+        
         <motion.h1 
           className="page-title"
           initial={{ y: 20, opacity: 0 }}
@@ -349,11 +382,10 @@ export default function Home() {
                     </div>
                     <div className="news-content">
                       <div className="news-meta">
-                        <Clock size={14} />
-                        <span>{featuredNews.date}</span>
-                        <span className="reading-time">⏱ {getReadingTime(featuredNews.fullText)} min</span>
-                        <span className="featured-tag">REPORTE DESTACADO</span>
-                      </div>
+                        <span className="news-date"><Clock size={14} /> {getRelativeTime(featuredNews.date)}</span>
+                        <span className="news-read-time"><BookOpen size={14} /> {getReadingTime(featuredNews.fullText)} min</span>
+                      </div>  
+                      <span className="featured-tag">REPORTE DESTACADO</span>
                       <h2 className="news-title">{featuredNews.title}</h2>
                       <p className="news-excerpt">{featuredNews.excerpt}</p>
                       <button className="read-more">
@@ -385,9 +417,8 @@ export default function Home() {
                         </div>
                         <div className="news-content">
                           <div className="news-meta">
-                            <Clock size={14} />
-                            <span>{item.date}</span>
-                            <span className="reading-time">⏱ {getReadingTime(item.fullText)} min</span>
+                            <span className="news-date"><Clock size={14} /> {getRelativeTime(item.date)}</span>
+                            <span className="news-read-time"><BookOpen size={14} /> {getReadingTime(item.fullText)} min</span>
                           </div>
                           <h3 className="news-title">{item.title}</h3>
                           <p className="news-excerpt">{item.excerpt}</p>
@@ -578,29 +609,20 @@ export default function Home() {
                 
                 {/* Related Articles Section */}
                 {relatedNews.length > 0 && (
-                  <motion.div 
-                    className="related-news-section"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1 }}
-                    style={{ marginTop: '50px', paddingTop: '30px', borderTop: '1px solid var(--border-subtle)' }}
-                  >
-                    <h3 style={{ fontSize: '1.2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>Transmisiones Correlacionadas</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+                  <div className="related-transmissions">
+                    <h4 className="related-title"><Wifi size={16} /> Transmisiones Correlacionadas</h4>
+                    <div className="related-grid">
                       {relatedNews.map(rel => (
-                        <div 
-                          key={rel.id} 
-                          className="related-card hover-lift"
-                          style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', borderRadius: '8px', padding: '16px', cursor: 'pointer' }}
-                          onClick={() => { playSound('click'); setSelectedArticle(rel); }}
-                          onMouseEnter={() => playSound('hover')}
-                        >
-                          <h4 style={{ fontSize: '1rem', marginBottom: '8px', color: 'var(--accent-secondary)' }}>{rel.title}</h4>
-                          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{rel.excerpt.substring(0, 80)}...</p>
+                        <div key={rel.id} className="related-card hover-lift" onClick={() => { playSound('click'); setSelectedArticle(rel); }}>
+                          <img src={rel.image} alt={rel.title} />
+                          <div className="related-info">
+                            <span className="related-date">{getRelativeTime(rel.date)}</span>
+                            <h5>{rel.title}</h5>
+                          </div>
                         </div>
                       ))}
                     </div>
-                  </motion.div>
+                  </div>
                 )}
               </div>
             </motion.div>

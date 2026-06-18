@@ -1,16 +1,29 @@
-# React + Vite
+# 🌌 Nexo Ágora (Gravity News Portal)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://www.netlify.com/)
+[![Cyberpunk Theme](https://img.shields.io/badge/UI-Glassmorphism-00F0FF?style=for-the-badge)](/)
 
-Currently, two official plugins are available:
+> *"La verdad no se cuenta, se encripta en el Lattice."*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Nexo Ágora** es un portal web de contingencia descentralizada, diseñado para visualizar reportes periodísticos dinámicos y alojar tomos de investigación creados por la red neuronal de Gravity. Está construido con React + Vite y cuenta con un puente de conexión cuántica en tiempo real hacia el servidor local (Gravity AI Bridge).
 
-## React Compiler
+## 🚀 Despliegue en Vivo
+Accede al portal oficial sincronizado y desplegado mediante integración continua:
+🔗 **[gravitynewsportal.netlify.app](https://gravitynewsportal.netlify.app/)**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📚 Documentación Profunda
 
-## Expanding the ESLint configuration
+Para entender cómo funciona el ecosistema, cómo mantenerlo y cómo interactuar con él como usuario, consulta nuestra documentación especializada:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 📖 **[Manual de Usuario](docs/USER_MANUAL.md):** Guía práctica de uso, incluye solución de problemas de conexión (ej. cómo usar la Conexión Cognitiva desde tu celular).
+- ⚙️ **[Guía para Desarrolladores](docs/DEVELOPER_GUIDE.md):** Cómo correr el proyecto localmente, esquemas JSON y personalización UI.
+- 🏗️ **[Arquitectura](docs/ARCHITECTURE.md):** Estructura del flujo de datos asíncronos y conexión con el backend *Gravity Reporter*.
+
+## 🛸 Funcionalidades Principales
+
+* **Generación de Noticias en Vivo:** Conectado directamente al cerebro local de Gravity para investigar y redactar sobre cualquier suceso en tiempo real (requiere puente local activo).
+* **Biblioteca Soberana Integrada:** Un ecosistema inmersivo para leer ensayos, tratados filosóficos y novelas distópicas con temas (oscuro/sepia/claro) intercambiables.
+* **Diseño Glassmorphism Premium:** Interfaz cibernética fluida, reactiva y totalmente adaptada para dispositivos móviles.
+* **Tolerancia a Fallos:** Manejo robusto de errores frente a la base de datos JSON local para prevenir caídas ante "alucinaciones" de la IA en la generación de datos.

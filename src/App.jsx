@@ -3,6 +3,7 @@ import { Newspaper, Library, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import Home from './pages/Home';
 import Books from './pages/Books';
+import Reader from './pages/Reader';
 import './App.css';
 
 function Navbar() {
@@ -17,7 +18,7 @@ function Navbar() {
   return (
     <nav className="glass-panel navbar animate-slide-up" style={{ animationDelay: '0.1s' }}>
       <div className="nav-brand">
-        <span className="brand-accent">Gravity</span>News
+        <span className="brand-accent">Gravity</span>Portal
       </div>
       
       {/* Desktop Menu */}
@@ -67,11 +68,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/books" element={<Books />} />
+          <Route path="/book/:id" element={<Reader />} />
         </Routes>
       </main>
       
       <footer className="footer glass-panel">
-        <p>© 2026 Gravity News & Books. Todos los derechos reservados.</p>
+        <p>© 2026 Gravity Portal. Redefiniendo los límites.</p>
       </footer>
     </div>
   );

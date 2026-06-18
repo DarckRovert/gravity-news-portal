@@ -1,28 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Merriweather:wght@300;400;700&display=swap');
 
 :root {
-  --font-heading: 'Outfit', sans-serif;
+  --font-heading: 'Cinzel', serif; /* Ultra elegant for titles */
   --font-body: 'Inter', sans-serif;
+  --font-reader: 'Merriweather', serif;
 
-  /* Premium Dark Mode HSL Palette */
-  --bg-primary: 220 20% 6%;
-  --bg-secondary: 220 15% 10%;
-  --bg-surface: 220 15% 14%;
+  /* True Black & Neon Aesthetics */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-surface: #111111;
   
-  --accent-primary: 260 80% 65%;
-  --accent-glow: 260 80% 65%;
-  --accent-secondary: 320 80% 60%;
+  --accent-primary: #ffffff;
+  --accent-glow: 0, 255, 255; /* Cyan glow */
+  --accent-secondary: #00ffff;
 
-  --text-primary: 220 20% 98%;
-  --text-secondary: 220 10% 70%;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
   
-  --border-subtle: 220 15% 20%;
-  --glass-bg: rgba(20, 24, 34, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --border-subtle: #222222;
+  --glass-bg: rgba(10, 10, 10, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
 
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
 }
 
 * {
@@ -32,58 +33,62 @@
 }
 
 body {
-  background-color: hsl(var(--bg-primary));
-  color: hsl(var(--text-primary));
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(0, 255, 255, 0.03), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02), transparent 25%);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   line-height: 1.2;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 a {
   text-decoration: none;
   color: inherit;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 /* Glassmorphism Utilities */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* Micro-animations */
 .hover-lift {
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
 .hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 20px hsla(var(--accent-glow), 0.2);
-  border-color: hsla(var(--accent-glow), 0.5);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(var(--accent-glow), 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   opacity: 0;
 }
 
 .animate-slide-up {
-  animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: slideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(40px);
 }
 
 @keyframes fadeIn {
@@ -97,17 +102,17 @@ a {
   }
 }
 
-/* Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(var(--bg-secondary));
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--border-subtle));
-  border-radius: 4px;
+  background: var(--border-subtle);
+  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent-primary));
+  background: var(--text-secondary);
 }

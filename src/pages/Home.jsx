@@ -4,23 +4,33 @@ import newsData from '../data/news.json';
 import booksData from '../data/books.json';
 import './Home.css';
 
-// Simple parser to render markdown headers and paragraphs
+// Advanced parser to render markdown headers, paragraphs, bold, italic, and lists
 function parseMarkdown(text) {
   if (!text) return '';
   const lines = text.split('\n');
   return lines.map((line, idx) => {
     const trimmed = line.trim();
+    
+    const parseInline = (str) => {
+      let parsed = str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      parsed = parsed.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+      return parsed;
+    };
+
     if (trimmed.startsWith('### ')) {
-      return <h3 key={idx} className="markdown-h3">{trimmed.replace('### ', '')}</h3>;
+      return <h3 key={idx} className="markdown-h3" dangerouslySetInnerHTML={{ __html: parseInline(trimmed.replace('### ', '')) }} />;
     }
     if (trimmed.startsWith('## ')) {
-      return <h2 key={idx} className="markdown-h2">{trimmed.replace('## ', '')}</h2>;
+      return <h2 key={idx} className="markdown-h2" dangerouslySetInnerHTML={{ __html: parseInline(trimmed.replace('## ', '')) }} />;
     }
     if (trimmed.startsWith('> ')) {
-      return <blockquote key={idx} className="markdown-quote">{trimmed.replace('> ', '')}</blockquote>;
+      return <blockquote key={idx} className="markdown-quote" dangerouslySetInnerHTML={{ __html: parseInline(trimmed.replace('> ', '')) }} />;
+    }
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      return <div key={idx} className="markdown-li" dangerouslySetInnerHTML={{ __html: '<span style="color:var(--accent-secondary); margin-right:8px;">•</span>' + parseInline(trimmed.substring(2)) }} />;
     }
     if (trimmed.length > 0) {
-      return <p key={idx} className="markdown-p">{trimmed}</p>;
+      return <p key={idx} className="markdown-p" dangerouslySetInnerHTML={{ __html: parseInline(trimmed) }} />;
     }
     return <div key={idx} className="markdown-spacer" />;
   });
@@ -227,7 +237,12 @@ export default function Home() {
                   onClick={() => setSelectedArticle(featuredNews)}
                 >
                   <div className="news-image-container">
-                    <img src={featuredNews.image} alt={featuredNews.title} className="news-image" />
+                    <img 
+                      src={featuredNews.image} 
+                      alt={featuredNews.title} 
+                      className="news-image" 
+                      onError={(e) => { e.target.onerror = null; e.target.src = 'https://picsum.photos/seed/fallback_featured/800/600'; }}
+                    />
                     <div className="news-overlay"></div>
                     <span className="badge-futuristic news-category-badge">{featuredNews.category}</span>
                   </div>
@@ -257,7 +272,12 @@ export default function Home() {
                     style={{ animationDelay: `${0.1 * index}s` }}
                   >
                     <div className="news-image-container">
-                      <img src={item.image} alt={item.title} className="news-image" />
+                      <img 
+                        src={item.image} 
+                        alt={item.title} 
+                        className="news-image" 
+                        onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/fallback_${item.id}/800/600`; }}
+                      />
                       <div className="news-overlay"></div>
                       <span className="badge-futuristic news-category-badge">{item.category}</span>
                     </div>
@@ -378,7 +398,12 @@ export default function Home() {
               <X size={20} />
             </button>
             <div className="modal-header-image">
-              <img src={selectedArticle.image} alt={selectedArticle.title} className="modal-image" />
+              <img 
+                src={selectedArticle.image} 
+                alt={selectedArticle.title} 
+                className="modal-image" 
+                onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/fallback_${selectedArticle.id}/800/600`; }}
+              />
               <div className="modal-image-overlay"></div>
               <span className="badge-futuristic modal-category">{selectedArticle.category}</span>
             </div>

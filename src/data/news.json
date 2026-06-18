@@ -1,5 +1,22 @@
 [
   {
+    "choices": [
+      {
+        "delta": {
+          "content": "\n\n[**SYSTEM ERROR**: Fallo crítico de conexión con la nube. Error: 401 Client Error: Unauthorized for url: https://integrate.api.nvidia.com/v1/chat/completions]\n\n"
+        }
+      }
+    ],
+    "title": "Transmisión Clandestina de la Zona Ágora",
+    "excerpt": "Reporte interceptado de los nodos de Gravity AI en el subsuelo.",
+    "fullText": "### Canal de contingencia activo\n\nNo se pudo decodificar el contenido completo.",
+    "category": "Tecnología Descentralizada",
+    "featured": false,
+    "id": "transmisin-clandestina-de-la-zona-gora",
+    "date": "2026-06-18",
+    "image": "https://picsum.photos/seed/decentralized/800/600"
+  },
+  {
     "id": "la-marcha-de-las-cbdc-y-el-contrato-biometrico-global",
     "category": "Control Biométrico",
     "title": "La marcha de las CBDCs y la sombra del Contrato Biométrico Global",

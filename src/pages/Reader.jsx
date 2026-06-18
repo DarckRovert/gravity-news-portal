@@ -20,6 +20,7 @@ export default function Reader() {
 
   useEffect(() => {
     if (book) {
+      // eslint-disable-next-line
       setLoading(true);
       fetch(book.htmlUrl)
         .then(res => res.text())

@@ -32,7 +32,7 @@ function extractDescription(bookDir) {
       if (Array.isArray(data) && data.length > 0 && data[0].resumen_eventos) {
         return data[0].resumen_eventos;
       }
-    } catch (e) { /* ignore */ }
+    } catch { /* ignore */ }
   }
   
   // Intentar leer 1_sinopsis.md
@@ -43,7 +43,7 @@ function extractDescription(bookDir) {
       // Obtener el primer parrafo real
       const paragraphs = content.split('\n').filter(p => p.trim().length > 20 && !p.startsWith('#'));
       if (paragraphs.length > 0) return paragraphs[0].trim();
-    } catch (e) { /* ignore */ }
+    } catch { /* ignore */ }
   }
 
   return "Una obra generada por Gravity AI, explorando conceptos profundos en el límite del conocimiento.";

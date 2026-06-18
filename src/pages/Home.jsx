@@ -36,7 +36,7 @@ export default function Home() {
   const [bridgeUrl, setBridgeUrl] = useState(() => localStorage.getItem('bridgeUrl') || 'http://localhost:7860');
   const [bridgeStatus, setBridgeStatus] = useState('checking'); // online | offline | checking
   const [bridgePrompt, setBridgePrompt] = useState('');
-  const [bridgeResult, setBridgeResult] = useState(null);
+  // bridgeResult is unused, removing it.
   const [isGenerating, setIsGenerating] = useState(false);
 
   // Save bridge URL to localStorage
@@ -54,7 +54,7 @@ export default function Home() {
         } else {
           setBridgeStatus('offline');
         }
-      } catch (e) {
+      } catch {
         setBridgeStatus('offline');
       }
     };
@@ -89,7 +89,7 @@ export default function Home() {
   const handleRequestBridgeNews = async () => {
     if (!bridgePrompt.trim() || isGenerating) return;
     setIsGenerating(true);
-    setBridgeResult(null);
+    // setBridgeResult(null);
 
     try {
       // 1. Get models list to route correctly
@@ -137,7 +137,7 @@ export default function Home() {
         featured: false
       };
 
-      setBridgeResult(fullArticle);
+      // setBridgeResult(fullArticle);
       // Insert temporary article in the display list
       setNews([fullArticle, ...news]);
       setBridgePrompt('');

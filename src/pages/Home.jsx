@@ -68,7 +68,7 @@ export default function Home() {
     setSearchQuery(e.target.value);
   };
 
-  const categories = ['Todas', 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada'];
+  const categories = ['Todas', 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada', 'Geopolítica y Macro-Leviatán'];
 
   // Filter news based on search query and active category
   const filteredNews = news.filter((item) => {
@@ -98,12 +98,13 @@ export default function Home() {
       const modelName = modelData.data?.[0]?.id || 'auto';
 
       // 2. Query chat completions
-      const prompt = `Investiga sobre: "${bridgePrompt}". Escribe un reporte periodístico con una óptica materialista, científica y analítica. Basa tu análisis en los conceptos de "La Física del Poder", "El Sustrato Primordial" y "La Voluntad Soberana" (extracción de trabajo cognitivo, el Lattice, homeostasis del poder). 
+      const prompt = `Investiga sobre: "${bridgePrompt}". Escribe un reporte periodístico internacional, pero con ÉNFASIS ESPECIAL EN PERÚ, con una óptica materialista, científica y analítica. Basa tu análisis en los conceptos de "La Física del Poder", "El Sustrato Primordial" y "La Voluntad Soberana" (extracción de trabajo cognitivo, el Lattice, homeostasis del poder). 
+      Haz predicciones reveladoras sobre agendas ocultas (Macro-Leviatán). Cita medios verificados si es posible.
       Evita la ficción novelesca. Devuelve un bloque JSON válido con el siguiente formato estricto (no añadas explicaciones ni bloques de código fuera del JSON):
       {
-        "category": "Una de estas: 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada'",
+        "category": "Una de estas: 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada', 'Geopolítica y Macro-Leviatán'",
         "title": "Título del reporte",
-        "excerpt": "Resumen breve",
+        "excerpt": "Resumen breve enfocado en geopolítica/Perú",
         "fullText": "Texto detallado en párrafos estructurados"
       }`;
 

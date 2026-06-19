@@ -4,8 +4,7 @@ import './CustomCursor.css';
 
 const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-
+  const isTouchDevice = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
   // Framer Motion performant values (bypasses React renders)
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -16,9 +15,7 @@ const CustomCursor = () => {
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // Detect touch devices to avoid rendering custom cursor
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      setIsTouchDevice(true);
+    if (typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches) {
       return;
     }
 

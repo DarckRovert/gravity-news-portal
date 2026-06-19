@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown, Activity, Eye, Shield, Key, Radio } from 'lucide-react';
+import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import newsData from '../data/news.json';
 import booksData from '../data/books.json';
@@ -401,7 +401,7 @@ export default function Home() {
                   <AnimatePresence mode="popLayout">
                     {regularNews.map((item, index) => {
                       // Algoritmo matemático predictivo para mampostería sin huecos (Cierre Perfecto)
-                      let bentoType = "bento-small-square"; 
+                      let bentoType; 
                       const mod = index % 5;
                       const isLast = index === regularNews.length - 1;
 

@@ -1,0 +1,33 @@
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--accent-secondary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px var(--accent-secondary);
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+/* Ocultar el cursor por defecto en toda la app */
+body {
+  cursor: none;
+}
+
+a, button, .bento-card, .hero-article, input {
+  cursor: none !important;
+}

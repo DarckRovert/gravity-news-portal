@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Home from './pages/Home';
 import Books from './pages/Books';
 import Reader from './pages/Reader';
+import CustomCursor from './components/CustomCursor';
+import NewsTicker from './components/NewsTicker';
 import './App.css';
 
 function Navbar() {
@@ -63,6 +65,7 @@ function Navbar() {
 function App() {
   return (
     <div className="app-container">
+      <CustomCursor />
       {/* Background Aurora Engine */}
       <div className="god-tier-aurora">
         <div className="aurora-orb aurora-1"></div>
@@ -70,6 +73,7 @@ function App() {
         <div className="aurora-orb aurora-3"></div>
       </div>
       <Navbar />
+      <NewsTicker />
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />

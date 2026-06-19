@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown } from 'lucide-react';
+import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown, Activity, Eye, Shield, Key, Radio } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import newsData from '../data/news.json';
 import booksData from '../data/books.json';
+import TerminalFeed from '../components/TerminalFeed';
 import './Home.css';
 
 // Synthesizer for UI Sounds (No external assets needed)
@@ -384,7 +385,7 @@ export default function Home() {
                         <span className="hero-date"><Clock size={14} /> {getRelativeTime(featuredNews.date)}</span>
                         <span className="hero-date"><BookOpen size={14} /> {getReadingTime(featuredNews.fullText)} min</span>
                       </div>  
-                      <h2 className="hero-title">{featuredNews.title}</h2>
+                      <h2 className="hero-title glitch-text" data-text={featuredNews.title}>{featuredNews.title}</h2>
                       <p className="hero-excerpt">{featuredNews.excerpt}</p>
                       <button className="btn-glow-read">
                         Desencriptar Transmisión <ArrowRight size={18} />
@@ -392,6 +393,8 @@ export default function Home() {
                     </div>
                   </motion.article>
                 )}
+
+                <TerminalFeed />
 
                 {/* Verdadera Grilla Bento Asimétrica */}
                 <motion.div className="bento-grid-container" layout>

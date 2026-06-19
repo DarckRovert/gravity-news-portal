@@ -1,0 +1,149 @@
+.live-feeds-container {
+  margin: 4rem 0;
+  padding: 2rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--accent-primary);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.live-feeds-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+  animation: scanline 4s linear infinite;
+}
+
+.live-feeds-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.live-feeds-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.status-pulse {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ff3366; /* Red alert for live status */
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ff3366, 0 0 20px #ff3366;
+  animation: blink 1.5s ease-in-out infinite alternate;
+}
+
+.pulse-text {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+.live-feeds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.feed-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.feed-card:hover {
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.feed-title-bar {
+  background: var(--bg-tertiary);
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.feed-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
+}
+
+.feed-badge {
+  background: #ff3366;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+.feed-video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 ratio */
+  height: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.feed-video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto; /* Permite control si el usuario quiere pausar/activar audio */
+}
+
+/* Efecto de ruido o interferencia sutil sobre el iframe (opcional) */
+.feed-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  opacity: 0.15;
+  z-index: 2;
+}
+
+@keyframes blink {
+  0% { opacity: 0.3; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1.1); }
+}
+
+@media (max-width: 768px) {
+  .live-feeds-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

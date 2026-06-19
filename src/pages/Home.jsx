@@ -7,6 +7,7 @@ import essaysData from '../data/essays.json';
 import scienceData from '../data/science.json';
 import TerminalFeed from '../components/TerminalFeed';
 import ProgressiveImage from '../components/ProgressiveImage';
+import LiveFeeds from '../components/LiveFeeds';
 import './Home.css';
 
 // Synthesizer for UI Sounds (No external assets needed)
@@ -629,6 +630,8 @@ export default function Home() {
           </motion.div>
         </aside>
       </div>
+
+      <LiveFeeds />
 
       {/* Article Modal Reader with Framer Motion */}
       <AnimatePresence>

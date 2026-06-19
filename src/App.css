@@ -113,8 +113,82 @@
   margin-top: 40px;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   border-bottom: none;
-  color: hsl(var(--text-secondary));
-  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.footer-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-secondary);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-secondary);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-secondary);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-time {
+  color: var(--accent-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Scroll Progress Bar */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent-secondary);
+  box-shadow: 0 0 15px var(--accent-secondary);
+  z-index: 9999;
+  transition: width 0.1s ease-out;
+}
+
+/* Scroll To Top Button */
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-active);
+  cursor: pointer;
+  z-index: 900;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
 }
 
 /* Page Headers */

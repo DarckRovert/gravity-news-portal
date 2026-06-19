@@ -3,6 +3,8 @@ import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriang
 import { motion, AnimatePresence } from 'framer-motion';
 import newsData from '../data/news.json';
 import booksData from '../data/books.json';
+import essaysData from '../data/essays.json';
+import scienceData from '../data/science.json';
 import TerminalFeed from '../components/TerminalFeed';
 import ProgressiveImage from '../components/ProgressiveImage';
 import './Home.css';
@@ -570,6 +572,60 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </motion.div>
+
+          {/* Featured Essays Showcase */}
+          <motion.div 
+            className="sidebar-card glass-panel"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="panel-header">
+              <PenTool size={20} className="panel-icon" />
+              <h3>Últimos Ensayos</h3>
+            </div>
+            <div className="sidebar-books-list">
+              {essaysData.slice(0, 2).map((essay) => (
+                <div key={essay.id} className="sidebar-book-item hover-lift" onClick={() => window.location.href = '/ensayos'}>
+                  <div className="mini-cover">
+                    <img src={essay.image} alt={essay.title} />
+                  </div>
+                  <div className="mini-details">
+                    <h4 style={{ fontSize: '0.85rem' }}>{essay.title}</h4>
+                    <span style={{ color: 'var(--accent-primary)' }}>{essay.category}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <a href="/ensayos" className="btn-glow-read" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none' }}>Ver Todos</a>
+          </motion.div>
+
+          {/* Featured Science Showcase */}
+          <motion.div 
+            className="sidebar-card glass-panel"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <div className="panel-header">
+              <Microscope size={20} className="panel-icon" />
+              <h3>Divulgación Científica</h3>
+            </div>
+            <div className="sidebar-books-list">
+              {scienceData.slice(0, 2).map((article) => (
+                <div key={article.id} className="sidebar-book-item hover-lift" onClick={() => window.location.href = '/ciencia'}>
+                  <div className="mini-cover">
+                    <img src={article.image} alt={article.title} />
+                  </div>
+                  <div className="mini-details">
+                    <h4 style={{ fontSize: '0.85rem' }}>{article.title}</h4>
+                    <span style={{ color: '#60a5fa' }}>{article.category}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <a href="/ciencia" className="btn-glow-read" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none', borderColor: '#60a5fa', color: '#60a5fa' }}>Ver Todos</a>
           </motion.div>
         </aside>
       </div>

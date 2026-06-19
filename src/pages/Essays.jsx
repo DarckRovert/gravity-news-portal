@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, Tag, ArrowRight, Search, PenTool } from 'lucide-react';
+import { Clock, BookOpen, ArrowRight, Search, PenTool } from 'lucide-react';
 import essaysData from '../data/essays.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import './Essays.css';

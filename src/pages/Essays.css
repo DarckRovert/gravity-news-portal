@@ -217,7 +217,7 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(var(--accent-primary-rgb, 100, 220, 180), 0.1);
+  background: rgba(100, 220, 180, 0.1);
   border: 1px solid var(--accent-primary);
   color: var(--accent-primary);
   padding: 0.4rem 0.9rem;

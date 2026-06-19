@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown } from 'lucide-react';
+import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown, PenTool, Microscope } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import newsData from '../data/news.json';
 import booksData from '../data/books.json';

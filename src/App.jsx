@@ -63,6 +63,12 @@ function Navbar() {
 function App() {
   return (
     <div className="app-container">
+      {/* Background Aurora Engine */}
+      <div className="god-tier-aurora">
+        <div className="aurora-orb aurora-1"></div>
+        <div className="aurora-orb aurora-2"></div>
+        <div className="aurora-orb aurora-3"></div>
+      </div>
       <Navbar />
       <main className="main-content">
         <Routes>

@@ -1,9 +1,11 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Newspaper, Library, Menu, X } from 'lucide-react';
+import { Newspaper, Library, Menu, X, PenTool, Microscope } from 'lucide-react';
 import { useState } from 'react';
 import Home from './pages/Home';
 import Books from './pages/Books';
 import Reader from './pages/Reader';
+import Essays from './pages/Essays';
+import Science from './pages/Science';
 import CustomCursor from './components/CustomCursor';
 import NewsTicker from './components/NewsTicker';
 import './App.css';
@@ -14,6 +16,8 @@ function Navbar() {
 
   const navLinks = [
     { path: '/', label: 'Noticias', icon: <Newspaper size={18} /> },
+    { path: '/ensayos', label: 'Ensayos', icon: <PenTool size={18} /> },
+    { path: '/ciencia', label: 'Ciencia', icon: <Microscope size={18} /> },
     { path: '/books', label: 'Biblioteca', icon: <Library size={18} /> },
   ];
 
@@ -77,6 +81,8 @@ function App() {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/ensayos" element={<Essays />} />
+          <Route path="/ciencia" element={<Science />} />
           <Route path="/books" element={<Books />} />
           <Route path="/book/:id" element={<Reader />} />
         </Routes>

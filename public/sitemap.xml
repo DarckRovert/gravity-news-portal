@@ -6,6 +6,16 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=encubrimiento-y-brutalidad-policial-en-per-el-caso-del-adolescente-de-17-aos</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nexo-agora.netlify.app/?article=la-red-de-identificacin-cmo-el-estado-peruviano-ejerce-control-biomtrico-en-los-accesos-a-lima-durante-la-gran-movilizacin-poltica</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=per-el-control-estricto-de-la-distribucin-de-gas-natural-y-su-impacto-en-la-soberana-energtica</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -67,16 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=per-avanza-en-la-digitalizacin-del-control-de-su-flora-y-fauna-silvestre-con-ecites</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=la-jaula-de-dato-cmo-ecites-convierte-la-biodiversidad-peruana-en-algoritmo-controlable</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=per-digitaliza-el-sustrato-biolgico-la-extraccin-de-valor-a-travs-del-ecites</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

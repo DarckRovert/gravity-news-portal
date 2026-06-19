@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=el-lder-oculto-en-inteligencia-artificial-un-anlisis-de-la-adopcin-global</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=per-y-colombia-fortalecen-la-lucha-contra-el-narcotrfico-en-la-xi-reunin-de-la-comisin-mixta</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=el-salvador-la-fortaleza-legal-como-precursora-del-leviatn-digital-en-latam</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=ecites-la-digitalizacin-del-leviatn-forestal-peruano-y-la-extraccin-de-soberana-biomtrica-global</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

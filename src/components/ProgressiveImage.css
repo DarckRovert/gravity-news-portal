@@ -1,0 +1,41 @@
+.progressive-img-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-surface);
+}
+
+.progressive-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.progressive-img-thumb {
+  filter: blur(20px);
+  transform: scale(1.1); /* Prevent blurred edges from leaking */
+  transition: opacity 0.8s ease-out;
+  z-index: 1;
+}
+
+.progressive-img-hidden {
+  opacity: 0;
+}
+
+.progressive-img-full {
+  z-index: 2;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Permitir el hover scale que ya existía en Home.css */
+.bento-card:hover .progressive-img-full {
+  transform: scale(1.08);
+}
+
+.hero-article:hover .progressive-img-full {
+  transform: scale(1.05);
+}

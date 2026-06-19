@@ -2,8 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import newsData from '../data/news.json';
-import booksData from '../data/books.json';
 import TerminalFeed from '../components/TerminalFeed';
+import ProgressiveImage from '../components/ProgressiveImage';
 import './Home.css';
 
 // Synthesizer for UI Sounds (No external assets needed)
@@ -377,7 +377,7 @@ export default function Home() {
                     onMouseEnter={() => playSound('hover')}
                     onClick={() => { playSound('click'); setSelectedArticle(featuredNews); }}
                   >
-                    <img src={featuredNews.image} alt={featuredNews.title} className="hero-bg-image" />
+                    <ProgressiveImage src={featuredNews.image} alt={featuredNews.title} className="hero-bg-image" />
                     <div className="hero-gradient-overlay"></div>
                     <div className="hero-content">
                       <div className="hero-meta">
@@ -429,7 +429,7 @@ export default function Home() {
                           onClick={() => { playSound('click'); setSelectedArticle(item); }}
                         >
                           <div className="bento-image-wrapper">
-                            <img src={item.image} alt={item.title} className="bento-image" loading="lazy" />
+                            <ProgressiveImage src={item.image} alt={item.title} className="bento-image" />
                             <div className="bento-image-overlay"></div>
                             <span className="badge-futuristic bento-badge">{item.category}</span>
                           </div>

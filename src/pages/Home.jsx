@@ -256,7 +256,7 @@ export default function Home() {
       const fullArticle = {
         ...generatedArticle,
         id: `temp-${Date.now()}`,
-        date: new Date().toISOString().split('T')[0],
+        date: new Date().toISOString(),
         image: `https://picsum.photos/seed/temp${Date.now()}/800/600`,
         featured: false
       };

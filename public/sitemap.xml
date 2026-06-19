@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=la-diplomacia-del-narcotrfico-estabilizacin-entpica-en-la-regin-andina</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=per-y-colombia-fortalecen-la-lucha-contra-el-narcotrfico-en-la-xi-reunin-de-la-comisin-mixta</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=la-nueva-arquitectura-del-control-cmo-la-ia-extrae-trabajo-cognitivo-en-el-mercado-inmobiliario-de-per</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=la-malla-de-identidad-cmo-el-estado-peruano-convierte-las-garitas-en-puntos-de-extraccin-cognitiva-masiva</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

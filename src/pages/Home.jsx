@@ -397,11 +397,13 @@ export default function Home() {
                 <motion.div className="bento-grid-container" layout>
                   <AnimatePresence mode="popLayout">
                     {regularNews.map((item, index) => {
-                      // Algoritmo matemático para el Bento Box:
-                      // Alternar tamaños basados en el índice para crear mampostería perfecta
-                      let bentoType = "bento-square"; // Default
-                      if (index % 6 === 0) bentoType = "bento-tall";
-                      else if (index % 6 === 3) bentoType = "bento-wide";
+                      // Algoritmo matemático para el Bento Box (Mampostería Perfecta 12-col)
+                      // Patrón cada 5 tarjetas: [6x2] [6x1] [6x1] [8x1] [4x1] = No quedan huecos.
+                      let bentoType = "bento-small-square"; 
+                      const mod = index % 5;
+                      if (mod === 0) bentoType = "bento-tall";
+                      else if (mod === 1 || mod === 2) bentoType = "bento-large-square";
+                      else if (mod === 3) bentoType = "bento-wide";
                       
                       return (
                         <motion.article 
@@ -422,7 +424,7 @@ export default function Home() {
                           </div>
                           <div className="bento-text-content">
                             <h3 className="bento-title">{item.title}</h3>
-                            {bentoType !== "bento-square" && (
+                            {(bentoType === "bento-tall" || bentoType === "bento-wide" || bentoType === "bento-large-square") && (
                               <p className="bento-excerpt">{item.excerpt}</p>
                             )}
                             <div className="bento-footer">
@@ -446,7 +448,7 @@ export default function Home() {
                   >
                     <button 
                       className="btn-bridge" 
-                      onClick={() => { playSound('click'); setVisibleCount(v => v + 6); }}
+                      onClick={() => { playSound('click'); setVisibleCount(v => v + 5); }}
                       onMouseEnter={() => playSound('hover')}
                       style={{ padding: '12px 30px', margin: '0 auto' }}
                     >

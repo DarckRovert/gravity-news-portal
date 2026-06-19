@@ -33,7 +33,7 @@ const TerminalFeed = () => {
   }, []);
 
   return (
-    <div className="terminal-feed-container glass-panel">
+    <div className="terminal-feed-container glass-panel" aria-hidden="true">
       <div className="terminal-header">
         <span className="terminal-title">SYS.LOG</span>
         <span className="blinking-cursor">_</span>

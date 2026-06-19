@@ -400,13 +400,22 @@ export default function Home() {
                 <motion.div className="bento-grid-container" layout>
                   <AnimatePresence mode="popLayout">
                     {regularNews.map((item, index) => {
-                      // Algoritmo matemático para el Bento Box (Mampostería Perfecta 12-col)
-                      // Patrón cada 5 tarjetas: [6x2] [6x1] [6x1] [8x1] [4x1] = No quedan huecos.
+                      // Algoritmo matemático predictivo para mampostería sin huecos (Cierre Perfecto)
                       let bentoType = "bento-small-square"; 
                       const mod = index % 5;
-                      if (mod === 0) bentoType = "bento-tall";
-                      else if (mod === 1 || mod === 2) bentoType = "bento-large-square";
-                      else if (mod === 3) bentoType = "bento-wide";
+                      const isLast = index === regularNews.length - 1;
+
+                      if (mod === 0) {
+                        bentoType = isLast ? "bento-wide bento-span-12" : "bento-tall";
+                      } else if (mod === 1) {
+                        bentoType = isLast ? "bento-tall" : "bento-large-square";
+                      } else if (mod === 2) {
+                        bentoType = "bento-large-square";
+                      } else if (mod === 3) {
+                        bentoType = isLast ? "bento-wide bento-span-12" : "bento-wide";
+                      } else {
+                        bentoType = "bento-small-square";
+                      }
                       
                       return (
                         <motion.article 

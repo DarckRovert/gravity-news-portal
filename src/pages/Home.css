@@ -291,6 +291,10 @@
   flex-direction: row;
 }
 
+.bento-span-12 {
+  grid-column: span 12 !important;
+}
+
 /* Estilos Internos de Bento */
 .bento-image-wrapper {
   position: relative;

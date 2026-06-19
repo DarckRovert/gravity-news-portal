@@ -13,10 +13,10 @@ const CustomCursor = () => {
 
     const handleMouseOver = (e) => {
       if (
-        e.target.tagName.toLowerCase() === 'button' ||
-        e.target.tagName.toLowerCase() === 'a' ||
-        e.target.closest('.bento-card') ||
-        e.target.closest('.hero-article')
+        e.target?.tagName?.toLowerCase() === 'button' ||
+        e.target?.tagName?.toLowerCase() === 'a' ||
+        e.target?.closest?.('.bento-card') ||
+        e.target?.closest?.('.hero-article')
       ) {
         setIsHovering(true);
       } else {

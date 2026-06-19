@@ -261,40 +261,47 @@
   color: var(--accent-secondary);
 }
 
-/* Neo-Bento Grid Asimétrico */
+/* Neo-Bento Grid Asimétrico Profesional */
 .regular-news-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: 25px;
+  align-items: stretch;
+}
+
+/* Base card width */
+.regular-news-grid > article {
+  grid-column: span 4; /* 3 columns per row by default */
+  display: flex;
+  flex-direction: column;
 }
 
 /* El Bento Auto-Mapping usando nth-child */
-.regular-news-grid > article:nth-child(5n + 1) {
-  grid-column: span 2;
-  grid-row: span 2;
+.regular-news-grid > article:nth-child(7n + 1),
+.regular-news-grid > article:nth-child(7n + 4) {
+  grid-column: span 8; /* Large cards take 2/3 of row */
 }
 
-.regular-news-grid > article:nth-child(5n + 1) .news-image-container {
-  height: 350px;
+.regular-news-grid > article:nth-child(7n + 1) .news-image-container,
+.regular-news-grid > article:nth-child(7n + 4) .news-image-container {
+  height: 320px;
 }
 
-.regular-news-grid > article:nth-child(7n + 3) {
-  grid-column: span 2;
+.regular-news-grid > article .news-image-container {
+  height: 220px;
 }
 
 @media (max-width: 1024px) {
-  .regular-news-grid { grid-template-columns: repeat(2, 1fr); }
-  .regular-news-grid > article:nth-child(5n + 1),
-  .regular-news-grid > article:nth-child(7n + 3) {
-    grid-column: span 2;
+  .regular-news-grid > article { grid-column: span 6; }
+  .regular-news-grid > article:nth-child(7n + 1),
+  .regular-news-grid > article:nth-child(7n + 4) {
+    grid-column: span 12;
   }
 }
 
 @media (max-width: 640px) {
-  .regular-news-grid { grid-template-columns: 1fr; }
   .regular-news-grid > article { 
-    grid-column: span 1 !important; 
-    grid-row: span 1 !important; 
+    grid-column: span 12 !important; 
   }
 }
 

@@ -55,3 +55,25 @@
   color: var(--text-secondary);
   padding-left: 1.5rem;
 }
+
+.btn-glow-read {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 12px 30px;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-glow-read:hover {
+  background: var(--accent-secondary);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+  transform: translateY(-2px);
+}

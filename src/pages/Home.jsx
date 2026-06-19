@@ -312,6 +312,9 @@ export default function Home() {
         </motion.p>
       </header>
 
+      {/* Panel táctico de videos en vivo siempre visible al inicio */}
+      <LiveFeeds />
+
       {/* Control Filters */}
       <motion.div 
         className="controls-bar glass-panel"
@@ -630,8 +633,6 @@ export default function Home() {
           </motion.div>
         </aside>
       </div>
-
-      <LiveFeeds />
 
       {/* Article Modal Reader with Framer Motion */}
       <AnimatePresence>

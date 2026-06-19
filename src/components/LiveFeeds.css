@@ -136,8 +136,17 @@
 }
 
 @keyframes blink {
-  0% { opacity: 0.3; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1.1); }
+  0% { opacity: 0.3; transform: scale(0.9); box-shadow: 0 0 5px #ff3366; }
+  100% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px #ff3366, 0 0 30px #ff3366; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.live-feeds-container {
+  box-shadow: inset 0 0 50px rgba(0, 243, 255, 0.05);
 }
 
 @media (max-width: 768px) {

@@ -1,5 +1,15 @@
 [
   {
+    "category": "Crimen de Estado y Abuso Policial",
+    "title": "Asesinato en Comisaría de Perú: El Estado como Monopolio de la Violencia",
+    "excerpt": "Un adolescente de 17 años muere en una comisaría de Perú bajo custodia policial. La versión oficial intenta venderlo como un suicidio, pero la familia denuncia agresiones y presuntos cobros. ¿Qué hay detrás de este crimen de Estado?",
+    "fullText": "### Introducción\nLa muerte de un adolescente de 17 años en una comisaría de Perú bajo custodia policial ha generado un escándalo nacional. Según la versión oficial de la Policía Nacional del Perú, el menor se ahorcó en las instalaciones policiales. Sin embargo, la familia del joven denuncia agresiones, presuntos cobros y fallas en la investigación.\n\n### El Caso\nEl adolescente fue detenido por un presunto robo y permaneció dos días bajo custodia policial. Su familia exige una investigación exhaustiva y transparente, ya que creen que su hijo fue víctima de abuso policial. La necropsia determinó que el joven murió por asfixia mecánica por ahorcamiento, pero la familia no cree en la versión oficial.\n\n### Crimen de Estado\nEste caso es solo uno de los muchos ejemplos de abuso policial y crimen de Estado en Perú. La impunidad y la corrupción dentro de las fuerzas del orden han generado una crisis de confianza en la institución policial. La familia del joven asesinado busca justicia y verdad, pero el sistema parece estar diseñado para proteger a los culpables.\n\n### Conclusión\nEl asesinato de un adolescente en una comisaría de Perú es un recordatorio de la violencia y la impunidad que caracterizan al Estado peruano. La sociedad civil debe exigir una investigación exhaustiva y transparente, y castigar a los responsables de este crimen. La lucha contra la impunidad y la corrupción es fundamental para construir un Estado justo y democrático.\n\nFuente: Peru21, El Comercio, Caretas, La República, Infobae.",
+    "featured": true,
+    "id": "asesinato-en-comisara-de-per-el-estado-como-monopolio-de-la-violencia",
+    "date": "2026-06-19T17:58:34.756450",
+    "image": "https://picsum.photos/seed/policeabuse-asesinato-en-co/800/600"
+  },
+  {
     "category": "Control Biométrico",
     "title": "Implementación de controles de identidad en accesos a Lima: Un ejercicio de vigilancia y control social",
     "excerpt": "La Policía Nacional del Perú ha implementado controles de identidad en los accesos a Lima ante la marcha convocada por simpatizantes de Juntos por el Perú, lo que refleja un ejercicio de vigilancia y control social por parte del Estado. Según fuentes de ATV.pe, Infobae, y otros medios, estos controles buscan prevenir incidentes y evitar enfrentamientos, pero también plantean interrogantes sobre la privacidad y la libertad de movimiento de los ciudadanos.",
@@ -138,15 +148,5 @@
     "id": "la-censura-en-el-arte-un-anlisis-de-la-ley-del-congreso-peruano",
     "date": "2026-06-19T14:38:16.324227",
     "image": "https://picsum.photos/seed/culture-la-censura-en-e/800/600"
-  },
-  {
-    "category": "Geopolítica y Macro-Leviatán",
-    "title": "La Diplomacia del Narcotráfico: Estabilización Entópica en la Región Andina",
-    "excerpt": "Más que una reunión diplomática, la XI Comisión Mixta Perú-Colombia revela el entramado de control estatal donde la soberanía se negocia a cambio de estabilidad entrópica frente a las redes criminales transnacionales.",
-    "fullText": "### El Escenario Diplomático y la Gestión de la Entropía\nLa XI Reunión de la Comisión Mixta en Materia de Control de Drogas, realizada entre el 10 y 11 de abril de 2019 en Lima, no fue un evento aislado. Según la Cancillería de Colombia (www.cancilleria.gov.co), este encuentro institucionalizó la respuesta estatal ante una amenaza que afecta directamente la estabilidad regional. Desde la óptica de 'Convergencia [Transmisión cortada — fragmento recuperado por el sistema Ágora.]",
-    "featured": false,
-    "id": "la-diplomacia-del-narcotrfico-estabilizacin-entpica-en-la-regin-andina",
-    "date": "2026-06-19T14:37:05.530076",
-    "image": "https://picsum.photos/seed/geopolitics-la-diplomacia-d/800/600"
   }
 ]

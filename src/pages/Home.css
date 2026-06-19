@@ -261,11 +261,41 @@
   color: var(--accent-secondary);
 }
 
-/* Regular Grid */
+/* Neo-Bento Grid Asimétrico */
 .regular-news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+/* El Bento Auto-Mapping usando nth-child */
+.regular-news-grid > article:nth-child(5n + 1) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.regular-news-grid > article:nth-child(5n + 1) .news-image-container {
+  height: 350px;
+}
+
+.regular-news-grid > article:nth-child(7n + 3) {
+  grid-column: span 2;
+}
+
+@media (max-width: 1024px) {
+  .regular-news-grid { grid-template-columns: repeat(2, 1fr); }
+  .regular-news-grid > article:nth-child(5n + 1),
+  .regular-news-grid > article:nth-child(7n + 3) {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .regular-news-grid { grid-template-columns: 1fr; }
+  .regular-news-grid > article { 
+    grid-column: span 1 !important; 
+    grid-row: span 1 !important; 
+  }
 }
 
 /* Sidebar Columns */

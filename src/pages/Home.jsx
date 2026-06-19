@@ -364,70 +364,75 @@ export default function Home() {
             <motion.div layout>
               {/* Featured Article */}
               <AnimatePresence mode="popLayout">
+                {/* Hero Cinematográfico (Noticia Destacada) */}
                 {featuredNews && (
                   <motion.article 
                     layout
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.4 }}
-                    className="news-card featured glass-panel hover-lift"
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="hero-article glass-panel hover-lift"
                     onMouseEnter={() => playSound('hover')}
                     onClick={() => { playSound('click'); setSelectedArticle(featuredNews); }}
                   >
-                    <div className="news-image-container">
-                      <img src={featuredNews.image} alt={featuredNews.title} className="news-image" />
-                      <div className="news-overlay"></div>
-                      <span className="badge-futuristic news-category-badge">{featuredNews.category}</span>
-                    </div>
-                    <div className="news-content">
-                      <div className="news-meta">
-                        <span className="news-date"><Clock size={14} /> {getRelativeTime(featuredNews.date)}</span>
-                        <span className="news-read-time"><BookOpen size={14} /> {getReadingTime(featuredNews.fullText)} min</span>
+                    <img src={featuredNews.image} alt={featuredNews.title} className="hero-bg-image" />
+                    <div className="hero-gradient-overlay"></div>
+                    <div className="hero-content">
+                      <div className="hero-meta">
+                        <span className="badge-futuristic glow-badge">{featuredNews.category}</span>
+                        <span className="hero-date"><Clock size={14} /> {getRelativeTime(featuredNews.date)}</span>
+                        <span className="hero-date"><BookOpen size={14} /> {getReadingTime(featuredNews.fullText)} min</span>
                       </div>  
-                      <span className="featured-tag">REPORTE DESTACADO</span>
-                      <h2 className="news-title">{featuredNews.title}</h2>
-                      <p className="news-excerpt">{featuredNews.excerpt}</p>
-                      <button className="read-more">
-                        Desencriptar Anomalía <ArrowRight size={16} />
+                      <h2 className="hero-title">{featuredNews.title}</h2>
+                      <p className="hero-excerpt">{featuredNews.excerpt}</p>
+                      <button className="btn-glow-read">
+                        Desencriptar Transmisión <ArrowRight size={18} />
                       </button>
                     </div>
                   </motion.article>
                 )}
 
-                {/* Regular Articles Grid */}
-                <motion.div className="regular-news-grid" layout>
+                {/* Verdadera Grilla Bento Asimétrica */}
+                <motion.div className="bento-grid-container" layout>
                   <AnimatePresence mode="popLayout">
-                    {regularNews.map((item, index) => (
-                      <motion.article 
-                        layout
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.3, delay: index * 0.05 }}
-                        key={item.id} 
-                        className="news-card glass-panel hover-lift"
-                        onMouseEnter={() => playSound('hover')}
-                        onClick={() => { playSound('click'); setSelectedArticle(item); }}
-                      >
-                        <div className="news-image-container">
-                          <img src={item.image} alt={item.title} className="news-image" loading="lazy" />
-                          <div className="news-overlay"></div>
-                          <span className="badge-futuristic news-category-badge">{item.category}</span>
-                        </div>
-                        <div className="news-content">
-                          <div className="news-meta">
-                            <span className="news-date"><Clock size={14} /> {getRelativeTime(item.date)}</span>
-                            <span className="news-read-time"><BookOpen size={14} /> {getReadingTime(item.fullText)} min</span>
+                    {regularNews.map((item, index) => {
+                      // Algoritmo matemático para el Bento Box:
+                      // Alternar tamaños basados en el índice para crear mampostería perfecta
+                      let bentoType = "bento-square"; // Default
+                      if (index % 6 === 0) bentoType = "bento-tall";
+                      else if (index % 6 === 3) bentoType = "bento-wide";
+                      
+                      return (
+                        <motion.article 
+                          layout
+                          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
+                          transition={{ duration: 0.5, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                          key={item.id} 
+                          className={`bento-card ${bentoType} glass-panel hover-lift`}
+                          onMouseEnter={() => playSound('hover')}
+                          onClick={() => { playSound('click'); setSelectedArticle(item); }}
+                        >
+                          <div className="bento-image-wrapper">
+                            <img src={item.image} alt={item.title} className="bento-image" loading="lazy" />
+                            <div className="bento-image-overlay"></div>
+                            <span className="badge-futuristic bento-badge">{item.category}</span>
                           </div>
-                          <h3 className="news-title">{item.title}</h3>
-                          <p className="news-excerpt">{item.excerpt}</p>
-                          <button className="read-more">
-                            Ver Patrones <ArrowRight size={16} />
-                          </button>
-                        </div>
-                      </motion.article>
-                    ))}
+                          <div className="bento-text-content">
+                            <h3 className="bento-title">{item.title}</h3>
+                            {bentoType !== "bento-square" && (
+                              <p className="bento-excerpt">{item.excerpt}</p>
+                            )}
+                            <div className="bento-footer">
+                              <span className="bento-date"><Clock size={12} /> {getRelativeTime(item.date)}</span>
+                              <div className="bento-read-icon"><ArrowRight size={16} /></div>
+                            </div>
+                          </div>
+                        </motion.article>
+                      );
+                    })}
                   </AnimatePresence>
                 </motion.div>
                 

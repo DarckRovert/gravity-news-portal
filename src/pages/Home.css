@@ -42,7 +42,7 @@
   align-items: center;
   gap: 12px;
   padding: 14px 20px;
-  background: rgba(5, 5, 5, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   transition: var(--transition-smooth);
@@ -142,8 +142,8 @@
 
 .hero-article:hover {
   transform: translateY(-8px);
-  border-color: rgba(0, 240, 255, 0.5);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 40px var(--accent-glow);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 255, 255, 0.05);
 }
 
 .hero-bg-image {
@@ -265,8 +265,8 @@
 
 .bento-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.03);
 }
 
 /* Tipos de Bento (Modulo 5 Mampostería 12 Col) */

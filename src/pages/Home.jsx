@@ -399,6 +399,24 @@ export default function Home() {
                 <motion.div className="regular-news-grid" layout>
                   <AnimatePresence mode="popLayout">
                     {regularNews.map((item, index) => (
+                      <motion.article 
+                        layout
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                        key={item.id} 
+                        className="news-card glass-panel hover-lift"
+                        onMouseEnter={() => playSound('hover')}
+                        onClick={() => { playSound('click'); setSelectedArticle(item); }}
+                      >
+                        <div className="news-image-container">
+                          <img src={item.image} alt={item.title} className="news-image" loading="lazy" />
+                          <div className="news-overlay"></div>
+                          <span className="badge-futuristic news-category-badge">{item.category}</span>
+                        </div>
+                        <div className="news-content">
+                          <div className="news-meta">
                             <span className="news-date"><Clock size={14} /> {getRelativeTime(item.date)}</span>
                             <span className="news-read-time"><BookOpen size={14} /> {getReadingTime(item.fullText)} min</span>
                           </div>

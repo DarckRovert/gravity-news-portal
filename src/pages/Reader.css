@@ -297,6 +297,29 @@
   margin-bottom: 24px;
 }
 
+/* Drop Caps for the first paragraph */
+.reader-content > p:first-of-type::first-letter {
+  float: left;
+  font-size: 4.5rem;
+  line-height: 0.8;
+  padding-right: 12px;
+  padding-top: 8px;
+  color: var(--accent-secondary);
+  font-weight: 800;
+  text-shadow: 0 0 20px var(--accent-glow);
+  font-family: var(--font-heading);
+}
+
+.reader-page.theme-sepia .reader-content > p:first-of-type::first-letter {
+  color: #8b5cf6;
+  text-shadow: none;
+}
+
+.reader-page.theme-light .reader-content > p:first-of-type::first-letter {
+  color: #18181b;
+  text-shadow: none;
+}
+
 .reader-content h1 {
   font-size: 2.2rem;
   font-weight: 800;

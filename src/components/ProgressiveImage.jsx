@@ -6,7 +6,9 @@ const ProgressiveImage = ({ src, alt, className }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Generamos un thumbnail de baja resolución si es de picsum, o usamos un blur por CSS
-  const lowResSrc = src.includes('picsum.photos') ? src.replace(/\/\d+\/\d+$/, '/20/20') : src;
+  const lowResSrc = src && typeof src === 'string' && src.includes('picsum.photos') 
+    ? src.replace(/\/\d+\/\d+$/, '/20/20') 
+    : src;
 
   useEffect(() => {
     const img = new Image();

@@ -421,7 +421,7 @@
 /* Responsividad Master */
 @media (max-width: 1200px) {
   .hero-title { font-size: 2.2rem; }
-  .bento-square { grid-column: span 6; }
+  .bento-small-square, .bento-large-square { grid-column: span 6; }
   .bento-tall { grid-column: span 6; }
   .bento-wide { grid-column: span 12; }
 }
@@ -433,7 +433,7 @@
   
   .bento-grid-container { grid-auto-rows: min-content; }
   
-  .bento-square, .bento-tall, .bento-wide {
+  .bento-small-square, .bento-large-square, .bento-tall, .bento-wide {
     grid-column: span 12;
     grid-row: span 1;
     flex-direction: column;

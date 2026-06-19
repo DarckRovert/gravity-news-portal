@@ -447,7 +447,7 @@ export default function Home() {
                       );
                     })}
                   </AnimatePresence>
-                </motion.div>
+                </div>
                 
                 {/* Pagination Button */}
                 {hasMore && (

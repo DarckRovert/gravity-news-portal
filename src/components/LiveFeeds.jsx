@@ -8,26 +8,10 @@ const LiveFeeds = () => {
   // es: https://www.youtube.com/embed/live_stream?channel=CHANNEL_ID
   
   const feeds = [
-    {
-      id: 'nasa',
-      title: 'NASA ISS Live Feed (Monitoreo Orbital)',
-      channelId: 'UCLA_DiR1FfKNvjuUpBHmylQ'
-    },
-    {
-      id: 'aljazeera',
-      title: 'Al Jazeera (Señal Geopolítica - MENA)',
-      channelId: 'UCNye-wNBqNL5ZzHSJj3l8Bg'
-    },
-    {
-      id: 'dw',
-      title: 'DW News (Eje Euroasiático)',
-      channelId: 'UCknLrEdhRCp1aegoMqRaCEg'
-    },
-    {
-      id: 'sky',
-      title: 'Sky News (Monitor Global)',
-      channelId: 'UCoMdktPbSTixAyNGwb-PUIA'
-    }
+    { id: 'nasa', title: 'NASA ISS LIVE FEED (MONITOREO ORBITAL)', videoId: 'XkM_04Ch76E' },
+    { id: 'aljazeera', title: 'AL JAZEERA (SEÑAL GEOPOLÍTICA - SUR GLOBAL)', channelId: 'UCNye-wNBqNL5ZzHSJj3l8Bg' },
+    { id: 'dw', title: 'DW NEWS (EJE EUROASIÁTICO)', videoId: '2E8QS55GwpY' },
+    { id: 'skynews', title: 'SKY NEWS (MONITOR GLOBAL)', videoId: 'YDvsBbKfLPA' }
   ];
 
   return (
@@ -39,6 +23,7 @@ const LiveFeeds = () => {
           <span className="pulse-text">INTERCEPTANDO REDES SATELITALES</span>
         </div>
       </div>
+      
       <div className="live-feeds-grid">
         {feeds.map((feed) => (
           <div key={feed.id} className="feed-card">
@@ -48,7 +33,10 @@ const LiveFeeds = () => {
             </div>
             <div className="feed-video-wrapper">
               <iframe 
-                src={`https://www.youtube.com/embed/live_stream?channel=${feed.channelId}&autoplay=1&mute=1&controls=0&modestbranding=1`} 
+                src={feed.videoId 
+                  ? `https://www.youtube.com/embed/${feed.videoId}?autoplay=1&mute=1&controls=0&modestbranding=1`
+                  : `https://www.youtube.com/embed/live_stream?channel=${feed.channelId}&autoplay=1&mute=1&controls=0&modestbranding=1`
+                } 
                 title={feed.title} 
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 

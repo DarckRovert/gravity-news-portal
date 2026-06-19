@@ -427,7 +427,7 @@ export default function Home() {
                           </div>
                           <div className="bento-text-content">
                             <h3 className="bento-title">{item.title}</h3>
-                            {(bentoType === "bento-tall" || bentoType === "bento-wide" || bentoType === "bento-large-square") && (
+                            {(bentoType === "bento-tall" || bentoType === "bento-wide") && (
                               <p className="bento-excerpt">{item.excerpt}</p>
                             )}
                             <div className="bento-footer">

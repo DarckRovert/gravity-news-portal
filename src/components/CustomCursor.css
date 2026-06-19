@@ -23,11 +23,19 @@
   box-sizing: border-box;
 }
 
-/* Ocultar el cursor por defecto en toda la app */
-body {
-  cursor: none;
+/* Ocultar el cursor por defecto solo en escritorio */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a, button, .bento-card, .hero-article, input {
+    cursor: none !important;
+  }
 }
 
-a, button, .bento-card, .hero-article, input {
-  cursor: none !important;
+/* Ocultar el cyber-cursor en móviles/táctiles */
+@media (pointer: coarse) {
+  .cursor-dot, .cursor-ring {
+    display: none !important;
+  }
 }

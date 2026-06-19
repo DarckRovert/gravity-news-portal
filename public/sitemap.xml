@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=la-censura-en-el-arte-un-anlisis-de-la-ley-del-congreso-peruano</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=la-diplomacia-del-narcotrfico-estabilizacin-entpica-en-la-regin-andina</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=el-salvador-forja-una-nueva-soberana-digital-bajo-el-amparo-de-la-unesco-la-tica-como-moneda-de-cambio-geopoltica</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=la-nueva-arquitectura-del-control-cmo-la-ia-extrae-trabajo-cognitivo-en-el-mercado-inmobiliario-de-per</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

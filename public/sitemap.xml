@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=el-estado-peruano-avanza-en-la-implementacin-de-ia-para-el-control-de-poblaciones-vulnerables</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=el-bcrp-y-la-danza-del-dlar-una-estrategia-para-controlar-la-inflacin-o-un-juego-de-poder</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=la-red-de-identificacin-cmo-el-estado-peruviano-ejerce-control-biomtrico-en-los-accesos-a-lima-durante-la-gran-movilizacin-poltica</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=per-el-control-estricto-de-la-distribucin-de-gas-natural-y-su-impacto-en-la-soberana-energtica</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

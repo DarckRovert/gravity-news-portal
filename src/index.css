@@ -7,25 +7,25 @@
   --font-mono: 'Fira Code', monospace;
 
   /* Premium Cyberpunk / Zero-Trust Dark Palette - Deep Onyx Edition */
-  --bg-primary: #030304;
-  --bg-secondary: #0a0a0c;
-  --bg-surface: #0f1014;
+  --bg-primary: #050508;
+  --bg-secondary: #0c0c12;
+  --bg-surface: #12131a;
   
   --accent-primary: #ffffff;
   --accent-secondary: #00f0ff; /* Neon cyan */
   --accent-tertiary: #a855f7; /* Deep Purple */
-  --accent-glow: rgba(0, 240, 255, 0.2);
-  --accent-glow-purple: rgba(168, 85, 247, 0.15);
+  --accent-glow: rgba(0, 240, 255, 0.25);
+  --accent-glow-purple: rgba(168, 85, 247, 0.25);
   
   --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #475569;
+  --text-secondary: #a1b0c0;
+  --text-muted: #64748b;
   
-  --border-subtle: rgba(255, 255, 255, 0.03);
-  --border-active: rgba(0, 240, 255, 0.4);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-active: rgba(0, 240, 255, 0.5);
   
-  --glass-bg: rgba(7, 8, 10, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.03);
+  --glass-bg: rgba(7, 8, 10, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.06);
 
   --radius-sm: 8px;
   --radius-md: 16px;
@@ -97,14 +97,14 @@ a {
 /* Base Glassmorphism Container */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: 
-    0 12px 32px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+    0 16px 40px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6);
   transition: var(--transition-smooth);
 }
 
@@ -121,22 +121,24 @@ a {
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
+  border-left: 1px solid var(--border-subtle);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
+  background: rgba(0, 240, 255, 0.15);
   border-radius: 10px;
   border: 2px solid var(--bg-primary);
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
+  background: rgba(0, 240, 255, 0.4);
 }
 
 /* Premium Animations */

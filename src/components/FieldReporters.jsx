@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { MapPin, Radio, Clock, ExternalLink, Activity } from 'lucide-react';
+import { MapPin, Radio, Clock, Activity, Maximize2, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './FieldReporters.css';
 
 const reporters = [
@@ -16,6 +17,7 @@ const reporters = [
 
 const FieldReporters = () => {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const [fullScreenReporter, setFullScreenReporter] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -23,6 +25,14 @@ const FieldReporters = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleExpand = (reporter) => {
+    setFullScreenReporter(reporter);
+  };
+
+  const handleCloseFullScreen = () => {
+    setFullScreenReporter(null);
+  };
 
   return (
     <section className="field-reporters-container animate-slide-up" style={{ animationDelay: '0.4s' }}>
@@ -52,9 +62,15 @@ const FieldReporters = () => {
             </div>
 
             <div className="reporter-viewport">
-              {/* Fake video feed with glitch effect */}
-              <div className="viewport-overlay">
-                <div className="scanline"></div>
+              <iframe 
+                src="https://www.tiktok.com/embed/@arquimedes_prensa2"
+                title="TikTok Live"
+                className="tiktok-iframe"
+                frameBorder="0"
+                allowFullScreen
+                allow="encrypted-media"
+              ></iframe>
+              <div className="viewport-overlay reporter-overlay">
                 <div className="hud-data top-left">
                   <Activity size={14} /> SYS.OP.NORMAL
                 </div>
@@ -65,12 +81,14 @@ const FieldReporters = () => {
                   <Clock size={14} /> T-LOCAL: {time}
                 </div>
                 
-                <a href={reporter.url} target="_blank" rel="noopener noreferrer" className="connect-btn">
-                  <ExternalLink size={18} />
-                  <span>INTERCEPTAR SEÑAL (TIKTOK LIVE)</span>
-                </a>
+                <button 
+                  className="btn-expand-video"
+                  onClick={() => handleExpand(reporter)}
+                  title="Ver en Pantalla Completa"
+                >
+                  <Maximize2 size={20} />
+                </button>
               </div>
-              <div className="viewport-background noise-bg"></div>
             </div>
 
             <div className="reporter-hud-bottom">
@@ -82,6 +100,35 @@ const FieldReporters = () => {
           </div>
         ))}
       </div>
+
+      {/* Full Screen Reporter Modal */}
+      <AnimatePresence>
+        {fullScreenReporter && (
+          <motion.div 
+            className="fullscreen-video-modal"
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(16px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+          >
+            <button className="btn-close-fullscreen" onClick={handleCloseFullScreen}>
+              <X size={24} /> <span>CERRAR PANTALLA COMPLETA</span>
+            </button>
+            <div className="fullscreen-video-container">
+              <div className="feed-title-bar fullscreen-title-bar">
+                <span className="feed-title">{fullScreenReporter.name} ({fullScreenReporter.handle})</span>
+                <span className="feed-badge">EN CAMPO</span>
+              </div>
+              <iframe 
+                src="https://www.tiktok.com/embed/@arquimedes_prensa2"
+                title="TikTok Live Fullscreen" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

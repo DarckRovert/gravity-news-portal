@@ -1,4 +1,6 @@
-
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Maximize2, X } from 'lucide-react';
 import FieldReporters from './FieldReporters';
 import './LiveFeeds.css';
 
@@ -14,6 +16,16 @@ const LiveFeeds = () => {
     { id: 'dw', title: 'DW NEWS (EJE EUROASIÁTICO)', videoId: '2E8QS55GwpY' },
     { id: 'skynews', title: 'SKY NEWS (MONITOR GLOBAL)', videoId: 'YDvsBbKfLPA' }
   ];
+
+  const [fullScreenVideo, setFullScreenVideo] = useState(null);
+
+  const handleExpand = (feed) => {
+    setFullScreenVideo(feed);
+  };
+
+  const handleCloseFullScreen = () => {
+    setFullScreenVideo(null);
+  };
 
   return (
     <section className="live-feeds-container">
@@ -45,10 +57,50 @@ const LiveFeeds = () => {
                 loading="lazy"
               ></iframe>
             </div>
-            <div className="feed-overlay"></div>
+            <div className="feed-overlay">
+              <button 
+                className="btn-expand-video"
+                onClick={() => handleExpand(feed)}
+                title="Ver en Pantalla Completa"
+              >
+                <Maximize2 size={20} />
+              </button>
+            </div>
           </div>
         ))}
       </div>
+      
+      {/* Full Screen Video Modal */}
+      <AnimatePresence>
+        {fullScreenVideo && (
+          <motion.div 
+            className="fullscreen-video-modal"
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(16px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+          >
+            <button className="btn-close-fullscreen" onClick={handleCloseFullScreen}>
+              <X size={24} /> <span>CERRAR PANTALLA COMPLETA</span>
+            </button>
+            <div className="fullscreen-video-container">
+              <div className="feed-title-bar fullscreen-title-bar">
+                <span className="feed-title">{fullScreenVideo.title}</span>
+                <span className="feed-badge">LIVE</span>
+              </div>
+              <iframe 
+                src={fullScreenVideo.videoId 
+                  ? `https://www.youtube.com/embed/${fullScreenVideo.videoId}?autoplay=1&mute=0&controls=1&modestbranding=1`
+                  : `https://www.youtube.com/embed/live_stream?channel=${fullScreenVideo.channelId}&autoplay=1&mute=0&controls=1&modestbranding=1`
+                } 
+                title={fullScreenVideo.title} 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       {/* Field Reporters Section */}
       <FieldReporters />

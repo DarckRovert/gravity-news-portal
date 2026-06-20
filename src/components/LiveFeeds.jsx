@@ -34,8 +34,8 @@ const LiveFeeds = () => {
             <div className="feed-video-wrapper">
               <iframe 
                 src={feed.videoId 
-                  ? `https://www.youtube.com/embed/${feed.videoId}?autoplay=1&mute=1&controls=0&modestbranding=1`
-                  : `https://www.youtube.com/embed/live_stream?channel=${feed.channelId}&autoplay=1&mute=1&controls=0&modestbranding=1`
+                  ? `https://www.youtube.com/embed/${feed.videoId}?autoplay=1&mute=1&controls=1&modestbranding=1`
+                  : `https://www.youtube.com/embed/live_stream?channel=${feed.channelId}&autoplay=1&mute=1&controls=1&modestbranding=1`
                 } 
                 title={feed.title} 
                 frameBorder="0" 

@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=la-sombra-del-control-algortmico-en-amrica-latina-el-caso-de-per</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=asesinato-en-comisara-de-per-el-estado-como-monopolio-de-la-violencia</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=per-la-masificacin-del-gas-natural-como-proyecto-de-control-territorial-anlisis-de-infraestructura-y-soberana-energtica</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=la-censura-en-el-arte-un-anlisis-de-la-ley-del-congreso-peruano</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

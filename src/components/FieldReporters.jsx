@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { MapPin, Radio, Clock, ExternalLink, Activity } from 'lucide-react';
 import './FieldReporters.css';
 

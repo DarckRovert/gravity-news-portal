@@ -1,4 +1,4 @@
-import React from 'react';
+
 import FieldReporters from './FieldReporters';
 import './LiveFeeds.css';
 

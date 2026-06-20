@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=el-bcrp-y-la-danza-del-dlar-una-estrategia-para-controlar-la-inflacin-o-un-juego-de-poder</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=transmisin-clandestina-de-la-zona-gora</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=per-el-control-estricto-de-la-distribucin-de-gas-natural-y-su-impacto-en-la-soberana-energtica</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=la-reserva-digital-extraccin-cognitiva-de-la-amazona-peruana-mediante-algoritmos-de-vigilancia-ecolgica</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

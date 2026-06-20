@@ -1,4 +1,5 @@
 import React from 'react';
+import FieldReporters from './FieldReporters';
 import './LiveFeeds.css';
 
 const LiveFeeds = () => {
@@ -48,6 +49,9 @@ const LiveFeeds = () => {
           </div>
         ))}
       </div>
+      
+      {/* Field Reporters Section */}
+      <FieldReporters />
     </section>
   );
 };

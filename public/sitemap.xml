@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=el-hbrido-como-trampa-atencional-la-ia-no-libera-reconfigura-la-extraccin-cognitiva-bajo-el-leviatn-corporativo</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=la-sombra-del-control-algortmico-en-amrica-latina-el-caso-de-per</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=el-lder-oculto-en-inteligencia-artificial-un-anlisis-de-la-adopcin-global</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=per-la-masificacin-del-gas-natural-como-proyecto-de-control-territorial-anlisis-de-infraestructura-y-soberana-energtica</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

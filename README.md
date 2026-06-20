@@ -30,6 +30,7 @@ Funciona de manera *Decoupled* (Desacoplada).
 - **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
 - **Sincronización Cuántica:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860` para generar noticias **en tiempo real** (cuando la PC está encendida).
 - **Auto-Mantenimiento:** Limpieza de librerías y portadas de libros automáticas (Script `sync_books.js`).
+- **Field Reporters (Enlace Terrestre):** Overlay táctico holográfico para enlazar y visualizar a los periodistas de contingencia en vivo (ej. TikTok Live), sorteando los bloqueos de seguridad de iframes externos.
 
 ---
 

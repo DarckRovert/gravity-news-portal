@@ -1,6 +1,6 @@
 import os
 
-BASE_DIR = r"f:\gravity-news-portal"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 files_to_create = {
     "README.md": """<div align="center">
@@ -18,7 +18,7 @@ files_to_create = {
      Renderización Glassmorphism · Vite/React · Actualización Continua.</i><br><br>
      🛡️ <b>Auditoría V16.0 PRO: Cero Vulnerabilidades XSS - Zero-Trust Arquitectónico</b>
    </p>
-</div>
+ </div>
 
 ---
 
@@ -33,9 +33,11 @@ Funciona de manera *Decoupled* (Desacoplada).
 4. **Hosting Reactivo:** Netlify / Vercel detectan el *commit*, compilan el proyecto con Vite y despliegan la página en segundos.
 
 ### 📰 Características del Portal
-- **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
-- **Sincronización Cuántica:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860` para generar noticias **en tiempo real** (cuando la PC está encendida).
-- **Auto-Mantenimiento:** Limpieza de librerías y portadas de libros automáticas (Script `sync_books.js`).
+ - **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
+ - **Sincronización Cuántica:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860` para generar noticias **en tiempo real** (cuando la PC está encendida). Si falla, el portal es resiliente y cambiará a modo estático sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
+ - **Renderizado Seguro:** La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.
+ - **Auto-Mantenimiento:** Limpieza de librerías y portadas de libros automáticas (Script `sync_books.js`).
+ - **Field Reporters (Enlace Terrestre):** Overlay táctico holográfico para enlazar y visualizar a los periodistas de contingencia en vivo (ej. TikTok Live), sorteando los bloqueos de seguridad de iframes externos.
 
 ---
 
@@ -65,10 +67,9 @@ npm run dev
 
 <div align="center">
   <sub><i>© 2026 DarckRovert · Gravity News Portal V16.0 PRO.</i></sub>
-</div>
-""",
-    
-    os.path.join("wiki", "Home.md"): """# 📖 Wiki Corporativa: Nexo Ágora (News Portal)
+</div>""",
+
+    "wiki/Home.md": """# 📖 Wiki Corporativa: Nexo Ágora (News Portal)
 
 Bienvenido a la Wiki técnica del Frontend de Gravity AI.
 
@@ -80,10 +81,9 @@ Bienvenido a la Wiki técnica del Frontend de Gravity AI.
 | [Arquitectura Desacoplada](./Arquitectura.md) | Cómo se comunica Netlify con el PC Local |
 
 ---
-*Para ver la Wiki del Backend y Motor Central, dirígete al repositorio de [Gravity AI Bridge](https://github.com/DarckRovert/Gravity_AI_bridge).*
-""",
+*Para ver la Wiki del Backend y Motor Central, dirígete al repositorio de [Gravity AI Bridge](https://github.com/DarckRovert/Gravity_AI_bridge).*""",
 
-    os.path.join("wiki", "Arquitectura.md"): """# 🏛 Arquitectura Desacoplada (Decoupled Sync)
+    "wiki/Arquitectura.md": """# 🏛 Arquitectura Desacoplada (Decoupled Sync)
 
 El portal de noticias soluciona uno de los mayores problemas de la IA local: **¿Cómo mantengo un sitio web vivo 24/7 si mi PC de IA (Backend) se apaga en la noche?**
 
@@ -104,14 +104,23 @@ Esto significa que el portal **nunca** se apaga, incluso si tu PC está apagada.
  
  **Renderizado Seguro:**
  La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.
-""",
+
+---
+
+### Despliegue en Netlify (Vite SPA)
+
+Para evitar el error de *MIME Type* o pantallas blancas al desplegar, el portal incluye un archivo `netlify.toml` en la raíz. Esto le ordena a Netlify que enrute todo el tráfico a través de la carpeta `dist` compilada, soportando correctamente el enrutamiento del lado del cliente (Client-Side Routing) propio de React.
+
+### Integración Táctica (Bypass de Redes Sociales)
+
+Para integrar *Live Streams* de plataformas cerradas (como TikTok) que prohíben estrictamente el uso de etiquetas `<iframe>` para proteger su ecosistema, el portal utiliza **"Enlaces Terrestres" (Field Reporters)**. 
+En lugar de forzar un iframe que resultará en un error `X-Frame-Options: SAMEORIGIN`, se inyecta un HUD Holográfico con la metadata del reportero (ubicación, hora local, estado activo). Esto atrae la atención del usuario simulando un radar en tiempo real, brindándole un botón de intercepción directo para abrir el live original.""",
 
     "CONTRIBUTING.md": """# 📜 Guía de Contribución
 
 Gravity News Portal es un proyecto de código cerrado y **privado**, mantenido exclusivamente por DarckRovert y sus agentes autónomos. 
 
-No se aceptan Pull Requests externos a menos que hayan sido negociados previamente con la entidad corporativa.
-""",
+No se aceptan Pull Requests externos a menos que hayan sido negociados previamente con la entidad corporativa.""",
 
     "SECURITY.md": """# 🔒 Política de Seguridad
 
@@ -120,22 +129,19 @@ No se aceptan Pull Requests externos a menos que hayan sido negociados previamen
 Si has encontrado una vulnerabilidad de XSS, inyección o un fallo en el túnel REST (`http://localhost:7860`) del portal, por favor envía un reporte directo a los canales oficiales de DarckRovert. No abras un Issue público.
 
 ### Endpoints Protegidos
- El portal jamás almacena llaves de API (Nvidia NIM, DeepSeek) en su código fuente (React). Toda la carga cognitiva se hace **localmente** en el entorno seguro de Gravity AI Bridge. El frontend solo consume JSON estáticos o peticiones localhost directas al orquestador.
- 
- ### Auditoría V16.0 Frontend
- El repositorio en su iteración V16 ha pasado por una rigurosa auditoría manual de infraestructura. Se verificó el encapsulamiento seguro de `dangerouslySetInnerHTML` utilizando un modelo de ingesta local estática de alto rendimiento, logrando inmunidad ante XSS público.
-"""
+El portal jamás almacena llaves de API (Nvidia NIM, DeepSeek) en su código fuente (React). Toda la carga cognitiva se hace **localmente** en el entorno seguro de Gravity AI Bridge. El frontend solo consume JSON estáticos o peticiones localhost directas al orquestador.
+
+### Auditoría V16.0 Frontend
+El repositorio en su iteración V16 ha pasado por una rigurosa auditoría manual de infraestructura. Se verificó el encapsulamiento seguro de `dangerouslySetInnerHTML` utilizando un modelo de ingesta local estática de alto rendimiento, logrando inmunidad ante XSS público.""",
+
 }
 
-def create_files():
-    # Asegurarnos de que el directorio wiki exista
-    os.makedirs(os.path.join(BASE_DIR, "wiki"), exist_ok=True)
-    
-    for filename, content in files_to_create.items():
-        path = os.path.join(BASE_DIR, filename)
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(content.strip())
-        print(f"Creado: {filename}")
 
-if __name__ == "__main__":
-    create_files()
+for file_path, content in files_to_create.items():
+    full_path = os.path.join(BASE_DIR, file_path)
+    os.makedirs(os.path.dirname(full_path), exist_ok=True)
+    with open(full_path, "w", encoding="utf-8") as f:
+        f.write(content.strip() + "\n")
+    print(f"Creado: {full_path}")
+
+print("Toda la documentacion generada.")

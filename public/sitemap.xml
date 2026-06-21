@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=la-censura-cultural-en-el-per-un-paso-hacia-el-control-totalitario</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=control-de-identidad-en-lima-el-estado-refuerza-su-vigilancia-ante-marcha-de-juntos-por-el-per</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=miraflores-bajo-la-lupa-de-la-vigilancia-implementacin-masiva-de-cmaras-de-ia-para-la-seguridad-ciudadana</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=la-granja-de-datos-de-miraflores-cmo-la-ia-transforma-ciudadanos-en-algoritmos-de-seguridad</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

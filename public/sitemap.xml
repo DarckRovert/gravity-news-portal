@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=la-censura-cultural-en-el-per-el-congreso-busca-controlar-la-identidad-artstica</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=honor-lanza-en-per-la-serie-honor-600-un-paso-hacia-la-vigilancia-masiva-con-ia-y-cmaras-de-200-mp</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=inteligencia-artificial-en-miraflores-un-modelo-de-seguridad-ciudadana-en-el-per</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=per-y-colombia-fortalecen-la-lucha-contra-el-narcotrfico-en-la-xi-reunin-de-la-comisin-mixta</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

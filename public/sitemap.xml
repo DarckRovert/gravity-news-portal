@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=chile-refuerza-frontera-con-per-mediante-tetrpodos-control-y-vigilancia-como-herramientas-de-poder</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=el-estado-peruano-avanza-en-la-implementacin-de-ia-para-el-control-de-poblaciones-vulnerables</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=encubrimiento-y-brutalidad-policial-en-per-el-caso-del-adolescente-de-17-aos</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=la-red-de-identificacin-cmo-el-estado-peruviano-ejerce-control-biomtrico-en-los-accesos-a-lima-durante-la-gran-movilizacin-poltica</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

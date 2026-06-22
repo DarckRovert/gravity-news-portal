@@ -3,7 +3,13 @@ import { createContext, useContext, useState } from 'react';
 
 const SearchContext = createContext();
 
-export const useSearch = () => useContext(SearchContext);
+export const useSearch = () => {
+  const context = useContext(SearchContext);
+  if (context === undefined) {
+    throw new Error('useSearch debe ser usado dentro de un SearchProvider');
+  }
+  return context;
+};
 
 export const SearchProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');

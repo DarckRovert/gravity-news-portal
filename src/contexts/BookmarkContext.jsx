@@ -3,7 +3,13 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const BookmarkContext = createContext();
 
-export const useBookmarks = () => useContext(BookmarkContext);
+export const useBookmarks = () => {
+  const context = useContext(BookmarkContext);
+  if (context === undefined) {
+    throw new Error('useBookmarks debe ser usado dentro de un BookmarkProvider');
+  }
+  return context;
+};
 
 export const BookmarkProvider = ({ children }) => {
   const [bookmarks, setBookmarks] = useState(() => {
@@ -17,7 +23,11 @@ export const BookmarkProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    localStorage.setItem('gravity-bookmarks', JSON.stringify(bookmarks));
+    try {
+      localStorage.setItem('gravity-bookmarks', JSON.stringify(bookmarks));
+    } catch (error) {
+      console.warn("No se pudo guardar el bookmark en localStorage.", error);
+    }
   }, [bookmarks]);
 
   const toggleBookmark = (id) => {

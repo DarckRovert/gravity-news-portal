@@ -308,7 +308,34 @@
 }
 
 @media (max-width: 768px) {
+  .science-container {
+    padding: 1.5rem 1rem 3rem;
+  }
+  .science-title {
+    font-size: 2.2rem;
+  }
+  .science-desc {
+    font-size: 0.95rem;
+  }
   .science-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .science-card-image {
+    height: 180px;
+  }
+  .science-reader {
+    padding: 1.5rem 1rem 4rem;
+  }
+  .science-reader-title {
+    font-size: 1.8rem;
+  }
+  .science-reader-meta {
+    gap: 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .science-reader-body {
+    font-size: 0.95rem;
   }
 }

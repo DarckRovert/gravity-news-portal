@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, Microscope, Search, ArrowRight } from 'lucide-react';
+import { Clock, BookOpen, Microscope, ArrowRight } from 'lucide-react';
+import { useSearch } from '../contexts/SearchContext';
 import scienceData from '../data/science.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import './Science.css';
@@ -17,7 +18,7 @@ const getRelativeTime = (dateStr) => {
 
 export default function Science() {
   const [selectedArticle, setSelectedArticle] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const { searchTerm } = useSearch();
   const [selectedCategory, setSelectedCategory] = useState('Todos');
 
   const allCategories = useMemo(() => {
@@ -28,13 +29,14 @@ export default function Science() {
 
   const filtered = useMemo(() => {
     return scienceData.filter(a => {
-      const matchesSearch = searchQuery === '' ||
-        a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (a.excerpt || '').toLowerCase().includes(searchQuery.toLowerCase());
+      const query = searchTerm || '';
+      const matchesSearch = query === '' ||
+        a.title.toLowerCase().includes(query.toLowerCase()) ||
+        (a.excerpt || '').toLowerCase().includes(query.toLowerCase());
       const matchesCat = selectedCategory === 'Todos' || a.category === selectedCategory;
       return matchesSearch && matchesCat;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchTerm, selectedCategory]);
 
   const renderMarkdown = (text) => {
     if (!text) return '';
@@ -95,15 +97,7 @@ export default function Science() {
           Sin especulación no etiquetada. El conocimiento como acto de resistencia.
         </p>
 
-        <div className="science-search-bar glass-panel">
-          <Search size={16} />
-          <input
-            type="text"
-            placeholder="Buscar artículos científicos..."
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-          />
-        </div>
+
 
         <div className="science-tags">
           {allCategories.map(cat => (

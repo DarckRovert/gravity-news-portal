@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, ArrowRight, Search, PenTool } from 'lucide-react';
+import { Clock, BookOpen, ArrowRight, PenTool } from 'lucide-react';
+import { useSearch } from '../contexts/SearchContext';
 import essaysData from '../data/essays.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import './Essays.css';
@@ -17,7 +18,7 @@ const getRelativeTime = (dateStr) => {
 
 export default function Essays() {
   const [selectedEssay, setSelectedEssay] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const { searchTerm } = useSearch();
   const [selectedTag, setSelectedTag] = useState('Todos');
 
   const allTags = useMemo(() => {
@@ -30,13 +31,14 @@ export default function Essays() {
 
   const filtered = useMemo(() => {
     return essaysData.filter(essay => {
-      const matchesSearch = searchQuery === '' ||
-        essay.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        essay.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      const query = searchTerm || '';
+      const matchesSearch = query === '' ||
+        essay.title.toLowerCase().includes(query.toLowerCase()) ||
+        essay.excerpt.toLowerCase().includes(query.toLowerCase());
       const matchesTag = selectedTag === 'Todos' || essay.category === selectedTag;
       return matchesSearch && matchesTag;
     });
-  }, [searchQuery, selectedTag]);
+  }, [searchTerm, selectedTag]);
 
   const renderMarkdown = (text) => {
     if (!text) return '';
@@ -100,16 +102,7 @@ export default function Essays() {
           </p>
         </div>
 
-        {/* Search */}
-        <div className="essays-search-bar glass-panel">
-          <Search size={16} />
-          <input
-            type="text"
-            placeholder="Buscar en los ensayos..."
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-          />
-        </div>
+
 
         {/* Tags */}
         <div className="essays-tags">

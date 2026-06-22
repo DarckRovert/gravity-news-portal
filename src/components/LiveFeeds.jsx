@@ -24,13 +24,24 @@ const mediaData = {
     { id: 'kungfury', title: 'KUNG FURY (Cyber-Retro 80s)', videoId: 'bS5P_LAqiVg', badge: 'CULT CLASH' },
     { id: 'hyper', title: 'HYPER-REALITY (Saturación AR)', videoId: 'YJg02ivYzSs', badge: 'VISION' },
     { id: 'wanderers', title: 'WANDERERS (El Futuro Humano)', videoId: 'YH3c1QZzRK4', badge: 'SCI-FI' },
-    { id: 'metropolis', title: 'METROPOLIS (1927 - Distopía Clásica)', videoId: 'gdtZv3XROnc', badge: 'CINE CLÁSICO' }
+    { id: 'metropolis', title: 'METROPOLIS (1927 - Distopía Clásica)', videoId: 'gdtZv3XROnc', badge: 'CINE CLÁSICO' },
+    { id: 'lajetee', title: 'LA JETÉE (1962 - Viajes en el Tiempo)', videoId: 'aOjaEOgMv4M', badge: 'CULT CLASH' },
+    { id: 'luna', title: 'EL VIAJE A LA LUNA (1902 - George Méliès)', videoId: 'ZNAHcMMOHE8', badge: 'HISTORIA' },
+    { id: 'nosferatu', title: 'NOSFERATU (1922 - Terror Mudo)', videoId: 'FC6jFoYm3xs', badge: 'CINE CLÁSICO' },
+    { id: 'charlie', title: 'TIEMPOS MODERNOS (1936 - C. Chaplin)', videoId: 'HAPifiEQflE', badge: 'CRÍTICA' },
+    { id: 'caverna', title: 'EL MITO DE LA CAVERNA (Platón Animado)', videoId: '69F7GhASOdM', badge: 'ANIMACIÓN' }
   ],
   docs: [
+    { id: 'internetboy', title: 'THE INTERNET\'S OWN BOY (Aaron Swartz)', videoId: '9vz06QO3UkQ', badge: 'LEAK' },
     { id: 'horses', title: 'EL FIN DEL TRABAJO (CGP Grey)', videoId: '7Pq-S557XQU', badge: 'DOC' },
-    { id: 'egg', title: 'EL HUEVO (Kurzgesagt)', videoId: 'h6fcK_fRYaI', badge: 'DOC' },
     { id: 'nsa', title: 'VIGILANCIA GLOBAL (John Oliver)', videoId: 'XEVlyP4_11M', badge: 'LEAK' },
-    { id: 'nihilism', title: 'NIHILISMO OPTIMISTA', videoId: 'MBRqu0YOH14', badge: 'DOC' }
+    { id: 'egg', title: 'EL HUEVO (La Vida y el Universo)', videoId: 'h6fcK_fRYaI', badge: 'DOC' },
+    { id: 'nihilism', title: 'NIHILISMO OPTIMISTA (Kurzgesagt)', videoId: 'MBRqu0YOH14', badge: 'FILOSOFÍA' },
+    { id: 'fermi', title: 'LA PARADOJA DE FERMI (¿Dónde están?)', videoId: 'sNhhvQGsMEc', badge: 'COSMOS' },
+    { id: 'dalio', title: 'CÓMO FUNCIONA LA MÁQUINA ECONÓMICA', videoId: 'PHe0bXAIuk0', badge: 'GEOPOLÍTICA' },
+    { id: 'snowden', title: 'EDWARD SNOWDEN: Entrevista Extendida', videoId: 'tEHWZvGEt7M', badge: 'LEAK' },
+    { id: 'deepweb', title: 'LA DEEP WEB Y EL CIFRADO', videoId: '5iONN9n6sZ0', badge: 'CYBER' },
+    { id: 'blackholes', title: 'EL FINAL DEL UNIVERSO (Agujeros Negros)', videoId: 'Qam5BkXIGYA', badge: 'COSMOS' }
   ]
 };
 

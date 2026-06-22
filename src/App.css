@@ -159,7 +159,9 @@
 .mobile-menu {
   position: absolute;
   top: calc(100% + 8px);
+  left: 0;
   right: 0;
+  width: 100%;
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
@@ -168,7 +170,6 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  min-width: 200px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
@@ -210,6 +211,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 32px 16px;
+  overflow-x: hidden;
 }
 
 .footer {
@@ -318,6 +320,12 @@
 }
 
 @media (max-width: 768px) {
+  .app-container {
+    padding-top: 70px;
+  }
+  .navbar {
+    padding: 10px 16px;
+  }
   .nav-links {
     display: none;
   }
@@ -329,5 +337,29 @@
   }
   .page-title {
     font-size: 2.2rem;
+  }
+  .page-subtitle {
+    font-size: 0.95rem;
+    padding: 0 10px;
+  }
+  .main-content {
+    padding: 20px 12px;
+  }
+  .footer-content {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+  .scroll-to-top-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.8rem;
   }
 }

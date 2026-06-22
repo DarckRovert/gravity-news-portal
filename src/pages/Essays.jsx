@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, ArrowRight, PenTool } from 'lucide-react';
+import { Clock, BookOpen, ArrowRight, PenTool, Bookmark } from 'lucide-react';
 import { useSearch } from '../contexts/SearchContext';
+import { useBookmarks } from '../contexts/BookmarkContext';
 import essaysData from '../data/essays.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import './Essays.css';
@@ -19,10 +20,11 @@ const getRelativeTime = (dateStr) => {
 export default function Essays() {
   const [selectedEssay, setSelectedEssay] = useState(null);
   const { searchTerm } = useSearch();
+  const { toggleBookmark, isBookmarked } = useBookmarks();
   const [selectedTag, setSelectedTag] = useState('Todos');
 
   const allTags = useMemo(() => {
-    const tags = new Set(['Todos']);
+    const tags = new Set(['Todos', 'Guardados']);
     essaysData.forEach(e => {
       if (e.category) tags.add(e.category);
     });
@@ -35,10 +37,16 @@ export default function Essays() {
       const matchesSearch = query === '' ||
         essay.title.toLowerCase().includes(query.toLowerCase()) ||
         essay.excerpt.toLowerCase().includes(query.toLowerCase());
-      const matchesTag = selectedTag === 'Todos' || essay.category === selectedTag;
+      
+      let matchesTag = false;
+      if (selectedTag === 'Guardados') {
+        matchesTag = isBookmarked(essay.id);
+      } else {
+        matchesTag = selectedTag === 'Todos' || essay.category === selectedTag;
+      }
       return matchesSearch && matchesTag;
     });
-  }, [searchTerm, selectedTag]);
+  }, [searchTerm, selectedTag, isBookmarked]);
 
   const renderMarkdown = (text) => {
     if (!text) return '';
@@ -150,9 +158,24 @@ export default function Essays() {
                       <span><Clock size={12} /> {getRelativeTime(essay.date)}</span>
                       <span><BookOpen size={12} /> {essay.readingTime} min</span>
                     </div>
-                    <button className="essay-read-btn">
-                      Leer <ArrowRight size={14} />
-                    </button>
+                    <div className="essay-card-actions" style={{ display: 'flex', gap: '8px' }}>
+                      <button className="essay-read-btn">
+                        Leer <ArrowRight size={14} />
+                      </button>
+                      <button 
+                        className={`essay-bookmark-btn ${isBookmarked(essay.id) ? 'active' : ''}`}
+                        onClick={(e) => { e.stopPropagation(); toggleBookmark(essay.id); }}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          padding: '0.4rem', borderRadius: '8px', border: '1px solid var(--border-subtle)',
+                          background: isBookmarked(essay.id) ? 'var(--accent-primary)' : 'rgba(255,255,255,0.05)',
+                          color: isBookmarked(essay.id) ? '#000' : 'var(--text-secondary)',
+                          cursor: 'pointer', transition: 'all 0.2s ease'
+                        }}
+                      >
+                        <Bookmark size={16} fill={isBookmarked(essay.id) ? 'currentColor' : 'none'} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.article>

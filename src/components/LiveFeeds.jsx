@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Maximize2, X, Radio, Film, FolderLock, Play } from 'lucide-react';
+import { Maximize2, X, Radio, Film, FolderLock, Play, Bookmark } from 'lucide-react';
 import FieldReporters from './FieldReporters';
 import { useSearch } from '../contexts/SearchContext';
+import { useBookmarks } from '../contexts/BookmarkContext';
 import './LiveFeeds.css';
 
 import mediaData from '../data/media.json';
@@ -10,7 +11,8 @@ import mediaData from '../data/media.json';
 const mediaCategories = [
   { id: 'live', label: 'Monitoreo Global', icon: Radio, pulse: true },
   { id: 'cinema', label: 'Cine de Resistencia', icon: Film, pulse: false },
-  { id: 'docs', label: 'Archivos Desclasificados', icon: FolderLock, pulse: false }
+  { id: 'docs', label: 'Archivos Desclasificados', icon: FolderLock, pulse: false },
+  { id: 'guardados', label: 'Guardados', icon: Bookmark, pulse: false }
 ];
 
 const LiveFeeds = () => {
@@ -18,6 +20,8 @@ const LiveFeeds = () => {
   const [fullScreenVideo, setFullScreenVideo] = useState(null);
   const [playingVideo, setPlayingVideo] = useState({});
   const [visibleCount, setVisibleCount] = useState(8);
+  const { searchTerm } = useSearch();
+  const { toggleBookmark, isBookmarked } = useBookmarks();
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
@@ -32,9 +36,11 @@ const LiveFeeds = () => {
     setFullScreenVideo(null);
   };
 
-  const { searchTerm } = useSearch();
-
-  const currentMedia = mediaData[activeTab] || [];
+  // Combine all media arrays to find bookmarks easily
+  const allMediaFlat = Object.values(mediaData).flat();
+  const currentMedia = activeTab === 'guardados' 
+    ? allMediaFlat.filter(feed => isBookmarked(feed.id))
+    : mediaData[activeTab] || [];
   
   // Filter by search term
   const filteredMedia = currentMedia.filter((feed) => {
@@ -145,6 +151,17 @@ const LiveFeeds = () => {
                     title="Ver en Pantalla Completa"
                   >
                     <Maximize2 size={20} />
+                  </button>
+                  <button 
+                    className="btn-expand-video"
+                    onClick={(e) => { e.stopPropagation(); toggleBookmark(feed.id); }}
+                    title={isBookmarked(feed.id) ? "Quitar Guardado" : "Guardar Video"}
+                    style={{ 
+                      color: isBookmarked(feed.id) ? 'var(--accent-secondary)' : '#fff',
+                      marginLeft: '8px'
+                    }}
+                  >
+                    <Bookmark size={20} fill={isBookmarked(feed.id) ? 'currentColor' : 'none'} />
                   </button>
                 </div>
               </motion.div>

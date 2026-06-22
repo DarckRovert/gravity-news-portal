@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, Microscope, ArrowRight } from 'lucide-react';
+import { Clock, BookOpen, Microscope, ArrowRight, Bookmark } from 'lucide-react';
 import { useSearch } from '../contexts/SearchContext';
+import { useBookmarks } from '../contexts/BookmarkContext';
 import scienceData from '../data/science.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import './Science.css';
@@ -19,10 +20,11 @@ const getRelativeTime = (dateStr) => {
 export default function Science() {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const { searchTerm } = useSearch();
+  const { toggleBookmark, isBookmarked } = useBookmarks();
   const [selectedCategory, setSelectedCategory] = useState('Todos');
 
   const allCategories = useMemo(() => {
-    const cats = new Set(['Todos']);
+    const cats = new Set(['Todos', 'Guardados']);
     scienceData.forEach(a => { if (a.category) cats.add(a.category); });
     return Array.from(cats);
   }, []);
@@ -33,10 +35,16 @@ export default function Science() {
       const matchesSearch = query === '' ||
         a.title.toLowerCase().includes(query.toLowerCase()) ||
         (a.excerpt || '').toLowerCase().includes(query.toLowerCase());
-      const matchesCat = selectedCategory === 'Todos' || a.category === selectedCategory;
+      
+      let matchesCat = false;
+      if (selectedCategory === 'Guardados') {
+        matchesCat = isBookmarked(a.id);
+      } else {
+        matchesCat = selectedCategory === 'Todos' || a.category === selectedCategory;
+      }
       return matchesSearch && matchesCat;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [searchTerm, selectedCategory, isBookmarked]);
 
   const renderMarkdown = (text) => {
     if (!text) return '';
@@ -143,9 +151,24 @@ export default function Science() {
                       <span><Clock size={12} /> {getRelativeTime(article.date)}</span>
                       <span><BookOpen size={12} /> {article.readingTime} min</span>
                     </div>
-                    <button className="science-read-btn">
-                      Leer <ArrowRight size={14} />
-                    </button>
+                    <div className="science-card-actions" style={{ display: 'flex', gap: '8px' }}>
+                      <button className="science-read-btn">
+                        Leer <ArrowRight size={14} />
+                      </button>
+                      <button 
+                        className={`science-bookmark-btn ${isBookmarked(article.id) ? 'active' : ''}`}
+                        onClick={(e) => { e.stopPropagation(); toggleBookmark(article.id); }}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          padding: '0.4rem', borderRadius: '8px', border: '1px solid var(--border-subtle)',
+                          background: isBookmarked(article.id) ? '#60a5fa' : 'rgba(255,255,255,0.05)',
+                          color: isBookmarked(article.id) ? '#000' : 'var(--text-secondary)',
+                          cursor: 'pointer', transition: 'all 0.2s ease'
+                        }}
+                      >
+                        <Bookmark size={16} fill={isBookmarked(article.id) ? 'currentColor' : 'none'} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.article>

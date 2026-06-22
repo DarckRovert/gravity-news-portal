@@ -28,6 +28,7 @@ graph TD
     App --> Reader[Reader.jsx - Lector Cuántico HTML]
     
     Home -->|Lee| NewsJSON[(news.json)]
+    Home -->|Lee| MediaJSON[(media.json)]
     Books -->|Lee| BooksJSON[(books.json)]
     Reader -->|Fetch HTML| PublicBooks[(public/books/*.html)]
     
@@ -36,9 +37,12 @@ graph TD
 
 ### `Home.jsx`
 - Responsable de la parrilla de noticias y filtros.
-- Aloja el widget lateral de la **Conexión Cognitiva**.
+- Aloja el widget lateral de la **Conexión Cognitiva** y la interfaz del **Nexo Multimedia** (`LiveFeeds.jsx`).
 - Maneja su propio estado de `localStorage` para guardar la IP personalizada del usuario, permitiendo conectarse al servidor local HTTP sin tener el código duro en `localhost`.
 - **Protección**: Si el campo `title` o `excerpt` en `news.json` falta o está corrupto, la aplicación ignora ese bloque y renderiza el resto de forma segura.
+
+### `LiveFeeds.jsx` (Nexo Multimedia)
+- Transforma la carga pesada de iframes de YouTube mediante una técnica arquitectónica de **Lazy Loading Extremo**: en lugar de cargar los iframes (`<iframe>`), carga la miniatura (`img.youtube.com/...`) en formato de imagen ligera. Al dar clic, permuta la imagen por el reproductor activo. Esto evita **OOM Crashes** y permite que `media.json` contenga miles de películas.
 
 ### `Books.jsx` y `Reader.jsx`
 - **Books**: Mapea los tomos y genera una maqueta visual en 3D puramente por CSS.

@@ -10,7 +10,15 @@ En la pestaña **Biblioteca**, encontrarás todos los tomos y ensayos exportados
 - Dentro del Lector, puedes modificar el tamaño de la letra, alternar entre tipografía Serif y Sans, y cambiar la paleta de colores (Oscuro, Sepia, Claro) para tu comodidad.
 - Si prefieres llevarte el archivo fuera de línea, utiliza el botón **Descargar**.
 
-## 2. Investigador en Vivo (Conexión Cognitiva)
+## 2. Nexo Multimedia (Películas y Documentales)
+
+El **Nexo Multimedia** se encuentra en la parte superior de la página de Noticias. Es una cartelera inteligente que filtra contenido global:
+- Usa las pestañas **Monitoreo Global**, **Cine de Resistencia** y **Archivos Desclasificados** para navegar entre noticieros en vivo, películas de ciencia ficción y filosofía, o documentales de inteligencia.
+- Haz clic en cualquier tarjeta para iniciar la reproducción al instante.
+- Utiliza el botón de **pantalla completa** (icono de flechas expansivas) en cualquier video para una experiencia inmersiva.
+- Usa el botón inferior **CARGAR MÁS ARCHIVOS** para ver el resto del catálogo (diseñado con "Carga Perezosa" para no saturar tu RAM).
+
+## 3. Investigador en Vivo (Conexión Cognitiva)
 
 En la página principal de **Noticias**, verás a la derecha (o al final si estás en tu móvil) el panel de **Conexión Cognitiva**.
 

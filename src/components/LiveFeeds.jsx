@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X, Radio, Film, FolderLock, Play } from 'lucide-react';
 import FieldReporters from './FieldReporters';
+import { useSearch } from '../contexts/SearchContext';
 import './LiveFeeds.css';
 
 import mediaData from '../data/media.json';
@@ -31,9 +32,20 @@ const LiveFeeds = () => {
     setFullScreenVideo(null);
   };
 
+  const { searchTerm } = useSearch();
+
   const currentMedia = mediaData[activeTab] || [];
-  const visibleMedia = currentMedia.slice(0, visibleCount);
-  const hasMore = visibleCount < currentMedia.length;
+  
+  // Filter by search term
+  const filteredMedia = currentMedia.filter((feed) => {
+    const title = feed.title || '';
+    const badge = feed.badge || '';
+    return title.toLowerCase().includes((searchTerm || '').toLowerCase()) || 
+           badge.toLowerCase().includes((searchTerm || '').toLowerCase());
+  });
+
+  const visibleMedia = filteredMedia.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredMedia.length;
 
   const loadMore = () => {
     setVisibleCount((prev) => prev + 8);

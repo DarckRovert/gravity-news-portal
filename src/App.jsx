@@ -1,6 +1,8 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Newspaper, Library, Menu, X, PenTool, Microscope, ChevronUp, Terminal } from 'lucide-react';
+import { Newspaper, Library, Menu, X, PenTool, Microscope, ChevronUp, Terminal, Search, Palette } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useTheme } from './contexts/ThemeContext';
+import { useSearch } from './contexts/SearchContext';
 import Home from './pages/Home';
 import Books from './pages/Books';
 import Reader from './pages/Reader';
@@ -15,6 +17,8 @@ import './App.css';
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { theme, changeTheme } = useTheme();
+  const { searchTerm, setSearchTerm } = useSearch();
 
   const navLinks = [
     { path: '/', label: 'Noticias', icon: <Newspaper size={18} /> },
@@ -43,6 +47,33 @@ function Navbar() {
         ))}
       </div>
 
+      {/* Global Actions (Desktop) */}
+      <div className="nav-global-actions">
+        <div className="search-bar-wrapper">
+          <Search size={16} className="search-icon" />
+          <input 
+            type="text" 
+            placeholder="Buscar en el Nexus..." 
+            className="global-search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        
+        <div className="theme-selector">
+          <Palette size={16} className="theme-icon" />
+          <select 
+            className="theme-dropdown" 
+            value={theme} 
+            onChange={(e) => changeTheme(e.target.value)}
+          >
+            <option value="onyx">Deep Onyx</option>
+            <option value="matrix">Matrix</option>
+            <option value="void">Void</option>
+          </select>
+        </div>
+      </div>
+
       {/* Mobile Toggle */}
       <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <X /> : <Menu />}
@@ -68,6 +99,33 @@ function Navbar() {
                 <span>{link.label}</span>
               </Link>
             ))}
+            
+            {/* Mobile Actions */}
+            <div className="mobile-actions-wrapper">
+              <div className="search-bar-wrapper mobile-search">
+                <Search size={16} className="search-icon" />
+                <input 
+                  type="text" 
+                  placeholder="Buscar..." 
+                  className="global-search-input"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              
+              <div className="theme-selector mobile-theme">
+                <Palette size={16} className="theme-icon" />
+                <select 
+                  className="theme-dropdown" 
+                  value={theme} 
+                  onChange={(e) => changeTheme(e.target.value)}
+                >
+                  <option value="onyx">Onyx</option>
+                  <option value="matrix">Matrix</option>
+                  <option value="void">Void</option>
+                </select>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

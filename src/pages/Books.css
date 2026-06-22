@@ -307,7 +307,41 @@
   box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
 }
 
+.btn-bookmark-book {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+}
+
+.btn-bookmark-book:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-bookmark-book.bookmarked {
+  background: rgba(255, 200, 0, 0.15);
+  color: #ffc800;
+  border-color: rgba(255, 200, 0, 0.3);
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.3);
+}
+
 /* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .books-showcase {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 900px) {
   .books-showcase {
     grid-template-columns: 1fr;

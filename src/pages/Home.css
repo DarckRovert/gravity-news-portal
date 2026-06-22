@@ -198,6 +198,34 @@
   text-transform: uppercase;
 }
 
+.btn-bookmark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  margin-left: auto;
+}
+
+.btn-bookmark:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.btn-bookmark.bookmarked {
+  background: rgba(255, 200, 0, 0.15);
+  color: #ffc800;
+  border-color: rgba(255, 200, 0, 0.3);
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.3);
+}
+
 .hero-title {
   font-size: 2.8rem;
   line-height: 1.1;
@@ -397,6 +425,36 @@
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.bento-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-bookmark-small {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+}
+
+.btn-bookmark-small:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.btn-bookmark-small.bookmarked {
+  color: #ffc800;
 }
 
 .bento-read-icon {

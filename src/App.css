@@ -60,6 +60,94 @@
   box-shadow: 0 0 15px hsla(var(--accent-glow), 0.4);
 }
 
+.nav-global-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.search-bar-wrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 100px;
+  padding: 6px 12px;
+  transition: var(--transition-smooth);
+}
+
+.search-bar-wrapper:focus-within {
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 15px var(--accent-glow);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.search-icon {
+  color: var(--text-muted);
+  margin-right: 8px;
+}
+
+.search-bar-wrapper:focus-within .search-icon {
+  color: var(--accent-secondary);
+}
+
+.global-search-input {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  width: 140px;
+  outline: none;
+  transition: width 0.3s ease;
+}
+
+.global-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.global-search-input:focus {
+  width: 180px;
+}
+
+.theme-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 100px;
+  padding: 6px 12px;
+  transition: var(--transition-smooth);
+}
+
+.theme-icon {
+  color: var(--accent-tertiary);
+}
+
+.theme-dropdown {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  padding-right: 8px;
+}
+
+.theme-dropdown option {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.theme-selector:hover {
+  border-color: var(--accent-tertiary);
+  box-shadow: 0 0 15px var(--accent-glow-purple);
+}
+
 .mobile-toggle {
   display: none;
   background: none;
@@ -97,6 +185,23 @@
 .mobile-nav-item.active {
   background: hsla(var(--accent-primary), 0.1);
   color: hsl(var(--accent-primary));
+}
+
+.mobile-actions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.mobile-search .global-search-input {
+  width: 100%;
+}
+
+.mobile-search:focus-within .global-search-input {
+  width: 100%;
 }
 
 .main-content {
@@ -214,6 +319,9 @@
 
 @media (max-width: 768px) {
   .nav-links {
+    display: none;
+  }
+  .nav-global-actions {
     display: none;
   }
   .mobile-toggle {

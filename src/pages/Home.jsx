@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ArrowRight, Clock, X, Search, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown, PenTool, Microscope } from 'lucide-react';
+import { ArrowRight, Clock, X, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown, PenTool, Microscope } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSearch } from '../contexts/SearchContext';
+import { useBookmarks } from '../contexts/BookmarkContext';
 import newsData from '../data/news.json';
 import booksData from '../data/books.json';
 import essaysData from '../data/essays.json';
@@ -136,7 +138,8 @@ const TypewriterMarkdown = ({ text }) => {
 export default function Home() {
   const [news, setNews] = useState(newsData);
   const [selectedArticle, setSelectedArticle] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const { searchTerm } = useSearch();
+  const { toggleBookmark, isBookmarked } = useBookmarks();
   const [activeCategory, setActiveCategory] = useState('Todas');
   const [visibleCount, setVisibleCount] = useState(7); // 1 featured + 6 regular
   
@@ -168,13 +171,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [bridgeUrl]);
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    setVisibleCount(7);
-    playSound('hover');
-  };
-
-  const categories = ['Todas', ...new Set(news.map(item => item.category).filter(Boolean))];
+  const categories = ['Todas', 'Guardados', ...new Set(news.map(item => item.category).filter(Boolean))];
 
   const getReadingTime = (text) => {
     if (!text) return 1;
@@ -204,9 +201,16 @@ export default function Home() {
   const filteredNews = news.filter((item) => {
     const title = item.title || '';
     const excerpt = item.excerpt || '';
-    const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === 'Todas' || item.category === activeCategory;
+    const matchesSearch = title.toLowerCase().includes((searchTerm || '').toLowerCase()) || 
+                          excerpt.toLowerCase().includes((searchTerm || '').toLowerCase());
+    
+    let matchesCategory = true;
+    if (activeCategory === 'Guardados') {
+      matchesCategory = isBookmarked(item.id);
+    } else if (activeCategory !== 'Todas') {
+      matchesCategory = item.category === activeCategory;
+    }
+
     return matchesSearch && matchesCategory;
   });
 
@@ -322,15 +326,6 @@ export default function Home() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <div className="search-box">
-          <Search size={18} className="search-icon" />
-          <input 
-            type="text" 
-            placeholder="Analizar patrones y transmisiones de la resistencia..." 
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
-        </div>
         <div className="categories-filter">
           <AnimatePresence>
             {categories.map((cat) => (
@@ -391,6 +386,12 @@ export default function Home() {
                         <span className="badge-futuristic glow-badge">{featuredNews.category}</span>
                         <span className="hero-date"><Clock size={14} /> {getRelativeTime(featuredNews.date)}</span>
                         <span className="hero-date"><BookOpen size={14} /> {getReadingTime(featuredNews.fullText)} min</span>
+                        <button 
+                          className={`btn-bookmark ${isBookmarked(featuredNews.id) ? 'bookmarked' : ''}`}
+                          onClick={(e) => { e.stopPropagation(); toggleBookmark(featuredNews.id); }}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={isBookmarked(featuredNews.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                        </button>
                       </div>  
                       <h2 className="hero-title glitch-text" data-text={featuredNews.title}>{featuredNews.title}</h2>
                       <p className="hero-excerpt">{featuredNews.excerpt}</p>
@@ -447,7 +448,15 @@ export default function Home() {
                             )}
                             <div className="bento-footer">
                               <span className="bento-date"><Clock size={12} /> {getRelativeTime(item.date)}</span>
-                              <div className="bento-read-icon"><ArrowRight size={16} /></div>
+                              <div className="bento-footer-actions">
+                                <button 
+                                  className={`btn-bookmark-small ${isBookmarked(item.id) ? 'bookmarked' : ''}`}
+                                  onClick={(e) => { e.stopPropagation(); toggleBookmark(item.id); }}
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill={isBookmarked(item.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                                </button>
+                                <div className="bento-read-icon"><ArrowRight size={16} /></div>
+                              </div>
                             </div>
                           </div>
                         </motion.article>

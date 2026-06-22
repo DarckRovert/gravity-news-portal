@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { BookOpen, Download, Search, Library, Bookmark } from 'lucide-react';
+import { BookOpen, Download, Library, Bookmark } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useSearch } from '../contexts/SearchContext';
+import { useBookmarks } from '../contexts/BookmarkContext';
 import booksData from '../data/books.json';
 import './Books.css';
 
 export default function Books() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const { searchTerm } = useSearch();
+  const { toggleBookmark, isBookmarked } = useBookmarks();
   const [activeTab, setActiveTab] = useState('Todos');
 
   // Library statistics
@@ -16,16 +19,23 @@ export default function Books() {
     libros: booksData.filter(b => b.category === 'Libro').length,
   };
 
-  const tabs = ['Todos', 'Ensayo', 'Ficción', 'Libro'];
+  const tabs = ['Todos', 'Guardados', 'Ensayo', 'Ficción', 'Libro'];
 
   // Filter books based on search query and category tab
   const filteredBooks = booksData.filter((book) => {
     const title = book.title || '';
     const description = book.description || '';
     
-    const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesTab = activeTab === 'Todos' || book.category === activeTab;
+    const matchesSearch = title.toLowerCase().includes((searchTerm || '').toLowerCase()) || 
+                          description.toLowerCase().includes((searchTerm || '').toLowerCase());
+    
+    let matchesTab = true;
+    if (activeTab === 'Guardados') {
+      matchesTab = isBookmarked(book.id);
+    } else if (activeTab !== 'Todos') {
+      matchesTab = book.category === activeTab;
+    }
+    
     return matchesSearch && matchesTab;
   });
 
@@ -74,16 +84,6 @@ export default function Books() {
 
       {/* Search and Navigation Tabs */}
       <div className="books-filter-bar glass-panel animate-slide-up" style={{ animationDelay: '0.4s' }}>
-        <div className="books-search-box">
-          <Search size={18} className="search-icon" />
-          <input 
-            type="text" 
-            placeholder="Buscar por título, tesis, sinopsis..." 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        
         <div className="books-tabs">
           {tabs.map((tab) => (
             <button 
@@ -128,8 +128,14 @@ export default function Books() {
                   </Link>
                   <a href={book.htmlUrl} download={`${book.id}.html`} className="btn-book-action secondary" title="Descargar HTML">
                     <Download size={16} />
-                    <span>Descargar</span>
                   </a>
+                  <button 
+                    className={`btn-bookmark-book ${isBookmarked(book.id) ? 'bookmarked' : ''}`}
+                    onClick={(e) => { e.preventDefault(); toggleBookmark(book.id); }}
+                    title={isBookmarked(book.id) ? "Quitar de Guardados" : "Guardar para después"}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill={isBookmarked(book.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                  </button>
                 </div>
               </div>
             </div>

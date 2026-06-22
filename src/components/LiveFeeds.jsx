@@ -18,21 +18,19 @@ const mediaData = {
     { id: 'skynews', title: 'SKY NEWS (MONITOR GLOBAL)', videoId: 'YDvsBbKfLPA', badge: 'LIVE' }
   ],
   cinema: [
-    { id: 'shaman', title: 'THE SHAMAN (Ficción Distópica)', videoId: 'j_R9kCqxYxY', badge: '4K CINE' },
-    { id: 'ruin', title: 'RUIN (Mundo Post-Apocalíptico)', videoId: '3p9DLD_rbm0', badge: 'ANIMACIÓN' },
-    { id: 'slice', title: 'SLICE OF LIFE (Cyberpunk)', videoId: 'XfQ_d_mR85o', badge: 'COMUNIDAD' },
-    { id: 'ftl', title: 'FTL (Exploración Espacial)', videoId: 'l4mY2asQhEE', badge: 'SCI-FI' },
+    { id: 'atenas', title: 'DESCALZO EN ATENAS (1966)', videoId: 'j_R9kCqxYxY', badge: 'FILOSOFÍA' },
+    { id: 'banquete', title: 'EL BANQUETE DE PLATÓN (1989)', videoId: '3p9DLD_rbm0', badge: 'FILOSOFÍA' },
+    { id: 'inshadow', title: 'IN SHADOW: A Modern Odyssey', videoId: 'j800SVeiS5I', badge: 'ANIMACIÓN' },
+    { id: 'kungfury', title: 'KUNG FURY (Cyber-Retro 80s)', videoId: 'bS5P_LAqiVg', badge: 'CULT CLASH' },
     { id: 'hyper', title: 'HYPER-REALITY (Saturación AR)', videoId: 'YJg02ivYzSs', badge: 'VISION' },
-    { id: 'avarya', title: 'AVARYA (Atrapado con una IA)', videoId: 'b_fLp7X0yJc', badge: 'ANIMACIÓN' },
-    { id: 'archetype', title: 'ARCHETYPE (Combate Mecanizado)', videoId: 'KB53H3-qOAO', badge: 'SCI-FI' },
-    { id: 'plurality', title: 'PLURALITY (Vigilancia Total)', videoId: 'IzryBRPsyJE', badge: 'DYSTOPIA' },
-    { id: 'cc', title: 'C.C. (Droga Sintética del Futuro)', videoId: '1z801gJm2E8', badge: 'CORTOMETRAJE' }
+    { id: 'wanderers', title: 'WANDERERS (El Futuro Humano)', videoId: 'YH3c1QZzRK4', badge: 'SCI-FI' },
+    { id: 'metropolis', title: 'METROPOLIS (1927 - Distopía Clásica)', videoId: 'gdtZv3XROnc', badge: 'CINE CLÁSICO' }
   ],
   docs: [
-    { id: 'agi', title: 'EL FIN DE LA HUMANIDAD (AGI)', videoId: '7Pq-S557XQU', badge: 'DOC' },
-    { id: 'neural', title: 'NEURALINK & TRANSHUMANISMO', videoId: '7sZIfGE9P3U', badge: 'DOC' },
-    { id: 'nsa', title: 'EL ESTADO DE VIGILANCIA GLOBAL', videoId: 'XEVlyP4_11M', badge: 'LEAK' },
-    { id: 'sim', title: '¿VIVIMOS EN UNA SIMULACIÓN?', videoId: '3d9i_0Tx7A', badge: 'DOC' }
+    { id: 'horses', title: 'EL FIN DEL TRABAJO (CGP Grey)', videoId: '7Pq-S557XQU', badge: 'DOC' },
+    { id: 'egg', title: 'EL HUEVO (Kurzgesagt)', videoId: 'h6fcK_fRYaI', badge: 'DOC' },
+    { id: 'nsa', title: 'VIGILANCIA GLOBAL (John Oliver)', videoId: 'XEVlyP4_11M', badge: 'LEAK' },
+    { id: 'nihilism', title: 'NIHILISMO OPTIMISTA', videoId: 'MBRqu0YOH14', badge: 'DOC' }
   ]
 };
 

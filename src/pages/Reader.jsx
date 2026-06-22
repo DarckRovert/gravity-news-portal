@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Sun, Moon, Book, Download, ZoomIn, ZoomOut, Type } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Sun, Moon, Book, Download, ZoomIn, ZoomOut, Type, Bookmark } from 'lucide-react';
 import booksData from '../data/books.json';
+import { useBookmarks } from '../contexts/BookmarkContext';
 import './Reader.css';
 
 export default function Reader() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { toggleBookmark, isBookmarked } = useBookmarks();
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   
@@ -104,6 +107,14 @@ export default function Reader() {
 
         {/* Reader Configuration Panel */}
         <div className="nav-right font-controls">
+          <button 
+            className={`btn-nav-control ${isBookmarked(book.id) ? 'active' : ''}`}
+            onClick={() => toggleBookmark(book.id)}
+            title={isBookmarked(book.id) ? "Quitar de Guardados" : "Guardar en Biblioteca"}
+          >
+            <Bookmark size={16} fill={isBookmarked(book.id) ? "currentColor" : "none"} />
+          </button>
+          <div className="vertical-divider"></div>
           <button className="btn-nav-control" onClick={handleZoomOut} title="Reducir fuente">
             <ZoomOut size={16} />
           </button>

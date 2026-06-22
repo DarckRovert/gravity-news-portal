@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { ArrowRight, Clock, X, Cpu, Wifi, WifiOff, BookOpen, AlertTriangle, Share2, ChevronDown, PenTool, Microscope } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearch } from '../contexts/SearchContext';
@@ -142,6 +143,7 @@ export default function Home() {
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [activeCategory, setActiveCategory] = useState('Todas');
   const [visibleCount, setVisibleCount] = useState(7); // 1 featured + 6 regular
+  const navigate = useNavigate();
   
   // Bridge State
   const [bridgeUrl, setBridgeUrl] = useState(() => localStorage.getItem('bridgeUrl') || 'http://localhost:7860');
@@ -578,9 +580,9 @@ export default function Home() {
                   <div className="mini-details">
                     <h4>{book.title}</h4>
                     <span>{book.category}</span>
-                    <a href={`/book/${book.id}`} className="mini-read-link">
+                    <Link to={`/book/${book.id}`} className="mini-read-link">
                       Leer Tomo <ArrowRight size={12} />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -600,7 +602,7 @@ export default function Home() {
             </div>
             <div className="sidebar-books-list">
               {essaysData.slice(0, 2).map((essay) => (
-                <div key={essay.id} className="sidebar-book-item hover-lift" onClick={() => window.location.href = '/ensayos'}>
+                <div key={essay.id} className="sidebar-book-item hover-lift" onClick={() => navigate('/ensayos')}>
                   <div className="mini-cover">
                     <img src={essay.image} alt={essay.title} />
                   </div>
@@ -611,7 +613,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <a href="/ensayos" className="btn-glow-read" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none' }}>Ver Todos</a>
+            <Link to="/ensayos" className="btn-glow-read" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none' }}>Ver Todos</Link>
           </motion.div>
 
           {/* Featured Science Showcase */}
@@ -627,7 +629,7 @@ export default function Home() {
             </div>
             <div className="sidebar-books-list">
               {scienceData.slice(0, 2).map((article) => (
-                <div key={article.id} className="sidebar-book-item hover-lift" onClick={() => window.location.href = '/ciencia'}>
+                <div key={article.id} className="sidebar-book-item hover-lift" onClick={() => navigate('/ciencia')}>
                   <div className="mini-cover">
                     <img src={article.image} alt={article.title} />
                   </div>
@@ -638,7 +640,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <a href="/ciencia" className="btn-glow-read" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none', borderColor: '#60a5fa', color: '#60a5fa' }}>Ver Todos</a>
+            <Link to="/ciencia" className="btn-glow-read" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none', borderColor: '#60a5fa', color: '#60a5fa' }}>Ver Todos</Link>
           </motion.div>
         </aside>
       </div>

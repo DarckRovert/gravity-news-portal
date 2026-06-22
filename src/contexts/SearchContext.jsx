@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo } from 'react';
 
 const SearchContext = createContext();
 
@@ -14,8 +14,10 @@ export const useSearch = () => {
 export const SearchProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
+  const value = useMemo(() => ({ searchTerm, setSearchTerm }), [searchTerm]);
+
   return (
-    <SearchContext.Provider value={{ searchTerm, setSearchTerm }}>
+    <SearchContext.Provider value={value}>
       {children}
     </SearchContext.Provider>
   );

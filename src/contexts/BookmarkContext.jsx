@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 
 const BookmarkContext = createContext();
 
@@ -30,18 +30,20 @@ export const BookmarkProvider = ({ children }) => {
     }
   }, [bookmarks]);
 
-  const toggleBookmark = (id) => {
+  const toggleBookmark = useCallback((id) => {
     setBookmarks(prev => 
       prev.includes(id) 
         ? prev.filter(bId => bId !== id)
         : [...prev, id]
     );
-  };
+  }, []);
 
-  const isBookmarked = (id) => bookmarks.includes(id);
+  const isBookmarked = useCallback((id) => bookmarks.includes(id), [bookmarks]);
+
+  const value = useMemo(() => ({ bookmarks, toggleBookmark, isBookmarked }), [bookmarks, toggleBookmark, isBookmarked]);
 
   return (
-    <BookmarkContext.Provider value={{ bookmarks, toggleBookmark, isBookmarked }}>
+    <BookmarkContext.Provider value={value}>
       {children}
     </BookmarkContext.Provider>
   );

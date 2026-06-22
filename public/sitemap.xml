@@ -6,6 +6,21 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=la-inteligencia-artificial-en-la-prctica-clnica-un-anlisis-crtico-de-su-impacto-y-riesgos</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nexo-agora.netlify.app/?article=el-per-implementa-la-ia-para-proteger-a-poblaciones-vulnerables-un-paso-hacia-la-vigilancia-masiva</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nexo-agora.netlify.app/?article=el-estado-peruano-avanza-en-la-implementacin-de-la-inteligencia-artificial-para-el-control-y-la-vigilancia-de-poblaciones-vulnerables</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=la-censura-cultural-en-el-per-un-paso-hacia-el-control-totalitario</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -62,21 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=la-sombra-del-control-algortmico-en-amrica-latina-el-caso-de-per</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=asesinato-en-comisara-de-per-el-estado-como-monopolio-de-la-violencia</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=implementacin-de-controles-de-identidad-en-accesos-a-lima-un-ejercicio-de-vigilancia-y-control-social</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=miraflores-bajo-la-lupa-de-la-vigilancia-implementacin-masiva-de-cmaras-de-ia-para-la-seguridad-ciudadana</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

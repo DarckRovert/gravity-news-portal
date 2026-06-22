@@ -3,7 +3,7 @@
   <br><br>
 
   [![Autor](https://img.shields.io/badge/Author-DarckRovert-818cf8.svg?style=flat-square)](https://github.com/DarckRovert)
-  [![Licencia](https://img.shields.io/badge/License-Proprietary-red.svg?style=flat-square)](LICENSE)
+  [![Licencia](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE.md)
   [![Release](https://img.shields.io/badge/Release-V16.0_Frontend-6366f1.svg?style=flat-square)]()
   [![Twitch](https://img.shields.io/badge/Twitch-DarckRovert-9146ff.svg?style=flat-square&logo=twitch)](https://twitch.tv/darckrovert)
 
@@ -29,9 +29,9 @@ Funciona de manera *Decoupled* (Desacoplada).
 
 ### 📰 Características del Portal
  - **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
+ - **Nexo Multimedia:** Monitoreo global interactivo con señales en vivo, documentales de inteligencia y cine de resistencia comunitaria. Animaciones mediante Framer Motion.
  - **Sincronización Cuántica:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860` para generar noticias **en tiempo real** (cuando la PC está encendida). Si falla, el portal es resiliente y cambiará a modo estático sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
  - **Renderizado Seguro:** La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.
- - **Auto-Mantenimiento:** Limpieza de librerías y portadas de libros automáticas (Script `sync_books.js`).
  - **Field Reporters (Enlace Terrestre):** Overlay táctico holográfico para enlazar y visualizar a los periodistas de contingencia en vivo (ej. TikTok Live), sorteando los bloqueos de seguridad de iframes externos.
 
 ---

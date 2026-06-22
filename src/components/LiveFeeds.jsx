@@ -4,50 +4,24 @@ import { Maximize2, X, Radio, Film, FolderLock, Play } from 'lucide-react';
 import FieldReporters from './FieldReporters';
 import './LiveFeeds.css';
 
+import mediaData from '../data/media.json';
+
 const mediaCategories = [
   { id: 'live', label: 'Monitoreo Global', icon: Radio, pulse: true },
   { id: 'cinema', label: 'Cine de Resistencia', icon: Film, pulse: false },
   { id: 'docs', label: 'Archivos Desclasificados', icon: FolderLock, pulse: false }
 ];
 
-const mediaData = {
-  live: [
-    { id: 'nasa', title: 'NASA ISS LIVE (ORBITAL)', videoId: 'XkM_04Ch76E', badge: 'LIVE' },
-    { id: 'aljazeera', title: 'AL JAZEERA (SUR GLOBAL)', channelId: 'UCNye-wNBqNL5ZzHSJj3l8Bg', badge: 'LIVE' },
-    { id: 'dw', title: 'DW NEWS (EUROASIA)', videoId: '2E8QS55GwpY', badge: 'LIVE' },
-    { id: 'skynews', title: 'SKY NEWS (MONITOR GLOBAL)', videoId: 'YDvsBbKfLPA', badge: 'LIVE' }
-  ],
-  cinema: [
-    { id: 'atenas', title: 'DESCALZO EN ATENAS (1966)', videoId: 'j_R9kCqxYxY', badge: 'FILOSOFÍA' },
-    { id: 'banquete', title: 'EL BANQUETE DE PLATÓN (1989)', videoId: '3p9DLD_rbm0', badge: 'FILOSOFÍA' },
-    { id: 'inshadow', title: 'IN SHADOW: A Modern Odyssey', videoId: 'j800SVeiS5I', badge: 'ANIMACIÓN' },
-    { id: 'kungfury', title: 'KUNG FURY (Cyber-Retro 80s)', videoId: 'bS5P_LAqiVg', badge: 'CULT CLASH' },
-    { id: 'hyper', title: 'HYPER-REALITY (Saturación AR)', videoId: 'YJg02ivYzSs', badge: 'VISION' },
-    { id: 'wanderers', title: 'WANDERERS (El Futuro Humano)', videoId: 'YH3c1QZzRK4', badge: 'SCI-FI' },
-    { id: 'metropolis', title: 'METROPOLIS (1927 - Distopía Clásica)', videoId: 'gdtZv3XROnc', badge: 'CINE CLÁSICO' },
-    { id: 'lajetee', title: 'LA JETÉE (1962 - Viajes en el Tiempo)', videoId: 'aOjaEOgMv4M', badge: 'CULT CLASH' },
-    { id: 'luna', title: 'EL VIAJE A LA LUNA (1902 - George Méliès)', videoId: 'ZNAHcMMOHE8', badge: 'HISTORIA' },
-    { id: 'nosferatu', title: 'NOSFERATU (1922 - Terror Mudo)', videoId: 'FC6jFoYm3xs', badge: 'CINE CLÁSICO' },
-    { id: 'charlie', title: 'TIEMPOS MODERNOS (1936 - C. Chaplin)', videoId: 'HAPifiEQflE', badge: 'CRÍTICA' },
-    { id: 'caverna', title: 'EL MITO DE LA CAVERNA (Platón Animado)', videoId: '69F7GhASOdM', badge: 'ANIMACIÓN' }
-  ],
-  docs: [
-    { id: 'internetboy', title: 'THE INTERNET\'S OWN BOY (Aaron Swartz)', videoId: '9vz06QO3UkQ', badge: 'LEAK' },
-    { id: 'horses', title: 'EL FIN DEL TRABAJO (CGP Grey)', videoId: '7Pq-S557XQU', badge: 'DOC' },
-    { id: 'nsa', title: 'VIGILANCIA GLOBAL (John Oliver)', videoId: 'XEVlyP4_11M', badge: 'LEAK' },
-    { id: 'egg', title: 'EL HUEVO (La Vida y el Universo)', videoId: 'h6fcK_fRYaI', badge: 'DOC' },
-    { id: 'nihilism', title: 'NIHILISMO OPTIMISTA (Kurzgesagt)', videoId: 'MBRqu0YOH14', badge: 'FILOSOFÍA' },
-    { id: 'fermi', title: 'LA PARADOJA DE FERMI (¿Dónde están?)', videoId: 'sNhhvQGsMEc', badge: 'COSMOS' },
-    { id: 'dalio', title: 'CÓMO FUNCIONA LA MÁQUINA ECONÓMICA', videoId: 'PHe0bXAIuk0', badge: 'GEOPOLÍTICA' },
-    { id: 'snowden', title: 'EDWARD SNOWDEN: Entrevista Extendida', videoId: 'tEHWZvGEt7M', badge: 'LEAK' },
-    { id: 'deepweb', title: 'LA DEEP WEB Y EL CIFRADO', videoId: '5iONN9n6sZ0', badge: 'CYBER' },
-    { id: 'blackholes', title: 'EL FINAL DEL UNIVERSO (Agujeros Negros)', videoId: 'Qam5BkXIGYA', badge: 'COSMOS' }
-  ]
-};
-
 const LiveFeeds = () => {
   const [activeTab, setActiveTab] = useState('live');
   const [fullScreenVideo, setFullScreenVideo] = useState(null);
+  const [playingVideo, setPlayingVideo] = useState({});
+  const [visibleCount, setVisibleCount] = useState(8);
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    setVisibleCount(8); // Reset pagination on tab change
+  };
 
   const handleExpand = (feed) => {
     setFullScreenVideo(feed);
@@ -58,6 +32,16 @@ const LiveFeeds = () => {
   };
 
   const currentMedia = mediaData[activeTab] || [];
+  const visibleMedia = currentMedia.slice(0, visibleCount);
+  const hasMore = visibleCount < currentMedia.length;
+
+  const loadMore = () => {
+    setVisibleCount((prev) => prev + 8);
+  };
+
+  const playVideo = (feedId) => {
+    setPlayingVideo((prev) => ({ ...prev, [feedId]: true }));
+  };
 
   return (
     <section className="live-feeds-container">
@@ -77,7 +61,7 @@ const LiveFeeds = () => {
             <button
               key={cat.id}
               className={`nexus-tab-btn ${isActive ? 'active' : ''}`}
-              onClick={() => setActiveTab(cat.id)}
+              onClick={() => handleTabChange(cat.id)}
             >
               <span className="tab-icon-wrapper">
                 <Icon size={16} />
@@ -103,7 +87,7 @@ const LiveFeeds = () => {
             transition={{ duration: 0.4, staggerChildren: 0.1 }}
             className="live-feeds-grid"
           >
-            {currentMedia.map((feed, index) => (
+            {visibleMedia.map((feed, index) => (
               <motion.div 
                 key={feed.id} 
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -116,17 +100,31 @@ const LiveFeeds = () => {
                   <span className={`feed-badge ${activeTab}`}>{feed.badge}</span>
                 </div>
                 <div className="feed-video-wrapper">
-                  <iframe 
-                    src={feed.videoId 
-                      ? `https://www.youtube.com/embed/${feed.videoId}?autoplay=0&mute=0&controls=1&modestbranding=1`
-                      : `https://www.youtube.com/embed/live_stream?channel=${feed.channelId}&autoplay=0&mute=0&controls=1&modestbranding=1`
-                    } 
-                    title={feed.title} 
-                    frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowFullScreen
-                    loading="lazy"
-                  ></iframe>
+                  {playingVideo[feed.id] || !feed.videoId ? (
+                    <iframe 
+                      src={feed.videoId 
+                        ? `https://www.youtube.com/embed/${feed.videoId}?autoplay=1&mute=0&controls=1&modestbranding=1`
+                        : `https://www.youtube.com/embed/live_stream?channel=${feed.channelId}&autoplay=0&mute=0&controls=1&modestbranding=1`
+                      } 
+                      title={feed.title} 
+                      frameBorder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowFullScreen
+                      loading="lazy"
+                    ></iframe>
+                  ) : (
+                    <div className="lazy-thumbnail-wrapper" onClick={() => playVideo(feed.id)}>
+                      <img 
+                        src={`https://img.youtube.com/vi/${feed.videoId}/maxresdefault.jpg`} 
+                        onError={(e) => { e.target.src = `https://img.youtube.com/vi/${feed.videoId}/hqdefault.jpg`; }}
+                        alt={feed.title} 
+                        className="lazy-thumbnail"
+                      />
+                      <div className="play-button-overlay">
+                        <Play fill="white" size={36} />
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="feed-overlay">
                   <button 
@@ -141,6 +139,14 @@ const LiveFeeds = () => {
             ))}
           </motion.div>
         </AnimatePresence>
+        
+        {hasMore && (
+          <div className="load-more-container">
+            <button className="btn-load-more" onClick={loadMore}>
+              CARGAR MÁS ARCHIVOS
+            </button>
+          </div>
+        )}
       </div>
       
       {/* Full Screen Video Modal */}

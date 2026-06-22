@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nexo-agora.netlify.app/?article=per-flexibiliza-el-control-sobre-especies-forestales-protegidas-un-paso-hacia-la-desregulacin</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nexo-agora.netlify.app/?article=inmobiliarias-pueden-aumentar-hasta-27-veces-sus-reservas-calificadas-mediante-inteligencia-artificial</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -72,11 +77,6 @@
   </url>
   <url>
     <loc>https://nexo-agora.netlify.app/?article=el-bcrp-y-la-danza-del-dlar-una-estrategia-para-controlar-la-inflacin-o-un-juego-de-poder</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nexo-agora.netlify.app/?article=transmisin-clandestina-de-la-zona-gora</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

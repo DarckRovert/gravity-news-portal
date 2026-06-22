@@ -1,5 +1,15 @@
 [
   {
+    "category": "Control Biométrico",
+    "title": "Perú flexibiliza el control sobre especies forestales protegidas: ¿Un paso hacia la desregulación?",
+    "excerpt": "Recientes modificaciones a la Ley Forestal en Perú han generado preocupación entre los defensores del medio ambiente, ya que flexibilizan el control sobre especies forestales protegidas por la Convención CITES. Estos cambios permiten un muestreo representativo en lugar de una inspección ocular del 100% de los árboles, lo que podría facilitar la extracción ilegal de madera.",
+    "fullText": "### Introducción\nLa reciente modificación a la Ley Forestal en Perú, conocida como Ley 32643, ha generado un debate intenso entre los defensores del medio ambiente y los sectores económicos. Según fuentes como Ojo-Público, esta modificación flexibiliza el control sobre especies forestales protegidas por la Convención CITES, permitiendo un muestreo representativo en lugar de una inspección ocular del 100% de los árboles.\n\n### Implicaciones de la modificación\nEste cambio ha sido cuestionado por organizaciones ambientales, quienes argumentan que reduce los niveles de protección y control de las especies catalogadas en la CITES. La nueva metodología, que reemplaza la verificación individual de los árboles por un muestreo, podría facilitar la extracción ilegal de madera, como se menciona en un artículo de Mongabay.\n\n### Implementación del sistema electrónico eCITES\nPor otro lado, el Servicio Nacional Forestal y de Fauna Silvestre (Serfor) ha avanzado en la implementación del sistema electrónico eCITES, una herramienta diseñada para modernizar la gestión del comercio internacional de especies silvestres. Según Diario Correo, este sistema contribuirá al fortalecimiento de los mecanismos de control y permitirá consolidar una gestión más eficiente de los permisos vinculados al comercio internacional de especies forestales y fauna silvestre.\n\n### Conclusión\nLa flexibilización del control sobre especies forestales protegidas en Perú es un tema complejo que requiere un análisis detallado. Mientras que algunos argumentan que estas modificaciones agilizarán las evaluaciones y optimizarán los recursos públicos, otros temen que puedan facilitar la extracción ilegal de madera y dañar la biodiversidad del país. Es fundamental seguir monitoreando los efectos de estas modificaciones y asegurarse de que se implementen medidas efectivas para proteger las especies forestales y la fauna silvestre en Perú.\n\nFuentes:\n- Ojo-Público: Perú flexibiliza el control previo sobre especies forestales protegidas por Cites\n- Mongabay: Perú: cuestionan cambio en ley forestal que reduce estándares para especies Cites\n- Diario Correo: Perú moderniza control de exportación de especies silvestres con sistema electrónico eCITES",
+    "featured": true,
+    "id": "per-flexibiliza-el-control-sobre-especies-forestales-protegidas-un-paso-hacia-la-desregulacin",
+    "date": "2026-06-22T14:36:21.520896",
+    "image": "https://image.pollinations.ai/prompt/cyberpunk%20news%20dark%20photorealistic%20Per%C3%BA%20flexibiliza%20el%20control%20sobre%20especies%20forestales%20protegidas%3A%20%C2%BFUn%20paso%20hacia%20la%20desregulaci%C3%B3n%3F?width=800&height=600&nologo=true"
+  },
+  {
     "category": "Tecnología Descentralizada",
     "title": "Inmobiliarias pueden aumentar hasta 27 veces sus reservas calificadas mediante Inteligencia Artificial",
     "excerpt": "Las inmobiliarias que incorporan inteligencia artificial pueden alcanzar multiplicadores de reservas de hasta 27,1 veces. Esto se debe a la optimización de procesos y la calificación de prospectos. Según fuentes como Infobae, Revista Economía y Business Empresarial, la IA está revolucionando el sector inmobiliario.\nLa implementación de tecnología para la calificación de prospectos y la optimización de procesos puede mejorar significativamente los resultados de las inmobiliarias.",
@@ -138,22 +148,5 @@
     "id": "el-bcrp-y-la-danza-del-dlar-una-estrategia-para-controlar-la-inflacin-o-un-juego-de-poder",
     "date": "2026-06-20T13:35:28.544450",
     "image": "https://image.pollinations.ai/prompt/cyberpunk%20news%20dark%20photorealistic%20El%20BCRP%20y%20la%20danza%20del%20d%C3%B3lar%3A%20%C2%BFuna%20estrategia%20para%20controlar%20la%20inflaci%C3%B3n%20o%20un%20juego%20de%20poder%3F?width=800&height=600&nologo=true"
-  },
-  {
-    "choices": [
-      {
-        "delta": {
-          "content": "\n\n[**SYSTEM ERROR**: Fallo crítico de conexión con la nube. Error: 403 Client Error: Forbidden for url: https://integrate.api.nvidia.com/v1/chat/completions]\n\n"
-        }
-      }
-    ],
-    "title": "Transmisión Clandestina de la Zona Ágora",
-    "excerpt": "Reporte interceptado de los nodos de Gravity AI en el subsuelo.",
-    "fullText": "### Canal de contingencia activo\n\nNo se pudo decodificar el contenido completo.",
-    "category": "Tecnología Descentralizada",
-    "featured": false,
-    "id": "transmisin-clandestina-de-la-zona-gora",
-    "date": "2026-06-20T12:22:08.163862",
-    "image": "https://image.pollinations.ai/prompt/cyberpunk%20news%20dark%20photorealistic%20Transmisi%C3%B3n%20Clandestina%20de%20la%20Zona%20%C3%81gora?width=800&height=600&nologo=true"
   }
 ]

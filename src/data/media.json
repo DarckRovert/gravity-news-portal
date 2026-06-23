@@ -1,9 +1,9 @@
 {
   "live": [
-    { "id": "nasa", "title": "NASA ISS LIVE (ORBITAL)", "videoId": "XkM_04Ch76E", "badge": "LIVE", "channelId": null },
+    { "id": "nasa", "title": "NASA ISS LIVE (ORBITAL)", "videoId": null, "badge": "LIVE", "channelId": "UC29znh5D3e5T5x21Q94-7_Q" },
     { "id": "aljazeera", "title": "AL JAZEERA (SUR GLOBAL)", "videoId": null, "badge": "LIVE", "channelId": "UCNye-wNBqNL5ZzHSJj3l8Bg" },
-    { "id": "dw", "title": "DW NEWS (EUROASIA)", "videoId": "2E8QS55GwpY", "badge": "LIVE", "channelId": null },
-    { "id": "skynews", "title": "SKY NEWS (MONITOR GLOBAL)", "videoId": "YDvsBbKfLPA", "badge": "LIVE", "channelId": null }
+    { "id": "dw", "title": "DW NEWS (EUROASIA)", "videoId": null, "badge": "LIVE", "channelId": "UCknLrEdhRCp3B5a2eR6v78A" },
+    { "id": "skynews", "title": "SKY NEWS (MONITOR GLOBAL)", "videoId": null, "badge": "LIVE", "channelId": "UCz6xrIMy9FhR382iH22uLpQ" }
   ],
   "cinema": [
     { "id": "atenas", "title": "DESCALZO EN ATENAS (1966)", "videoId": "j_R9kCqxYxY", "badge": "FILOSOFÍA" },

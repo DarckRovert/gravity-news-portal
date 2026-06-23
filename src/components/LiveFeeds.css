@@ -212,9 +212,10 @@
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 12px;
+  gap: 8px;
   pointer-events: none;
   background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
   background-size: 100% 2px, 3px 100%;
@@ -230,12 +231,12 @@
 
 .btn-expand-video {
   pointer-events: auto;
-  transform: scale(0.8);
+  transform: scale(0.8) translateY(-10px);
   background: rgba(0, 243, 255, 0.2);
   border: 1px solid var(--accent-secondary);
   color: var(--accent-secondary);
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -247,7 +248,7 @@
 
 .feed-card:hover .btn-expand-video {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1) translateY(0);
 }
 
 .btn-expand-video:hover {

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Sun, Moon, Book, Download, ZoomIn, ZoomOut, Type, Bookmark } from 'lucide-react';
 import booksData from '../data/books.json';
 import { useBookmarks } from '../contexts/BookmarkContext';
@@ -7,7 +7,6 @@ import './Reader.css';
 
 export default function Reader() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);

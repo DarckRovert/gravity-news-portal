@@ -38,12 +38,10 @@ export default function Essays() {
         essay.title.toLowerCase().includes(query.toLowerCase()) ||
         essay.excerpt.toLowerCase().includes(query.toLowerCase());
       
-      let matchesTag = false;
-      if (selectedTag === 'Guardados') {
-        matchesTag = isBookmarked(essay.id);
-      } else {
-        matchesTag = selectedTag === 'Todos' || essay.category === selectedTag;
-      }
+      const matchesTag = selectedTag === 'Guardados' 
+        ? isBookmarked(essay.id) 
+        : (selectedTag === 'Todos' || essay.category === selectedTag);
+      
       return matchesSearch && matchesTag;
     });
   }, [searchTerm, selectedTag, isBookmarked]);

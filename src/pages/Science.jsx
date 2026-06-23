@@ -36,12 +36,10 @@ export default function Science() {
         a.title.toLowerCase().includes(query.toLowerCase()) ||
         (a.excerpt || '').toLowerCase().includes(query.toLowerCase());
       
-      let matchesCat = false;
-      if (selectedCategory === 'Guardados') {
-        matchesCat = isBookmarked(a.id);
-      } else {
-        matchesCat = selectedCategory === 'Todos' || a.category === selectedCategory;
-      }
+      const matchesCat = selectedCategory === 'Guardados'
+        ? isBookmarked(a.id)
+        : (selectedCategory === 'Todos' || a.category === selectedCategory);
+
       return matchesSearch && matchesCat;
     });
   }, [searchTerm, selectedCategory, isBookmarked]);

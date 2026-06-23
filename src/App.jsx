@@ -47,8 +47,8 @@ function Navbar() {
         ))}
       </div>
 
-      {/* Global Actions (Desktop) */}
-      <div className="nav-global-actions">
+      {/* Center Search Bar */}
+      <div className="nav-search-desktop">
         <div className="search-bar-wrapper">
           <Search size={16} className="search-icon" />
           <input 
@@ -59,6 +59,10 @@ function Navbar() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
+      </div>
+
+      {/* Global Actions (Desktop) */}
+      <div className="nav-global-actions">
         
         <div className="theme-selector">
           <Palette size={16} className="theme-icon" />

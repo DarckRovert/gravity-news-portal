@@ -124,6 +124,9 @@
 
 .reporter-card:hover .viewport-overlay.reporter-overlay {
   background: rgba(0, 0, 0, 0.4);
+}
+
+.viewport-overlay button {
   pointer-events: auto;
 }
 

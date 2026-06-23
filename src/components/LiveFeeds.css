@@ -225,11 +225,11 @@
 
 .feed-card:hover .feed-overlay {
   opacity: 1; /* Permite ver el botón al hover */
-  pointer-events: auto;
   background: rgba(0, 0, 0, 0.4);
 }
 
 .btn-expand-video {
+  pointer-events: auto;
   transform: scale(0.8);
   background: rgba(0, 243, 255, 0.2);
   border: 1px solid var(--accent-secondary);

@@ -320,21 +320,20 @@
 }
 
 @media (max-width: 1024px) {
-  .nav-item {
-    padding: 6px 10px;
-    font-size: 0.8rem;
+  .app-container {
+    padding-top: 70px;
+  }
+  .navbar {
+    padding: 10px 16px;
   }
   .nav-links {
-    gap: 4px;
+    display: none;
   }
   .nav-global-actions {
-    gap: 8px;
+    display: none;
   }
-  .global-search-input {
-    width: 110px;
-  }
-  .global-search-input:focus {
-    width: 130px;
+  .mobile-toggle {
+    display: block;
   }
 }
 

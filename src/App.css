@@ -24,12 +24,12 @@
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 1.25rem;
-  color: hsl(var(--text-primary));
+  color: var(--text-primary);
   letter-spacing: -0.05em;
 }
 
 .brand-accent {
-  color: hsla(var(--accent-glow), 1);
+  color: var(--accent-secondary);
 }
 
 .nav-links {
@@ -45,19 +45,19 @@
   border-radius: 100px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: hsl(var(--text-secondary));
+  color: var(--text-secondary);
   transition: all 0.2s ease;
 }
 
 .nav-item:hover {
-  color: hsl(var(--text-primary));
+  color: var(--text-primary);
   background: rgba(255, 255, 255, 0.05);
 }
 
 .nav-item.active {
-  color: hsl(var(--bg-primary));
-  background: hsl(var(--accent-primary));
-  box-shadow: 0 0 15px hsla(var(--accent-glow), 0.4);
+  color: var(--bg-primary);
+  background: var(--accent-primary);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .nav-global-actions {
@@ -152,7 +152,7 @@
   display: none;
   background: none;
   border: none;
-  color: hsl(var(--text-primary));
+  color: var(--text-primary);
   cursor: pointer;
 }
 
@@ -179,13 +179,13 @@
   gap: 12px;
   padding: 12px 16px;
   border-radius: var(--radius-sm);
-  color: hsl(var(--text-secondary));
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .mobile-nav-item.active {
-  background: hsla(var(--accent-primary), 0.1);
-  color: hsl(var(--accent-primary));
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent-primary);
 }
 
 .mobile-actions-wrapper {
@@ -307,13 +307,13 @@
 .page-title {
   font-size: 3rem;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, hsl(var(--text-primary)), hsl(var(--text-secondary)));
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .page-subtitle {
-  color: hsl(var(--text-secondary));
+  color: var(--text-secondary);
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;

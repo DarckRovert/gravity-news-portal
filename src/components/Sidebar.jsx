@@ -139,7 +139,9 @@ export default function Sidebar({
             </div>
           ))}
         </div>
-        <Link to="/ensayos" className="btn-glow-read" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none' }}>Ver Todos</Link>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+          <Link to="/ensayos" className="btn-glow-read" style={{ textDecoration: 'none' }}>Ver Todos</Link>
+        </div>
       </motion.div>
 
       {/* Featured Science Showcase */}
@@ -166,7 +168,9 @@ export default function Sidebar({
             </div>
           ))}
         </div>
-        <Link to="/ciencia" className="btn-glow-read" style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none', borderColor: '#60a5fa', color: '#60a5fa' }}>Ver Todos</Link>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+          <Link to="/ciencia" className="btn-glow-read" style={{ textDecoration: 'none', borderColor: '#60a5fa', color: '#60a5fa' }}>Ver Todos</Link>
+        </div>
       </motion.div>
     </aside>
   );

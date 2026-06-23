@@ -39,7 +39,7 @@ export default function ArticleModal({
           <span className="badge-futuristic modal-category">{selectedArticle.category}</span>
         </div>
         <div className="modal-content">
-          <div className="modal-meta" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div className="modal-meta" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
             <Clock size={14} />
             <span>{selectedArticle.date}</span>
             <span>• Autor: Ojo de IA (Gravity)</span>
@@ -49,7 +49,7 @@ export default function ArticleModal({
               onClick={() => handleShare(selectedArticle)} 
               onMouseEnter={() => playSound('hover')}
               title="Compartir Transmisión"
-              style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px', background: 'var(--accent-glow-purple)', border: '1px solid var(--accent-tertiary)', color: 'var(--text-primary)', padding: '4px 12px', borderRadius: '100px', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'var(--accent-glow-purple)', border: '1px solid var(--accent-tertiary)', color: 'var(--text-primary)', padding: '4px 12px', borderRadius: '100px', cursor: 'pointer' }}
             >
               <Share2 size={14} /> Compartir
             </button>

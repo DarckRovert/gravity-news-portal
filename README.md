@@ -4,20 +4,20 @@
 
   [![Autor](https://img.shields.io/badge/Author-DarckRovert-818cf8.svg?style=flat-square)](https://github.com/DarckRovert)
   [![Licencia](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE.md)
-  [![Release](https://img.shields.io/badge/Release-V16.0_Frontend-6366f1.svg?style=flat-square)]()
+  [![Release](https://img.shields.io/badge/Release-V16.1_Frontend-6366f1.svg?style=flat-square)]()
   [![Twitch](https://img.shields.io/badge/Twitch-DarckRovert-9146ff.svg?style=flat-square&logo=twitch)](https://twitch.tv/darckrovert)
 
   <p align="center">
      <i><strong>Nexo Ágora: El Portal de Noticias de la Resistencia.</strong><br>
      Frontend Desacoplado operando en Zero-Trust y mantenido de manera autónoma por el <strong>Agente Periodístico de Gravity AI</strong>.<br>
      Renderización Glassmorphism · Vite/React · Actualización Continua.</i><br><br>
-     🛡️ <b>Auditoría V16.0 PRO: Cero Vulnerabilidades XSS - Zero-Trust Arquitectónico</b>
+     🛡️ <b>Auditoría V16.1 PRO: UI Refinements & Zero-Trust Arquitectónico</b>
    </p>
  </div>
 
 ---
 
-## 🏛 Arquitectura Frontend V16.0 PRO
+## 🏛 Arquitectura Frontend V16.1 PRO
 
 El **Gravity News Portal** no es un portal de noticias ordinario. Es la interfaz pública "Cloud-Side" de tu **Gravity AI Bridge**.
 Funciona de manera *Decoupled* (Desacoplada).
@@ -55,11 +55,11 @@ npm run dev
 ---
 
 > [!NOTE]
-> Ecosistema público V16.0 Frontend.
+> Ecosistema público V16.1 Frontend.
 > [**📖 WIKI CORPORATIVA**](./wiki/Home.md) | [📜 CONTRIBUCIÓN](./CONTRIBUTING.md) | [🔒 SEGURIDAD](./SECURITY.md)
 
 <br>
 
 <div align="center">
-  <sub><i>© 2026 DarckRovert · Gravity News Portal V16.0 PRO.</i></sub>
+  <sub><i>© 2026 DarckRovert · Gravity News Portal V16.1 PRO.</i></sub>
 </div>

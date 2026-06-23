@@ -157,8 +157,7 @@ const LiveFeeds = () => {
                     onClick={(e) => { e.stopPropagation(); toggleBookmark(feed.id); }}
                     title={isBookmarked(feed.id) ? "Quitar Guardado" : "Guardar Video"}
                     style={{ 
-                      color: isBookmarked(feed.id) ? 'var(--accent-secondary)' : '#fff',
-                      marginLeft: '8px'
+                      color: isBookmarked(feed.id) ? 'var(--accent-secondary)' : '#fff'
                     }}
                   >
                     <Bookmark size={20} fill={isBookmarked(feed.id) ? 'currentColor' : 'none'} />

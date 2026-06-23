@@ -211,6 +211,10 @@
 .feed-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
   pointer-events: none;
   background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
   background-size: 100% 2px, 3px 100%;
@@ -226,10 +230,7 @@
 }
 
 .btn-expand-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
+  transform: scale(0.8);
   background: rgba(0, 243, 255, 0.2);
   border: 1px solid var(--accent-secondary);
   color: var(--accent-secondary);
@@ -246,7 +247,7 @@
 
 .feed-card:hover .btn-expand-video {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: scale(1);
 }
 
 .btn-expand-video:hover {

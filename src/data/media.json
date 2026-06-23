@@ -3,9 +3,9 @@
     {
       "id": "nasa",
       "title": "NASA ISS LIVE (ORBITAL)",
-      "videoId": null,
+      "videoId": "vytmBNhc9ig",
       "badge": "LIVE",
-      "channelId": "UC29znh5D3e5T5x21Q94-7_Q"
+      "channelId": null
     },
     {
       "id": "aljazeera",
@@ -17,16 +17,16 @@
     {
       "id": "dw",
       "title": "DW NEWS (EUROASIA)",
-      "videoId": null,
+      "videoId": "LuKwFajn37U",
       "badge": "LIVE",
-      "channelId": "UCknLrEdhRCp3B5a2eR6v78A"
+      "channelId": null
     },
     {
       "id": "skynews",
       "title": "SKY NEWS (MONITOR GLOBAL)",
-      "videoId": null,
+      "videoId": "YDvsBbKfLPA",
       "badge": "LIVE",
-      "channelId": "UCz6xrIMy9FhR382iH22uLpQ"
+      "channelId": null
     }
   ],
   "cinema": [

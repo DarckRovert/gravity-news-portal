@@ -118,10 +118,10 @@ const LiveFeeds = () => {
                   <span className={`feed-badge ${activeTab}`}>{feed.badge}</span>
                 </div>
                 <div className="feed-video-wrapper">
-                  {playingVideo[feed.id] || !feed.videoId ? (
+                  {playingVideo[feed.id] || feed.badge === 'LIVE' || !feed.videoId ? (
                     <iframe 
                       src={feed.videoId 
-                        ? `https://www.youtube.com/embed/${feed.videoId}?autoplay=1&mute=0&controls=1&modestbranding=1`
+                        ? `https://www.youtube.com/embed/${feed.videoId}?autoplay=${feed.badge === 'LIVE' ? '0' : '1'}&mute=0&controls=1&modestbranding=1`
                         : `https://www.youtube.com/embed/live_stream?channel=${feed.channelId}&autoplay=0&mute=0&controls=1&modestbranding=1`
                       } 
                       title={feed.title} 

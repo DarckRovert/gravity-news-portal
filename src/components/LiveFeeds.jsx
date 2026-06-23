@@ -134,7 +134,18 @@ const LiveFeeds = () => {
                     <div className="lazy-thumbnail-wrapper" onClick={() => playVideo(feed.id)}>
                       <img 
                         src={`https://img.youtube.com/vi/${feed.videoId}/maxresdefault.jpg`} 
-                        onError={(e) => { e.target.src = `https://img.youtube.com/vi/${feed.videoId}/hqdefault.jpg`; }}
+                        onError={(e) => { 
+                          if (!e.target.dataset.triedHq) {
+                            e.target.dataset.triedHq = 'true';
+                            e.target.src = `https://img.youtube.com/vi/${feed.videoId}/hqdefault.jpg`;
+                          } else if (!e.target.dataset.triedMq) {
+                            e.target.dataset.triedMq = 'true';
+                            e.target.src = `https://img.youtube.com/vi/${feed.videoId}/mqdefault.jpg`;
+                          } else if (!e.target.dataset.triedFallback) {
+                            e.target.dataset.triedFallback = 'true';
+                            e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80'; // generic matrix/cyber fallback
+                          }
+                        }}
                         alt={feed.title} 
                         className="lazy-thumbnail"
                       />

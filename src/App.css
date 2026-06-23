@@ -319,6 +319,25 @@
   margin: 0 auto;
 }
 
+@media (max-width: 1024px) {
+  .nav-item {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  .nav-links {
+    gap: 4px;
+  }
+  .nav-global-actions {
+    gap: 8px;
+  }
+  .global-search-input {
+    width: 110px;
+  }
+  .global-search-input:focus {
+    width: 130px;
+  }
+}
+
 @media (max-width: 768px) {
   .app-container {
     padding-top: 70px;

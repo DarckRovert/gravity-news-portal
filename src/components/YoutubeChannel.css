@@ -358,15 +358,15 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20px 10px 10px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 30px 10px 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 40%, transparent 100%);
+  transform: translateY(0);
   z-index: 3;
 }
 
 .yt-preview-thumb:hover .yt-thumb-title-bar {
-  transform: translateY(0);
+  /* Removed transform to keep it static */
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 50%, transparent 100%);
 }
 
 .yt-thumb-title {

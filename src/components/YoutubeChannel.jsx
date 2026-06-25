@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ExternalLink, Video, Users, PlayCircle, TrendingUp, X, Radio } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './YoutubeChannel.css';
@@ -22,6 +22,42 @@ const channel = {
 
 const YoutubeChannel = () => {
   const [isLiveOpen, setIsLiveOpen] = useState(false);
+  const [videos, setVideos] = useState(channel.latestVideos);
+
+  useEffect(() => {
+    const fetchLatest = async () => {
+      try {
+        const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=UC8WwqW8uW2X6ys3PWMiDSzg';
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        const data = await res.json();
+        
+        if (data.status === 'ok' && data.items && data.items.length > 0) {
+          // Extraemos los IDs de los videos (ya sean regulares o shorts)
+          const parsedVideos = data.items.map(item => {
+            let vidId = null;
+            if (item.link.includes('/watch?v=')) vidId = item.link.split('v=')[1]?.split('&')[0];
+            else if (item.link.includes('/shorts/')) vidId = item.link.split('/shorts/')[1]?.split('?')[0];
+            
+            // Decodificamos entidades HTML en el título
+            const decodedTitle = item.title.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+
+            return {
+              id: vidId || (item.guid && item.guid.split(':')[2]),
+              title: decodedTitle
+            };
+          }).filter(v => v.id).slice(0, 3);
+          
+          if (parsedVideos.length > 0) {
+            setVideos(parsedVideos);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch latest YT videos", err);
+      }
+    };
+    
+    fetchLatest();
+  }, []);
 
   return (
     <section className="yt-channel-section animate-slide-up" style={{ animationDelay: '0.5s' }}>
@@ -117,7 +153,7 @@ const YoutubeChannel = () => {
           </div>
 
           <div className="yt-preview-grid">
-            {channel.latestVideos.map((video, i) => (
+            {videos.map((video, i) => (
               <a
                 key={video.id}
                 href={`https://www.youtube.com/watch?v=${video.id}`}

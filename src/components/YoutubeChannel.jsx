@@ -3,19 +3,19 @@ import { motion } from 'framer-motion';
 import './YoutubeChannel.css';
 
 const channel = {
-  name: 'Los Liberales',
+  name: 'Los Liberales 🗽por Nicolás Morás',
   host: 'Nicolás Morás',
   handle: '@losliberales',
   url: 'https://www.youtube.com/@losliberales',
   subscribers: '768K',
   badge: 'CANAL RECOMENDADO',
   avatar: 'https://yt3.googleusercontent.com/5zvoX78Qjo4dWhGH9c1sQ-LlBKNXD6QtsIXwgeSj9or5cCjJeIhQkyR78511DtkxndweFOYTi84=s160-c-k-c0x00ffffff-no-rj',
-  description: 'Medio periodístico independiente en español. Analizamos con impronta liberal anarquista temas de política internacional, historia, ética, derecho y economía. Defendemos los derechos individuales, el capitalismo de libre mercado y la libertad absoluta del ser humano.',
-  tags: ['Política', 'Economía', 'Historia', 'Filosofía', 'Libertad'],
+  description: 'Uno de los principales medios periodísticos independientes en español. Análisis a fondo de la política y economía global sin rendir cuentas a ningún partido, gobierno o corporación. Financiado únicamente por la audiencia.',
+  tags: ['Política', 'Economía', 'Geopolítica', 'Historia', 'Libertad'],
   latestVideos: [
-    { id: 'PHe0bXAIuk0', title: 'Cómo funciona la máquina económica' },
-    { id: 'MBRqu0YOH14', title: 'Nihilismo Optimista' },
-    { id: '7Pq-S557XQU', title: 'El fin del trabajo' },
+    { id: 'FxwX6C_oqQI', title: 'Lo que NADIE DIJO del SINIESTRO CLUB de la VIDA ETERNA, OVNIS, PUTIN y TRUMP' },
+    { id: 'tJoYpoaOIBI', title: 'ABELARDO GANÓ en COLOMBIA y HUBO FRAUDE en PERÚ — EXPERTO' },
+    { id: '61UVMUi976I', title: 'PLAN de SHEINBAUM para TAPAR la CRISIS con MUNDIAL de FÚTBOL' },
   ]
 };
 

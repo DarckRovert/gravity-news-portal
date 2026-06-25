@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MapPin, Radio, Clock, Activity, Maximize2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import YoutubeChannel from './YoutubeChannel';
 import './FieldReporters.css';
 
 const reporters = [
@@ -129,6 +130,9 @@ const FieldReporters = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* YouTube Channel Recommendation */}
+      <YoutubeChannel />
     </section>
   );
 };

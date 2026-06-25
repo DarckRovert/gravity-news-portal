@@ -1,0 +1,362 @@
+/* ============================================================
+   YOUTUBE CHANNEL RECOMMENDATION — YoutubeChannel.css
+   ============================================================ */
+
+.yt-channel-section {
+  margin-top: 4rem;
+  width: 100%;
+}
+
+.yt-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+  padding-bottom: 1rem;
+}
+
+.yt-section-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.yt-section-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff4444;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: rgba(255, 0, 0, 0.08);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 100px;
+  padding: 6px 14px;
+}
+
+/* ---- Card Layout ---- */
+.yt-channel-card {
+  display: flex;
+  gap: 2.5rem;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 0, 0, 0.12);
+  background: rgba(8, 5, 5, 0.65);
+  backdrop-filter: blur(24px);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.yt-channel-card:hover {
+  border-color: rgba(255, 0, 0, 0.35);
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.08), 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* ---- Left Column ---- */
+.yt-identity-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  min-width: 180px;
+  max-width: 200px;
+}
+
+.yt-avatar-wrapper {
+  position: relative;
+  width: 90px;
+  height: 90px;
+}
+
+.yt-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 0, 0, 0.4);
+  display: block;
+}
+
+.yt-avatar-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #ff0000, #ff6600, transparent, #ff0000) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  animation: spinRing 6s linear infinite;
+}
+
+@keyframes spinRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.yt-yt-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 22px;
+  height: 22px;
+  background: #ff0000;
+  border-radius: 50%;
+  border: 2px solid var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.yt-identity-info {
+  text-align: center;
+}
+
+.yt-channel-name {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.yt-host {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.yt-host strong {
+  color: var(--text-secondary);
+}
+
+.yt-handle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #ff4444;
+  margin: 4px 0 0;
+}
+
+.yt-stats-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.yt-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.yt-stat svg {
+  color: #ff4444;
+}
+
+.yt-stat span {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.yt-stat small {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.yt-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.yt-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: rgba(255, 0, 0, 0.08);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  color: rgba(255, 100, 100, 0.9);
+  text-transform: uppercase;
+}
+
+.yt-subscribe-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 100px;
+  background: rgba(255, 0, 0, 0.12);
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  color: #ff4444;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.yt-subscribe-btn:hover {
+  background: rgba(255, 0, 0, 0.25);
+  border-color: #ff4444;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.yt-ext-icon {
+  opacity: 0.7;
+}
+
+/* ---- Right Column ---- */
+.yt-content-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.yt-recommended-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff6666;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  width: fit-content;
+}
+
+.yt-description {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+  border-left: 2px solid rgba(255, 0, 0, 0.3);
+  padding-left: 1rem;
+}
+
+.yt-preview-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+.yt-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.yt-preview-thumb {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.yt-preview-thumb:hover {
+  border-color: rgba(255, 0, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.yt-preview-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.yt-preview-thumb:hover img {
+  transform: scale(1.08);
+  opacity: 0.5;
+}
+
+.yt-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.yt-preview-thumb:hover .yt-thumb-overlay {
+  opacity: 1;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .yt-channel-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .yt-identity-col {
+    max-width: 100%;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .yt-identity-info {
+    text-align: left;
+  }
+
+  .yt-preview-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .yt-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .yt-section-header h2 {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+  }
+
+  .yt-preview-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .yt-channel-card {
+    padding: 1.2rem;
+  }
+}
+

@@ -16,6 +16,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
+  gap: 24px;
   z-index: 100;
   border-radius: 100px; /* Pill shape */
 }
@@ -26,6 +27,8 @@
   font-size: 1.25rem;
   color: var(--text-primary);
   letter-spacing: -0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .brand-accent {

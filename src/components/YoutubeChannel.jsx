@@ -1,5 +1,6 @@
-import { ExternalLink, Video, Users, PlayCircle, TrendingUp } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { ExternalLink, Video, Users, PlayCircle, TrendingUp, X, Radio } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './YoutubeChannel.css';
 
 const channel = {
@@ -20,6 +21,8 @@ const channel = {
 };
 
 const YoutubeChannel = () => {
+  const [isLiveOpen, setIsLiveOpen] = useState(false);
+
   return (
     <section className="yt-channel-section animate-slide-up" style={{ animationDelay: '0.5s' }}>
       <div className="yt-section-header">
@@ -79,16 +82,26 @@ const YoutubeChannel = () => {
             ))}
           </div>
 
-          <a
-            href={channel.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="yt-subscribe-btn"
-          >
-            <Video size={16} />
-            <span>VISITAR CANAL</span>
-            <ExternalLink size={13} className="yt-ext-icon" />
-          </a>
+          <div style={{ display: 'flex', gap: '10px', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+            <a
+              href={channel.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="yt-subscribe-btn"
+            >
+              <Video size={16} />
+              <span>VISITAR CANAL</span>
+              <ExternalLink size={13} className="yt-ext-icon" />
+            </a>
+            
+            <button 
+              className="yt-live-btn"
+              onClick={() => setIsLiveOpen(true)}
+            >
+              <Radio size={16} className="blink" />
+              <span>VER EN VIVO</span>
+            </button>
+          </div>
         </div>
 
         <div className="yt-content-col">
@@ -128,6 +141,35 @@ const YoutubeChannel = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Full Screen Live Video Modal */}
+      <AnimatePresence>
+        {isLiveOpen && (
+          <motion.div 
+            className="fullscreen-video-modal"
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(16px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+          >
+            <button className="btn-close-fullscreen" onClick={() => setIsLiveOpen(false)}>
+              <X size={24} /> <span>CERRAR TRANSMISIÓN</span>
+            </button>
+            <div className="fullscreen-video-container">
+              <div className="feed-title-bar fullscreen-title-bar">
+                <span className="feed-title">{channel.name} - TRANSMISIÓN EN VIVO</span>
+                <span className="feed-badge" style={{ backgroundColor: '#ff0000', color: 'white' }}>EN VIVO</span>
+              </div>
+              <iframe 
+                src="https://www.youtube.com/embed/live_stream?channel=UC8WwqW8uW2X6ys3PWMiDSzg&autoplay=1&mute=0&controls=1&modestbranding=1" 
+                title={`${channel.name} Live Stream`}
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

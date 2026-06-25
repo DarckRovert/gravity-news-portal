@@ -134,7 +134,10 @@ const YoutubeChannel = () => {
                   }}
                 />
                 <div className="yt-thumb-overlay">
-                  <PlayCircle size={28} />
+                  <PlayCircle size={32} className="yt-play-icon" />
+                </div>
+                <div className="yt-thumb-title-bar">
+                  <span className="yt-thumb-title">{video.title}</span>
                 </div>
               </a>
             ))}

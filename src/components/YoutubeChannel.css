@@ -120,11 +120,13 @@
 
 .yt-channel-name {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   color: var(--text-primary);
   margin: 0 0 4px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-wrap: balance;
+  line-height: 1.2;
 }
 
 .yt-host {
@@ -316,12 +318,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
 .yt-preview-thumb:hover img {
-  transform: scale(1.08);
-  opacity: 0.5;
+  transform: scale(1.05);
+  opacity: 0.6;
 }
 
 .yt-thumb-overlay {
@@ -330,14 +332,55 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #ff4444;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  background: rgba(0, 0, 0, 0.3);
+  transition: opacity 0.4s ease;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%);
+  z-index: 2;
 }
 
 .yt-preview-thumb:hover .yt-thumb-overlay {
   opacity: 1;
+}
+
+.yt-play-icon {
+  filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: scale(0.8);
+}
+
+.yt-preview-thumb:hover .yt-play-icon {
+  transform: scale(1.1);
+}
+
+.yt-thumb-title-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 10px 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3;
+}
+
+.yt-preview-thumb:hover .yt-thumb-title-bar {
+  transform: translateY(0);
+}
+
+.yt-thumb-title {
+  display: block;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ---- Responsive ---- */

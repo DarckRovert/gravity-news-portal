@@ -45,7 +45,7 @@ const YoutubeChannel = () => {
               id: vidId || (item.guid && item.guid.split(':')[2]),
               title: decodedTitle
             };
-          }).filter(v => v.id).slice(0, 3);
+          }).filter(v => v.id).slice(0, 6);
           
           if (parsedVideos.length > 0) {
             setVideos(parsedVideos);

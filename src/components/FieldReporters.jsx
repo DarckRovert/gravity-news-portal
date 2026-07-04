@@ -6,13 +6,13 @@ import './FieldReporters.css';
 
 const reporters = [
   {
-    id: 'arquimedes',
-    name: 'Arquímedes Prensa',
-    handle: '@arquimedes_prensa2',
-    location: 'CDMX, México (19.4326° N, 99.1332° W)',
+    id: 'elchicodelasnoticias',
+    name: 'El Chico de las Noticias',
+    handle: '@elchicodelasnoticias',
+    location: 'Lima, Perú (12.0464° S, 77.0428° W)',
     status: 'EN CAMPO',
     url: 'https://www.tiktok.com/@elchicodelasnoticias/live',
-    avatar: 'https://ui-avatars.com/api/?name=Arquimedes+Prensa&background=0D1117&color=00FF41&bold=true'
+    avatar: 'https://ui-avatars.com/api/?name=Chico+Noticias&background=0D1117&color=00FF41&bold=true'
   }
 ];
 

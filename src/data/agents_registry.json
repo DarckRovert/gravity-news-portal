@@ -1,0 +1,46 @@
+[
+  {
+    "region": "Latinoamérica",
+    "id": "elchicodelasnoticias",
+    "name": "El Chico de las Noticias",
+    "handle": "@elchicodelasnoticias",
+    "location": "Lima, Perú (12.0464° S, 77.0428° W)",
+    "status": "EN CAMPO",
+    "url": "https://www.tiktok.com/@elchicodelasnoticias/live",
+    "avatar": "https://ui-avatars.com/api/?name=Chico+Noticias&background=0D1117&color=00FF41&bold=true",
+    "iframe_src": "https://www.tiktok.com/embed/@elchicodelasnoticias"
+  },
+  {
+    "region": "Norteamérica",
+    "id": "arquimedes",
+    "name": "Arquímedes Prensa",
+    "handle": "@arquimedes_prensa2",
+    "location": "CDMX, México (19.4326° N, 99.1332° W)",
+    "status": "EN CAMPO",
+    "url": "https://www.tiktok.com/@arquimedes_prensa2/live",
+    "avatar": "https://ui-avatars.com/api/?name=Arquimedes+Prensa&background=0D1117&color=00FF41&bold=true",
+    "iframe_src": "https://www.tiktok.com/embed/@arquimedes_prensa2"
+  },
+  {
+    "region": "Eurasia",
+    "id": "rtnews",
+    "name": "RT Play en Español",
+    "handle": "@rtplayes",
+    "location": "Moscú, Rusia (55.7558° N, 37.6173° E)",
+    "status": "EN CAMPO",
+    "url": "https://www.tiktok.com/@rtplayes/live",
+    "avatar": "https://ui-avatars.com/api/?name=RT+Play&background=0D1117&color=00FF41&bold=true",
+    "iframe_src": "https://www.tiktok.com/embed/@rtplayes"
+  },
+  {
+    "region": "Global",
+    "id": "elchicodelasnoticias_global",
+    "name": "El Chico de las Noticias",
+    "handle": "@elchicodelasnoticias",
+    "location": "Global",
+    "status": "EN CAMPO",
+    "url": "https://www.tiktok.com/@elchicodelasnoticias/live",
+    "avatar": "https://ui-avatars.com/api/?name=Chico+Noticias&background=0D1117&color=00FF41&bold=true",
+    "iframe_src": "https://www.tiktok.com/embed/@elchicodelasnoticias"
+  }
+]

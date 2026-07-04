@@ -4,26 +4,39 @@ import { motion, AnimatePresence } from 'framer-motion';
 import YoutubeChannel from './YoutubeChannel';
 import './FieldReporters.css';
 
-const reporters = [
-  {
-    id: 'elchicodelasnoticias',
-    name: 'El Chico de las Noticias',
-    handle: '@elchicodelasnoticias',
-    location: 'Lima, Perú (12.0464° S, 77.0428° W)',
-    status: 'EN CAMPO',
-    url: 'https://www.tiktok.com/@elchicodelasnoticias/live',
-    avatar: 'https://ui-avatars.com/api/?name=Chico+Noticias&background=0D1117&color=00FF41&bold=true'
-  }
-];
+import agentRegistry from '../data/agents_registry.json';
+import newsData from '../data/news.json';
 
 const FieldReporters = () => {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [fullScreenReporter, setFullScreenReporter] = useState(null);
+  const [reporters, setReporters] = useState([]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date().toLocaleTimeString());
     }, 1000);
+
+    // Lógica dinámica Zero-Trust: Detectar región de la última noticia investigada
+    const latestRegion = newsData[0]?.region || 'Global';
+    
+    // Buscar un reportero que coincida con esa región
+    let matched = agentRegistry.filter(a => 
+      latestRegion.toLowerCase().includes(a.region.toLowerCase()) && a.region !== 'Global'
+    );
+    
+    // Si no hay match exacto, cargar reportero global
+    if (matched.length === 0) {
+       matched = agentRegistry.filter(a => a.region === 'Global');
+    }
+    
+    // Si falla todo, cargar el primero
+    if (matched.length === 0) {
+        matched = [agentRegistry[0]];
+    }
+
+    setReporters(matched.slice(0, 1)); // Mantenemos 1 activo para no saturar la UI
+
     return () => clearInterval(timer);
   }, []);
 
@@ -120,9 +133,9 @@ const FieldReporters = () => {
                 <span className="feed-badge">EN CAMPO</span>
               </div>
               <iframe 
-                src="https://www.tiktok.com/embed/@elchicodelasnoticias"
-                title="TikTok Live Fullscreen" 
-                frameBorder="0" 
+                src={fullScreenReporter.iframe_src}
+                title="TikTok Live Fullscreen"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen
               ></iframe>

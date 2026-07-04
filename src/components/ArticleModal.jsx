@@ -34,7 +34,15 @@ export default function ArticleModal({
           <X size={20} />
         </button>
         <div className="modal-header-image">
-          <img src={selectedArticle.image} alt={selectedArticle.title} className="modal-image" />
+          <img 
+            src={selectedArticle.image} 
+            alt={selectedArticle.title} 
+            className="modal-image"
+            onError={(e) => {
+              e.target.onerror = null; 
+              e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80';
+            }}
+          />
           <div className="modal-image-overlay"></div>
           <span className="badge-futuristic modal-category">{selectedArticle.category}</span>
         </div>
@@ -67,7 +75,14 @@ export default function ArticleModal({
               <div className="related-grid">
                 {relatedNews.map(rel => (
                   <div key={rel.id} className="related-card hover-lift" onClick={() => { playSound('click'); setSelectedArticle(rel); }}>
-                    <img src={rel.image} alt={rel.title} />
+                    <img 
+                      src={rel.image} 
+                      alt={rel.title}
+                      onError={(e) => {
+                        e.target.onerror = null; 
+                        e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80';
+                      }}
+                    />
                     <div className="related-info">
                       <span className="related-date">{getRelativeTime(rel.date)}</span>
                       <h5>{rel.title}</h5>

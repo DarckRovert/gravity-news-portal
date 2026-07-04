@@ -24,6 +24,10 @@ const ProgressiveImage = ({ src, alt, className }) => {
         alt=""
         className={`progressive-img progressive-img-thumb ${isLoaded ? 'progressive-img-hidden' : ''}`}
         aria-hidden="true"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80';
+        }}
       />
       
       {/* Imagen final en alta resolución */}
@@ -35,6 +39,11 @@ const ProgressiveImage = ({ src, alt, className }) => {
         animate={{ opacity: isLoaded ? 1 : 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         loading="lazy"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80';
+          setIsLoaded(true); // force load state to show the fallback
+        }}
       />
     </div>
   );

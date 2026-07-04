@@ -1,5 +1,19 @@
 [
   {
+    "featured": false,
+    "title": "Transmisión Clandestina de la Zona Ágora",
+    "excerpt": "Reporte interceptado de los nodos de Gravity AI.",
+    "fullText": "### Canal de contingencia activo\n\nNo se pudo decodificar.",
+    "category": "Tecnología Descentralizada",
+    "id": "transmisin-clandestina-de-la-zona-gora",
+    "type": "news",
+    "author": "Nexo Ágora — Redacción Periodística",
+    "date": "2026-07-03T21:36:53.682163",
+    "tags": [],
+    "readingTime": 3,
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjY3NSI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzBkMGQwZCIvPjxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjExMjAiIGhlaWdodD0iNTk1IiBmaWxsPSJub25lIiBzdHJva2U9IiM5YjMwZmYiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUwJSIgeT0iNDIlIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjOWIzMGZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5bTkVYTyDDgUdPUkEg4oCUIE5FV1NdPC90ZXh0Pjx0ZXh0IHg9IjUwJSIgeT0iNTUlIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5UcmFuc21pc2nDs24gQ2xhbmRlc3RpbmEgZGUgbGEgWm9uYSDDgWdvcmE8L3RleHQ+PC9zdmc+"
+  },
+  {
     "category": "Tecnología Descentralizada",
     "title": "Detrás de la Cortina: El Caso del Docente de Luxemburgo y la Lucha por la Verdad en un Mundo de Manipulación",
     "excerpt": "El despido de un docente en Luxemburgo por sus publicaciones a favor de Gaza revela un entramado de intereses geopolíticos y la represión de la disidencia. ¿Hasta dónde llega la manipulación de la verdad en el ámbito educativo y mediático?",
@@ -12,20 +26,6 @@
     "tags": [],
     "readingTime": 3,
     "image": "https://image.pollinations.ai/prompt/cyberpunk%20news%20dark%20photorealistic%20Detr%C3%A1s%20de%20la%20Cortina%3A%20El%20Caso%20del%20Docente%20de%20Luxemburgo%20y%20la%20Lucha%20por%20la%20Verdad%20en%20un%20Mundo%20de%20Manipulaci%C3%B3n?width=800&height=600"
-  },
-  {
-    "featured": false,
-    "title": "Transmisión Clandestina de la Zona Ágora",
-    "excerpt": "Reporte interceptado de los nodos de Gravity AI.",
-    "fullText": "### Canal de contingencia activo\n\nNo se pudo decodificar.",
-    "category": "Tecnología Descentralizada",
-    "id": "transmisin-clandestina-de-la-zona-gora",
-    "type": "news",
-    "author": "Nexo Ágora — Redacción Periodística",
-    "date": "2026-07-01T04:39:08.992949",
-    "tags": [],
-    "readingTime": 3,
-    "image": "https://image.pollinations.ai/prompt/cyberpunk%20news%20dark%20photorealistic%20Transmisi%C3%B3n%20Clandestina%20de%20la%20Zona%20%C3%81gora?width=800&height=600"
   },
   {
     "category": "Tecnología Descentralizada",

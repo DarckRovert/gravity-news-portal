@@ -20,12 +20,6 @@ Esto significa que el portal **nunca** se apaga, incluso si tu PC está apagada.
  **Renderizado Seguro:**
  La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.
 
-### Escalabilidad Extrema de Medios (Media Nexus Lazy Loading)
-Para evitar los bloqueos por falta de memoria (OOM Crashes) originados al incrustar demasiados recursos externos (como Iframes de YouTube), el Nexo Multimedia (`LiveFeeds.jsx`) implementa un modelo de **Lazy Loading Extremo**:
-1. Extrae los datos desde una base de datos estática aislada (`media.json`), separando el contenido de la lógica del componente.
-2. En lugar de incrustar `<iframe>`s pesados al cargar la página, inyecta estáticamente la miniatura de alta resolución (extraída de `img.youtube.com/...`).
-3. El `<iframe>` original solo se adjunta al DOM y se reproduce en el milisegundo exacto en el que el usuario hace clic sobre la miniatura holográfica. Esto reduce la carga inicial de memoria en un ~95%, permitiendo escalabilidad "infinita" en el listado de películas.
-
 ---
 
 ### Despliegue en Netlify (Vite SPA)

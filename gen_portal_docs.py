@@ -36,8 +36,9 @@ Funciona de manera *Decoupled* (Desacoplada).
  - **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
  - **Sincronización Cuántica:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860` para generar noticias **en tiempo real** (cuando la PC está encendida). Si falla, el portal es resiliente y cambiará a modo estático sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
  - **Renderizado Seguro:** La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.
- - **Auto-Mantenimiento:** Limpieza de librerías y portadas de libros automáticas (Script `sync_books.js`).
- - **Field Reporters (Enlace Terrestre):** Overlay táctico holográfico para enlazar y visualizar a los periodistas de contingencia en vivo (ej. TikTok Live), sorteando los bloqueos de seguridad de iframes externos.
+ - **Auto-Mantenimiento:** Limpieza de librerías y portadas de libros automáticas (Script `sync_books.py`).
+ - **Field Reporters Context-Aware:** Sistema Zero-Trust que lee la región geopolítica de la noticia y asigna dinámicamente al corresponsal adecuado desde `agents_registry.json` (ej. Arquímedes para Norteamérica, RT para Eurasia).
+ - **Resiliencia de Imágenes:** Sistema de Fallback en componentes clave (`ProgressiveImage`, `ArticleModal`) que inyecta visuales Cyberpunk de emergencia si la IA de imágenes (Pollinations) falla por rate limits o timeouts.
 
 ---
 

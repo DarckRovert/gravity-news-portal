@@ -11,7 +11,7 @@ const reporters = [
     handle: '@arquimedes_prensa2',
     location: 'CDMX, México (19.4326° N, 99.1332° W)',
     status: 'EN CAMPO',
-    url: 'https://www.tiktok.com/@arquimedes_prensa2/live',
+    url: 'https://www.tiktok.com/@elchicodelasnoticias/live',
     avatar: 'https://ui-avatars.com/api/?name=Arquimedes+Prensa&background=0D1117&color=00FF41&bold=true'
   }
 ];
@@ -64,7 +64,7 @@ const FieldReporters = () => {
 
             <div className="reporter-viewport">
               <iframe 
-                src="https://www.tiktok.com/embed/@arquimedes_prensa2"
+                src="https://www.tiktok.com/embed/@elchicodelasnoticias"
                 title="TikTok Live"
                 className="tiktok-iframe"
                 frameBorder="0"
@@ -120,7 +120,7 @@ const FieldReporters = () => {
                 <span className="feed-badge">EN CAMPO</span>
               </div>
               <iframe 
-                src="https://www.tiktok.com/embed/@arquimedes_prensa2"
+                src="https://www.tiktok.com/embed/@elchicodelasnoticias"
                 title="TikTok Live Fullscreen" 
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 

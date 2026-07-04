@@ -1,5 +1,20 @@
 [
   {
+    "category": "Tecnología Descentralizada",
+    "title": "...",
+    "excerpt": "...",
+    "fullText": "...",
+    "region": "...",
+    "featured": true,
+    "id": "",
+    "type": "news",
+    "author": "Nexo Ágora — Redacción Periodística",
+    "date": "2026-07-04T04:41:10.066038",
+    "tags": [],
+    "readingTime": 3,
+    "image": "https://image.pollinations.ai/prompt/cyberpunk%20news%20dark%20photorealistic%20...?width=1200&height=675&nologo=true"
+  },
+  {
     "featured": false,
     "title": "Transmisión Clandestina de la Zona Ágora",
     "excerpt": "Reporte interceptado de los nodos de Gravity AI.",
@@ -205,19 +220,5 @@
     "tags": [],
     "readingTime": 3,
     "image": "https://image.pollinations.ai/prompt/cyberpunk%20news%20dark%20photorealistic%20Per%C3%BA%3A%20El%20Leviat%C3%A1n%20y%20la%20Lucha%20por%20la%20Autonom%C3%ADa%20Individual%20en%20el%20Control%20de%20Especies%20Forestales%20Protegidas?width=800&height=600"
-  },
-  {
-    "category": "Tecnología Descentralizada",
-    "title": "La Ascensión de Perú en el Índice de Dominación Financiera: Un Estudio de Caso en la Adaptabilidad de las Elites",
-    "excerpt": "El liderazgo de Perú en el Índice de Dominación Financiera no es un logro económico, sino una demostración de la eficacia de las elites locales en el control y manipulación del sistema capitalista global.",
-    "fullText": "El reciente informe que sitúa a Perú como líder en el Índice de Dominación Financiera ha suscitado interés en los medios de comunicación, presentándolo como un triunfo impresionante para la región. Sin embargo, detrás de esta noticia aparentemente gloriosa se esconde una realidad filosóficamente oscura: la capacidad de las elites locales para controlar y adaptarse al capitalismo global.\n\nLa ascensión de Perú en el Índice de Dominación Financiera no es un logro propio, sino un resultado de la capacidad de las elites para integrarse y maniobrar en el sistema capitalista global, aprovechando las oportunidades y evitando los riesgos. Esta adaptabilidad no es sino una demostración de la eficacia de estas elites en el control y manipulación del sistema, asegurando su permanencia y poder en un entorno económico y político cada vez más competitivo.\n\nAdemás, el énfasis en el control financiero y la adaptabilidad puede ser parte de una estrategia de propaganda, diseñada para desviar la atención de los desafíos estructurales y las tensiones sociales que enfrenta la región. Al centrarse en la dominación financiera y la adaptabilidad, se minimizan los problemas de desigualdad, corrupción y falta de acceso a servicios básicos, que son el caldo de cultivo para conflictos y revueltas sociales.\n\nDesde una óptica filosófica, el informe destaca la importancia de la resiliencia y el control en el contexto globalizado. Perú, al encabezar el índice, demuestra su capacidad para adaptarse a las fluctuaciones del mercado y mantener el control sobre sus recursos y economía. Sin embargo, este logro debe ser analizado con cautela, ya que implica una integración profunda en el sistema capitalista global, que puede generar efectos perversos, como la exacerbación de la desigualdad y la dependencia de las elites.\n\nEn resumen, la ascensión de Perú en el Índice de Dominación Financiera no es un logro económico, sino un indicador de la capacidad de control y adaptación de las elites locales al capitalismo global. Para comprender el verdadero significado de esta noticia, es necesario analizarla desde la memoria histórica, la propaganda y la filosofía política, reconociendo los desafíos y tensiones sistémicas que enfrenta la región.",
-    "featured": true,
-    "id": "la-ascensin-de-per-en-el-ndice-de-dominacin-financiera-un-estudio-de-caso-en-la-adaptabilidad-de-las-elites",
-    "type": "news",
-    "author": "Nexo Ágora — Redacción Periodística",
-    "date": "2026-06-27T05:02:54.110347",
-    "tags": [],
-    "readingTime": 3,
-    "image": "https://image.pollinations.ai/prompt/cyberpunk%20news%20dark%20photorealistic%20La%20Ascensi%C3%B3n%20de%20Per%C3%BA%20en%20el%20%C3%8Dndice%20de%20Dominaci%C3%B3n%20Financiera%3A%20Un%20Estudio%20de%20Caso%20en%20la%20Adaptabilidad%20de%20las%20Elites?width=800&height=600"
   }
 ]

@@ -41,19 +41,38 @@
 
 /* ---- Card Layout ---- */
 .yt-channel-card {
+  position: relative;
   display: flex;
   gap: 2.5rem;
   padding: 2rem;
   border-radius: 16px;
-  border: 1px solid rgba(255, 0, 0, 0.12);
-  background: rgba(8, 5, 5, 0.65);
-  backdrop-filter: blur(24px);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  background: linear-gradient(145deg, rgba(12, 5, 5, 0.75) 0%, rgba(5, 2, 2, 0.9) 100%);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 10px 40px -10px rgba(255, 0, 0, 0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.yt-channel-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff3333, #ff0000, transparent);
+  opacity: 0.5;
+  animation: scanlinePulse 4s linear infinite;
+}
+
+@keyframes scanlinePulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .yt-channel-card:hover {
-  border-color: rgba(255, 0, 0, 0.35);
-  box-shadow: 0 0 40px rgba(255, 0, 0, 0.08), 0 20px 60px rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 50, 50, 0.6);
+  box-shadow: 0 0 60px rgba(255, 0, 0, 0.2), 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 10px rgba(255, 50, 50, 0.1);
+  transform: translateY(-4px);
 }
 
 /* ---- Left Column ---- */

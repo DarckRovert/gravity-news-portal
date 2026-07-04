@@ -29,6 +29,7 @@ Funciona de manera *Decoupled* (Desacoplada).
 
 ### 📰 Características del Portal
  - **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
+ - **Radar Geopolítico:** Clasificación automatizada de inteligencia global por regiones geográficas (Eurasia, Norteamérica, etc.).
  - **Nexo Multimedia:** Monitoreo global interactivo con señales en vivo, documentales de inteligencia y cine de resistencia comunitaria. Animaciones mediante Framer Motion.
  - **Sincronización Cuántica:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860` para generar noticias **en tiempo real** (cuando la PC está encendida). Si falla, el portal es resiliente y cambiará a modo estático sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
  - **Renderizado Seguro:** La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.

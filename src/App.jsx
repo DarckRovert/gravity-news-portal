@@ -1,5 +1,5 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Newspaper, Library, Menu, X, PenTool, Microscope, ChevronUp, Terminal, Search, Palette } from 'lucide-react';
+import { Newspaper, Library, Menu, X, PenTool, Microscope, ChevronUp, Terminal, Search, Palette, Globe } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTheme } from './contexts/ThemeContext';
 import { useSearch } from './contexts/SearchContext';
@@ -8,6 +8,7 @@ import Books from './pages/Books';
 import Reader from './pages/Reader';
 import Essays from './pages/Essays';
 import Science from './pages/Science';
+import Geopolitics from './pages/Geopolitics';
 import NotFound from './pages/NotFound';
 import CustomCursor from './components/CustomCursor';
 import NewsTicker from './components/NewsTicker';
@@ -22,6 +23,7 @@ function Navbar() {
 
   const navLinks = [
     { path: '/', label: 'Noticias', icon: <Newspaper size={18} /> },
+    { path: '/geopolitica', label: 'Geopolítica', icon: <Globe size={18} /> },
     { path: '/ensayos', label: 'Ensayos', icon: <PenTool size={18} /> },
     { path: '/ciencia', label: 'Ciencia', icon: <Microscope size={18} /> },
     { path: '/books', label: 'Biblioteca', icon: <Library size={18} /> },
@@ -213,6 +215,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/ensayos" element={<Essays />} />
             <Route path="/ciencia" element={<Science />} />
+            <Route path="/geopolitica" element={<Geopolitics />} />
             <Route path="/books" element={<Books />} />
             <Route path="/book/:id" element={<Reader />} />
             <Route path="*" element={<NotFound />} />

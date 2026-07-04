@@ -77,7 +77,7 @@ const FieldReporters = () => {
 
             <div className="reporter-viewport">
               <iframe 
-                src="https://www.tiktok.com/embed/@elchicodelasnoticias"
+                src={reporter.iframe_src}
                 title="TikTok Live"
                 className="tiktok-iframe"
                 frameBorder="0"

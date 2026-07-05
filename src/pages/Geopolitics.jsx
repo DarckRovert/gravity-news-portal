@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { AlertTriangle, Globe, Map } from 'lucide-react';
+import { useState } from 'react';
+import { AlertTriangle, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearch } from '../contexts/SearchContext';
 import newsData from '../data/news.json';
@@ -10,7 +10,7 @@ import { getRelativeTime, getReadingTime } from '../utils/helpers';
 import './Home.css';
 
 export default function Geopolitics() {
-  const [news, setNews] = useState(newsData);
+  const news = newsData;
   const [selectedArticle, setSelectedArticle] = useState(null);
   const { searchTerm } = useSearch();
   const [activeRegion, setActiveRegion] = useState('Global');

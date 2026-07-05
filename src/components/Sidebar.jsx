@@ -30,7 +30,7 @@ export default function Sidebar({
               setVigiaStatus(data.autonomy_engine.vigia);
             }
           }
-        } catch (e) {
+        } catch {
           // Silent fail
         }
       };

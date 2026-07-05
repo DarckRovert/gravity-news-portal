@@ -10,33 +10,24 @@ import newsData from '../data/news.json';
 const FieldReporters = () => {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [fullScreenReporter, setFullScreenReporter] = useState(null);
-  const [reporters, setReporters] = useState([]);
+  const [reporters] = useState(() => {
+    const latestRegion = newsData[0]?.region || 'Global';
+    let matched = agentRegistry.filter(a => 
+      latestRegion.toLowerCase().includes(a.region.toLowerCase()) && a.region !== 'Global'
+    );
+    if (matched.length === 0) {
+       matched = agentRegistry.filter(a => a.region === 'Global');
+    }
+    if (matched.length === 0) {
+        matched = [agentRegistry[0]];
+    }
+    return matched.slice(0, 1);
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date().toLocaleTimeString());
     }, 1000);
-
-    // Lógica dinámica Zero-Trust: Detectar región de la última noticia investigada
-    const latestRegion = newsData[0]?.region || 'Global';
-    
-    // Buscar un reportero que coincida con esa región
-    let matched = agentRegistry.filter(a => 
-      latestRegion.toLowerCase().includes(a.region.toLowerCase()) && a.region !== 'Global'
-    );
-    
-    // Si no hay match exacto, cargar reportero global
-    if (matched.length === 0) {
-       matched = agentRegistry.filter(a => a.region === 'Global');
-    }
-    
-    // Si falla todo, cargar el primero
-    if (matched.length === 0) {
-        matched = [agentRegistry[0]];
-    }
-
-    setReporters(matched.slice(0, 1)); // Mantenemos 1 activo para no saturar la UI
-
     return () => clearInterval(timer);
   }, []);
 

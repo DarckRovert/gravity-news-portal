@@ -30,7 +30,7 @@ const TerminalFeed = ({ bridgeUrl, bridgeStatus }) => {
               setLogs(lines.slice(-20));
             }
           }
-        } catch (e) {
+        } catch {
           // Silent fail
         }
       };

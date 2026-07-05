@@ -71,7 +71,7 @@ export default function Home() {
               });
             }
           }
-        } catch (e) {
+        } catch {
           // Silent fail
         }
       };

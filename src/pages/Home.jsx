@@ -67,6 +67,11 @@ export default function Home() {
                 const merged = [...data.news, ...filteredPrev];
                 // Sort by date descending
                 merged.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // Evitar re-renderizados innecesarios que causan layout shifts
+                if (merged.length === prevNews.length && merged[0]?.id === prevNews[0]?.id) {
+                  return prevNews;
+                }
                 return merged;
               });
             }

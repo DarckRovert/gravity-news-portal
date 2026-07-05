@@ -7,18 +7,19 @@ El portal de noticias soluciona uno de los mayores problemas de la IA local: **�
 El portal fue construido utilizando React/Vite y es hospedado en Netlify (plataforma sin servidor).
 Esto significa que el portal **nunca** se apaga, incluso si tu PC está apagada.
 
-**El Flujo:**
+**El Flujo Estático (Offline):**
 1. Tu PC enciende. El Daemon `news_daemon.py` despierta.
 2. Descarga noticias, el LLM procesa y escribe la noticia.
 3. Se actualiza el archivo `src/data/news.json` y se descargan las imágenes.
 4. El Agente hace un `git push` a este repositorio.
-5. Netlify hace un *build* de 30 segundos y la web queda actualizada.
+5. Netlify hace un *build* de 30 segundos y la web queda actualizada estáticamente.
 
-**Modo Híbrido (Tiempo Real):**
- Si el visitante hace clic en "Generar Reporte Directo" desde el portal, el frontend intenta conectarse a `http://localhost:7860`. Si tu PC está prendida, el portal mostrará cómo la IA te responde en tiempo real a través del túnel. Si falla, el portal es resiliente y cambiará a modo estático sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
- 
- **Renderizado Seguro:**
- La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.
+**Modo Híbrido en Tiempo Real (Telemetría Activa):**
+Cuando tu PC está encendida, el frontend React detecta el nodo en `http://localhost:7860`. Automáticamente activa el **Live Feed**:
+1. **Dynamic News Fetch:** Se fusionan los artículos del backend sin necesidad de esperar el deploy de Netlify.
+2. **Terminal Feed:** Se visualizan los logs de los subagentes en la UI en vivo.
+3. **Vigía Dashboard:** El panel lateral expone métricas como entropía, hardware y estado del orquestador.
+Si el túnel local se cae, la interfaz realiza un _graceful degradation_ al modo Offline (cinemático) sin romper la UI.
 
 ---
 

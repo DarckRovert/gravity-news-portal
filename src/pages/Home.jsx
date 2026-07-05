@@ -51,6 +51,37 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [bridgeUrl]);
 
+  // Dynamic live fetch for news from local daemon
+  useEffect(() => {
+    if (bridgeStatus === 'online' && bridgeUrl) {
+      const fetchLiveNews = async () => {
+        try {
+          const res = await fetch(`${bridgeUrl}/v1/journalist/news`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.ok && data.news && Array.isArray(data.news)) {
+              // Merge dynamic news with static news, favoring dynamic by ID
+              setNews(prevNews => {
+                const liveIds = new Set(data.news.map(n => n.id));
+                const filteredPrev = prevNews.filter(n => !liveIds.has(n.id));
+                const merged = [...data.news, ...filteredPrev];
+                // Sort by date descending
+                merged.sort((a, b) => new Date(b.date) - new Date(a.date));
+                return merged;
+              });
+            }
+          }
+        } catch (e) {
+          // Silent fail
+        }
+      };
+      
+      fetchLiveNews();
+      const interval = setInterval(fetchLiveNews, 10000); // Check every 10s
+      return () => clearInterval(interval);
+    }
+  }, [bridgeStatus, bridgeUrl]);
+
   const categories = ['Todas', 'Guardados', ...new Set(news.map(item => item.category).filter(Boolean))];
 
   const handleShare = async (article) => {
@@ -276,7 +307,7 @@ export default function Home() {
                   </motion.article>
                 )}
 
-                <TerminalFeed />
+                <TerminalFeed bridgeUrl={bridgeUrl} bridgeStatus={bridgeStatus} />
 
                 <BentoGrid 
                   regularNews={regularNews}

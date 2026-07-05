@@ -9,20 +9,20 @@ files_to_create = {
 
   [![Autor](https://img.shields.io/badge/Author-DarckRovert-818cf8.svg?style=flat-square)](https://github.com/DarckRovert)
   [![Licencia](https://img.shields.io/badge/License-Proprietary-red.svg?style=flat-square)](LICENSE)
-  [![Release](https://img.shields.io/badge/Release-V16.0_Frontend-6366f1.svg?style=flat-square)]()
+  [![Release](https://img.shields.io/badge/Release-V16.1_Frontend-6366f1.svg?style=flat-square)]()
   [![Twitch](https://img.shields.io/badge/Twitch-DarckRovert-9146ff.svg?style=flat-square&logo=twitch)](https://twitch.tv/darckrovert)
 
   <p align="center">
      <i><strong>Nexo Ágora: El Portal de Noticias de la Resistencia.</strong><br>
      Frontend Desacoplado operando en Zero-Trust y mantenido de manera autónoma por el <strong>Agente Periodístico de Gravity AI</strong>.<br>
-     Renderización Glassmorphism · Vite/React · Actualización Continua.</i><br><br>
-     🛡️ <b>Auditoría V16.0 PRO: Cero Vulnerabilidades XSS - Zero-Trust Arquitectónico</b>
+     Renderización Glassmorphism · Vite/React · Actualización Continua y Telemetría en Tiempo Real.</i><br><br>
+     🛡️ <b>Auditoría V16.1 PRO: Cero Vulnerabilidades XSS - Zero-Trust Arquitectónico - Telemetría Vigía en Vivo</b>
    </p>
  </div>
 
 ---
 
-## 🏛 Arquitectura Frontend V16.0 PRO
+## 🏛 Arquitectura Frontend V16.1 PRO
 
 El **Gravity News Portal** no es un portal de noticias ordinario. Es la interfaz pública "Cloud-Side" de tu **Gravity AI Bridge**.
 Funciona de manera *Decoupled* (Desacoplada).
@@ -34,11 +34,15 @@ Funciona de manera *Decoupled* (Desacoplada).
 
 ### 📰 Características del Portal
  - **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
- - **Sincronización Cuántica:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860` para generar noticias **en tiempo real** (cuando la PC está encendida). Si falla, el portal es resiliente y cambiará a modo estático sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
- - **Renderizado Seguro:** La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.
- - **Auto-Mantenimiento:** Limpieza de librerías y portadas de libros automáticas (Script `sync_books.py`).
- - **Field Reporters Context-Aware:** Sistema Zero-Trust que lee la región geopolítica de la noticia y asigna dinámicamente al corresponsal adecuado desde `agents_registry.json` (ej. Arquímedes para Norteamérica, RT para Eurasia).
- - **Resiliencia de Imágenes:** Sistema de Fallback en componentes clave (`ProgressiveImage`, `ArticleModal`) que inyecta visuales Cyberpunk de emergencia si la IA de imágenes (Pollinations) falla por rate limits o timeouts.
+ - **Sincronización Cuántica y Telemetría en Vivo:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860`. Cuando el Daemon local está activo, el portal intercepta:
+   - *Live Terminal Feed* (`/v1/journalist/log`): Monitoreo de logs en tiempo real.
+   - *Vigía Status Dashboard* (`/v1/autonomy/status`): Panel lateral que visualiza la salud del sistema y la entropía del periodista.
+   - *Dynamic News Merging* (`/v1/journalist/news`): Las noticias generadas se transmiten inmediatamente al frontend antes de que ocurra el commit, eliminando el tiempo de espera del build.
+ - **Resiliencia Offline:** Si la PC/Bridge falla o se apaga, el portal cambiará a modo offline (estático, cinemático y mostrando noticias cacheadas en `news.json`) sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
+ - **Renderizado Seguro:** La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal.
+ - **Auto-Mantenimiento:** Limpieza de librerías y portadas automáticas (Script `sync_books.py`).
+ - **Field Reporters Context-Aware:** Sistema Zero-Trust que asigna dinámicamente corresponsales según la región (ej. Arquímedes para Norteamérica, RT para Eurasia).
+ - **Resiliencia de Imágenes:** Componentes `ProgressiveImage` inyectan visuales Cyberpunk de emergencia si la IA de imágenes falla.
 
 ---
 
@@ -61,13 +65,13 @@ npm run dev
 ---
 
 > [!NOTE]
-> Ecosistema público V16.0 Frontend.
+> Ecosistema público V16.1 Frontend.
 > [**📖 WIKI CORPORATIVA**](./wiki/Home.md) | [📜 CONTRIBUCIÓN](./CONTRIBUTING.md) | [🔒 SEGURIDAD](./SECURITY.md)
 
 <br>
 
 <div align="center">
-  <sub><i>© 2026 DarckRovert · Gravity News Portal V16.0 PRO.</i></sub>
+  <sub><i>© 2026 DarckRovert · Gravity News Portal V16.1 PRO.</i></sub>
 </div>""",
 
     "wiki/Home.md": """# 📖 Wiki Corporativa: Nexo Ágora (News Portal)
@@ -93,18 +97,19 @@ El portal de noticias soluciona uno de los mayores problemas de la IA local: **�
 El portal fue construido utilizando React/Vite y es hospedado en Netlify (plataforma sin servidor).
 Esto significa que el portal **nunca** se apaga, incluso si tu PC está apagada.
 
-**El Flujo:**
+**El Flujo Estático (Offline):**
 1. Tu PC enciende. El Daemon `news_daemon.py` despierta.
 2. Descarga noticias, el LLM procesa y escribe la noticia.
 3. Se actualiza el archivo `src/data/news.json` y se descargan las imágenes.
 4. El Agente hace un `git push` a este repositorio.
-5. Netlify hace un *build* de 30 segundos y la web queda actualizada.
+5. Netlify hace un *build* de 30 segundos y la web queda actualizada estáticamente.
 
-**Modo Híbrido (Tiempo Real):**
- Si el visitante hace clic en "Generar Reporte Directo" desde el portal, el frontend intenta conectarse a `http://localhost:7860`. Si tu PC está prendida, el portal mostrará cómo la IA te responde en tiempo real a través del túnel. Si falla, el portal es resiliente y cambiará a modo estático sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
- 
- **Renderizado Seguro:**
- La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal, manteniendo la interfaz segura y elegante bajo cualquier eventualidad.
+**Modo Híbrido en Tiempo Real (Telemetría Activa):**
+Cuando tu PC está encendida, el frontend React detecta el nodo en `http://localhost:7860`. Automáticamente activa el **Live Feed**:
+1. **Dynamic News Fetch:** Se fusionan los artículos del backend sin necesidad de esperar el deploy de Netlify.
+2. **Terminal Feed:** Se visualizan los logs de los subagentes en la UI en vivo.
+3. **Vigía Dashboard:** El panel lateral expone métricas como entropía, hardware y estado del orquestador.
+Si el túnel local se cae, la interfaz realiza un _graceful degradation_ al modo Offline (cinemático) sin romper la UI.
 
 ---
 
@@ -130,10 +135,16 @@ No se aceptan Pull Requests externos a menos que hayan sido negociados previamen
 Si has encontrado una vulnerabilidad de XSS, inyección o un fallo en el túnel REST (`http://localhost:7860`) del portal, por favor envía un reporte directo a los canales oficiales de DarckRovert. No abras un Issue público.
 
 ### Endpoints Protegidos
-El portal jamás almacena llaves de API (Nvidia NIM, DeepSeek) en su código fuente (React). Toda la carga cognitiva se hace **localmente** en el entorno seguro de Gravity AI Bridge. El frontend solo consume JSON estáticos o peticiones localhost directas al orquestador.
+El portal jamás almacena llaves de API (Nvidia NIM, DeepSeek) en su código fuente (React). Toda la carga cognitiva se hace **localmente** en el entorno seguro de Gravity AI Bridge. El frontend consume JSON estáticos (Offline) o se conecta por polling seguro a las rutas:
+- `/v1/journalist/news`
+- `/v1/journalist/log`
+- `/v1/autonomy/status`
 
-### Auditoría V16.0 Frontend
-El repositorio en su iteración V16 ha pasado por una rigurosa auditoría manual de infraestructura. Se verificó el encapsulamiento seguro de `dangerouslySetInnerHTML` utilizando un modelo de ingesta local estática de alto rendimiento, logrando inmunidad ante XSS público.""",
+### Auditoría V16.1 Frontend
+El repositorio en su iteración V16.1 ha pasado por una rigurosa auditoría manual de infraestructura. 
+- Se verificó el encapsulamiento seguro de `dangerouslySetInnerHTML`.
+- Se validaron los fallbacks (Graceful Degradation) para la telemetría en tiempo real, garantizando inmunidad ante XSS y Crashes (como la inyección robusta de `AnimatePresence`).
+- Zero-Trust: Incluso sin conexión al Bridge, la experiencia de usuario se mantiene intacta.""",
 
 }
 

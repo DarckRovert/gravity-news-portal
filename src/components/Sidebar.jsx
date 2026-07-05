@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Cpu, Wifi, WifiOff, BookOpen, PenTool, Microscope, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Cpu, Wifi, WifiOff, BookOpen, PenTool, Microscope, ArrowRight, ShieldAlert } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import booksData from '../data/books.json';
 import essaysData from '../data/essays.json';
 import scienceData from '../data/science.json';
@@ -16,6 +17,28 @@ export default function Sidebar({
   handleRequestBridgeNews
 }) {
   const navigate = useNavigate();
+  const [vigiaStatus, setVigiaStatus] = useState(null);
+
+  useEffect(() => {
+    if (bridgeStatus === 'online' && bridgeUrl) {
+      const fetchVigia = async () => {
+        try {
+          const res = await fetch(`${bridgeUrl}/v1/autonomy/status`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.autonomy_engine && data.autonomy_engine.vigia) {
+              setVigiaStatus(data.autonomy_engine.vigia);
+            }
+          }
+        } catch (e) {
+          // Silent fail
+        }
+      };
+      fetchVigia();
+      const interval = setInterval(fetchVigia, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [bridgeStatus, bridgeUrl]);
 
   return (
     <aside className="sidebar-column">
@@ -84,6 +107,52 @@ export default function Sidebar({
           </div>
         )}
       </motion.div>
+
+      {/* Vigia Dashboard Panel */}
+      <AnimatePresence>
+        {bridgeStatus === 'online' && vigiaStatus && (
+          <motion.div 
+            className="sidebar-card glass-panel vigia-panel"
+            initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+            animate={{ opacity: 1, height: 'auto', marginBottom: 20 }}
+            exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="panel-header">
+              <ShieldAlert size={20} className={`panel-icon ${vigiaStatus.overall_status === 'CRITICAL' ? 'text-warn' : ''}`} />
+              <h3>Vigía Homeostasis</h3>
+              <div className={`status-indicator ${vigiaStatus.overall_status === 'CRITICAL' ? 'offline' : 'online'}`}>
+                <span>{vigiaStatus.overall_status || 'NORMAL'}</span>
+              </div>
+            </div>
+            
+            <div className="vigia-stats animate-fade-in">
+              <div className="stat-row">
+                <span className="stat-label">Entropía del Periodista:</span>
+                <span className="stat-value">{vigiaStatus.journalist_entropy?.toFixed(2) || '0.00'}</span>
+              </div>
+              <div className="stat-row">
+                <span className="stat-label">Errores Consecutivos:</span>
+                <span className="stat-value">{vigiaStatus.consecutive_errors || 0}</span>
+              </div>
+              <div className="stat-row">
+                <span className="stat-label">Última Anomalía:</span>
+                <span className="stat-value truncate" title={vigiaStatus.last_anomaly || 'Ninguna'}>
+                  {vigiaStatus.last_anomaly || 'Ninguna'}
+                </span>
+              </div>
+              
+              {/* Progress bar for entropy */}
+              <div className="entropy-bar-container">
+                <div 
+                  className={`entropy-bar-fill ${vigiaStatus.journalist_entropy > 0.8 ? 'bg-warn' : 'bg-safe'}`} 
+                  style={{ width: `${Math.min(100, (vigiaStatus.journalist_entropy || 0) * 100)}%` }}
+                ></div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Featured Books Showcase */}
       <motion.div 

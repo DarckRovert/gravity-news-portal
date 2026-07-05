@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X, Radio, Film, FolderLock, Play, Bookmark } from 'lucide-react';
 import FieldReporters from './FieldReporters';

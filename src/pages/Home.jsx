@@ -146,7 +146,9 @@ export default function Home() {
         "category": "Una de estas: 'Control Biométrico', 'Resistencia Digital', 'Soberanía Criptográfica', 'Vigilancia del Leviatán', 'Tecnología Descentralizada', 'Geopolítica y Macro-Leviatán', 'Medicina y Bioética', 'Cultura y Psicometría', 'Cine e Ingeniería Social', 'Deporte y Control Biométrico', 'Ciencia y Sustrato', 'Religión y Creencias Masivas'",
         "title": "Título del reporte revelando el patrón",
         "excerpt": "Resumen analítico exponiendo el patrón oculto descubierto",
-        "fullText": "Texto detallado en párrafos estructurados"
+        "tldr": ["Punto clave 1", "Punto clave 2", "Punto clave 3"],
+        "context": "Contexto general de la situación en texto claro",
+        "analysis": "Análisis profundo en párrafos estructurados revelando el patrón"
       }`;
 
       const chatRes = await fetch(`${bridgeUrl}/v1/chat/completions`, {
@@ -290,7 +292,7 @@ export default function Home() {
                       <div className="hero-meta">
                         <span className="badge-futuristic glow-badge">{featuredNews.category}</span>
                         <span className="hero-date"><Clock size={14} /> {getRelativeTime(featuredNews.date)}</span>
-                        <span className="hero-date"><BookOpen size={14} /> {getReadingTime(featuredNews.fullText)} min</span>
+                        <span className="hero-date"><BookOpen size={14} /> {getReadingTime(featuredNews)} min</span>
                         <button 
                           className={`btn-bookmark ${isBookmarked(featuredNews.id) ? 'bookmarked' : ''}`}
                           onClick={(e) => { e.stopPropagation(); toggleBookmark(featuredNews.id); }}

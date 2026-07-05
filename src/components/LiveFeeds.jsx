@@ -36,6 +36,18 @@ const LiveFeeds = () => {
     setFullScreenVideo(null);
   };
 
+  // Lock body scroll when in fullscreen
+  useEffect(() => {
+    if (fullScreenVideo) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [fullScreenVideo]);
+
   // Combine all media arrays to find bookmarks easily
   const allMediaFlat = Object.values(mediaData).flat();
   const currentMedia = activeTab === 'guardados' 

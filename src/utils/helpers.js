@@ -21,8 +21,19 @@ export const getRelativeTime = (dateString) => {
   return dateString.split('T')[0]; // fallback
 };
 
-export const getReadingTime = (text) => {
-  if (!text) return 1;
-  const words = text.split(/\s+/).length;
+export const getReadingTime = (article) => {
+  if (!article) return 1;
+  let text = '';
+  if (typeof article === 'string') {
+    text = article;
+  } else if (typeof article === 'object') {
+    text = [
+      article.fullText || '',
+      article.context || '',
+      article.analysis || '',
+      article.tldr ? article.tldr.join(' ') : ''
+    ].join(' ');
+  }
+  const words = text.split(/\s+/).filter(w => w.trim().length > 0).length;
   return Math.max(1, Math.ceil(words / 200));
 };

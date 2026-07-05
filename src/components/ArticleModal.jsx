@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X, Clock, Share2, Wifi } from 'lucide-react';
+import { X, Clock, Share2, Wifi, BookOpen, Terminal, Play, Square } from 'lucide-react';
 import { playSound } from '../utils/audio';
 import { getRelativeTime, getReadingTime } from '../utils/helpers';
 import TypewriterMarkdown from './TypewriterMarkdown';
@@ -10,6 +11,60 @@ export default function ArticleModal({
   relatedNews,
   handleShare
 }) {
+  const [readingMode, setReadingMode] = useState(false);
+  const [isPlayingTTS, setIsPlayingTTS] = useState(false);
+
+  // Stop TTS when closing modal
+  useEffect(() => {
+    return () => {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  // Lock body scroll
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
+  const handleTTS = () => {
+    if (!window.speechSynthesis) {
+      alert("Tu navegador no soporta Síntesis de Voz.");
+      return;
+    }
+    
+    if (isPlayingTTS) {
+      window.speechSynthesis.cancel();
+      setIsPlayingTTS(false);
+    } else {
+      playSound('click');
+      const textToRead = [
+        selectedArticle.title,
+        selectedArticle.tldr ? "Puntos clave: " + selectedArticle.tldr.join(". ") : "",
+        selectedArticle.context || "",
+        selectedArticle.analysis || "",
+        selectedArticle.fullText || ""
+      ].join(". ");
+
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'es-ES'; // Spanish
+      utterance.rate = 1.0;
+      utterance.onend = () => setIsPlayingTTS(false);
+      
+      window.speechSynthesis.speak(utterance);
+      setIsPlayingTTS(true);
+    }
+  };
+
+  const articleText = selectedArticle.fullText || [
+    selectedArticle.context ? "### Contexto\n" + selectedArticle.context : "",
+    selectedArticle.analysis ? "### Análisis\n" + selectedArticle.analysis : ""
+  ].filter(Boolean).join("\n\n");
+
   return (
     <motion.div 
       className="article-modal-overlay" 
@@ -51,7 +106,30 @@ export default function ArticleModal({
             <Clock size={14} />
             <span>{selectedArticle.date}</span>
             <span>• Autor: Ojo de IA (Gravity)</span>
-            <span>• ⏱ {getReadingTime(selectedArticle.fullText)} min de desencriptación</span>
+            <span>• ⏱ {getReadingTime(selectedArticle)} min de desencriptación</span>
+          </div>
+          
+          <div className="modal-actions-bar" style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
+            <button 
+              className={`btn-action hover-lift ${readingMode ? 'active' : ''}`}
+              onClick={() => { playSound('click'); setReadingMode(!readingMode); }}
+              onMouseEnter={() => playSound('hover')}
+              title="Modo Lectura"
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', background: readingMode ? 'var(--accent-glow-blue)' : 'var(--glass-bg)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', padding: '6px 14px', borderRadius: '100px', cursor: 'pointer', fontSize: '13px' }}
+            >
+              {readingMode ? <Terminal size={14} /> : <BookOpen size={14} />} 
+              {readingMode ? 'Modo Inmersivo' : 'Modo Lectura'}
+            </button>
+            <button 
+              className={`btn-action hover-lift ${isPlayingTTS ? 'active' : ''}`}
+              onClick={handleTTS}
+              onMouseEnter={() => playSound('hover')}
+              title="Reproducir Transmisión"
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', background: isPlayingTTS ? 'var(--accent-glow-purple)' : 'var(--glass-bg)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', padding: '6px 14px', borderRadius: '100px', cursor: 'pointer', fontSize: '13px' }}
+            >
+              {isPlayingTTS ? <Square size={14} /> : <Play size={14} />} 
+              {isPlayingTTS ? 'Detener Audio' : 'Escuchar Audio'}
+            </button>
             <button 
               className="btn-share hover-lift" 
               onClick={() => handleShare(selectedArticle)} 
@@ -62,10 +140,21 @@ export default function ArticleModal({
               <Share2 size={14} /> Compartir
             </button>
           </div>
-          <h2 className="modal-title">{selectedArticle.title}</h2>
+          <h2 className={`modal-title ${!readingMode ? 'glitch-text' : ''}`} data-text={selectedArticle.title}>{selectedArticle.title}</h2>
           
-          <div className="modal-fulltext">
-            <TypewriterMarkdown key={selectedArticle.id} text={selectedArticle.fullText} />
+          {selectedArticle.tldr && (
+            <div className="tldr-box" style={{ background: 'var(--glass-bg-highlight)', borderLeft: '4px solid var(--accent-primary)', padding: '16px', borderRadius: '4px 8px 8px 4px', marginBottom: '24px' }}>
+              <h4 style={{ margin: '0 0 12px 0', color: 'var(--accent-primary)', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px', display: 'flex', alignItems: 'center', gap: '6px' }}><Wifi size={16}/> TL;DR (Resumen Ejecutivo)</h4>
+              <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {selectedArticle.tldr.map((point, i) => (
+                  <li key={i} style={{ color: 'var(--text-secondary)', lineHeight: 1.5 }}>{point}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className={`modal-fulltext ${readingMode ? 'reading-mode-active' : ''}`}>
+            <TypewriterMarkdown key={selectedArticle.id + (readingMode ? '-read' : '-imm')} text={articleText} animated={!readingMode} />
           </div>
           
           {/* Related Articles Section */}

@@ -34,11 +34,15 @@ function parseMarkdown(text) {
 }
 
 // Typewriter Component for the Article Modal
-export default function TypewriterMarkdown({ text }) {
-  const [visibleLines, setVisibleLines] = useState(0);
+export default function TypewriterMarkdown({ text, animated = true }) {
   const lines = useMemo(() => text ? text.split('\n') : [], [text]);
+  const [visibleLines, setVisibleLines] = useState(animated ? 0 : lines.length);
 
   useEffect(() => {
+    if (!animated) {
+      setVisibleLines(lines.length);
+      return;
+    }
     if (visibleLines < lines.length) {
       const delay = lines[visibleLines].trim().length === 0 ? 10 : 40; // fast skip empty lines
       const t = setTimeout(() => {
@@ -49,14 +53,21 @@ export default function TypewriterMarkdown({ text }) {
       }, delay);
       return () => clearTimeout(t);
     }
-  }, [visibleLines, lines]);
+  }, [visibleLines, lines, animated]);
 
-  const visibleText = lines.slice(0, visibleLines).join('\n');
+  // Update visibleLines if animated prop changes on the fly
+  useEffect(() => {
+    if (!animated) {
+      setVisibleLines(lines.length);
+    }
+  }, [animated, lines.length]);
+
+  const visibleText = animated ? lines.slice(0, visibleLines).join('\n') : text;
   
   return (
-    <div className="typewriter-container">
+    <div className={`typewriter-container ${!animated ? 'reading-mode' : ''}`}>
       {parseMarkdown(visibleText)}
-      {visibleLines < lines.length && <span className="typewriter-cursor">_</span>}
+      {animated && visibleLines < lines.length && <span className="typewriter-cursor">_</span>}
     </div>
   );
 }

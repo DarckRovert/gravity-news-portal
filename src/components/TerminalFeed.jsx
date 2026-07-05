@@ -7,12 +7,12 @@ const TerminalFeed = ({ bridgeUrl, bridgeStatus }) => {
     "> BYPASSING SECURITY NODES [OK]",
     "> CONNECTING TO MAINFRAME..."
   ]);
-  const endRef = useRef(null);
+  const bodyRef = useRef(null);
 
   useEffect(() => {
-    // Scroll to bottom whenever logs change
-    if (endRef.current) {
-      endRef.current.scrollIntoView({ behavior: 'smooth' });
+    // Scroll to bottom whenever logs change without hijacking window scroll
+    if (bodyRef.current) {
+      bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
     }
   }, [logs]);
 
@@ -74,13 +74,12 @@ const TerminalFeed = ({ bridgeUrl, bridgeStatus }) => {
         <span className="terminal-title">SYS.LOG</span>
         <span className="blinking-cursor">_</span>
       </div>
-      <div className="terminal-body">
+      <div className="terminal-body" ref={bodyRef}>
         {logs.map((log, i) => (
           <div key={i} className={`terminal-line ${log.includes('Alerta') || log.includes('ENCRIPTADO') || log.includes('ERROR') || log.includes('CRITICAL') ? 'text-warn' : ''}`}>
             {log}
           </div>
         ))}
-        <div ref={endRef} />
       </div>
     </div>
   );

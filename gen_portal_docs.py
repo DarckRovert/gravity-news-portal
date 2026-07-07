@@ -180,6 +180,149 @@ El repositorio en su iteración V16.2 ha pasado por una rigurosa auditoría manu
 - Se anularon vulnerabilidades de memoria (Render Storms) mediante *Render-Phase Updates*.
 - Zero-Trust: Incluso sin conexión al Bridge, la experiencia de usuario se mantiene intacta.""",
 
+    "docs/ARCHITECTURE.md": """# 🏗️ Arquitectura del Nexo Ágora (V16.2 PRO)
+
+Este documento describe la arquitectura de software de **Gravity News Portal** y sus mecanismos avanzados de renderizado y sincronización.
+
+## 1. Topología del Ecosistema
+
+El sistema opera bajo un modelo **Decoupled Sync (Zero-Trust)**:
+- **Frontend React**: SPA estática (Vite + React 19) en Netlify.
+- **Data Source**: Archivos locales estáticos (`news.json`, `books.json`).
+- **Orquestador Backend (Offline/Online)**: El puente Python (`gravity_reporter.py`) hace `git push` en background para builds estáticos, o expone `/v1/journalist/news` para inyección de datos en tiempo real (Telemetría Activa).
+
+## 2. Prevención de Bugs Arquitectónicos (El Estándar Mythos 5)
+
+El archivo maestro `App.jsx` fue blindado mediante las siguientes implementaciones estrictas:
+
+### A. Invulnerabilidad de Enrutamiento (`ChunkLoadError` Mitigation)
+Se mitigó la caída asíncrona de la red al intentar cargar vistas con `React.lazy()` estableciendo una jerarquía inquebrantable:
+```jsx
+<AnimatePresence mode="wait">
+  <ErrorBoundary key={location.pathname}>
+    <Routes>
+      <Route element={<Suspense fallback={<PageLoader />}> ... </Suspense>} />
+```
+1. Si un chunk falla, el `ErrorBoundary` captura el error SIN desmontar el `AnimatePresence`.
+2. El uso de `key={location.pathname}` garantiza que, al navegar a otra ruta, el `ErrorBoundary` se destruya y reactive automáticamente, sin dejar al usuario bloqueado en el estado de error.
+3. La recuperación manual exige `window.location.reload()` para purgar la caché nativa de promesas fallidas de Vite.
+
+### B. Rendimiento Anti-Storm (Render-Phase Updates)
+Se ha abolido el uso de `useEffect` para sincronizar estados derivados. En buscadores y contextos globales (ej. `searchTerm`), utilizar `setSearchTerm` directamente en cada pulsación del teclado (`onChange`) provocaría una *render storm* catastrófica. 
+**La solución React 19:**
+Implementación de un estado local con Debounce, sincronizado mediante **Render-Phase Updates** para no desatar re-renders en cascada (`react-hooks/set-state-in-effect` violation).
+
+### C. Foco de Accesibilidad (WCAG 2.2)
+Toda interacción que desplace el viewport (ej. `ScrollToTopFAB`) no abandona al usuario de teclado (`blur()`), sino que transfiere el foco de manera programática al nodo principal protegido (`<main id="main" tabIndex={-1}>`).
+
+### D. Optimización GPU (Framer Motion)
+El monitoreo del scroll (`ScrollTracker`) se realiza **fuera del ciclo de renderizado de React**, interceptando los deltas directamente hacia la GPU mediante `useScroll` y `useMotionValueEvent`, manteniendo la interfaz perpetuamente a 60 FPS.""",
+
+    "docs/DEVELOPER_GUIDE.md": """# ⚙️ Guía de Desarrollo: Nexo Ágora V16.2
+
+Si deseas clonar, mejorar o auditar el código fuente del Portal Gravity, es obligatorio adherirse a los siguientes estándares técnicos inquebrantables.
+
+## 1. Configuración del Entorno Local
+
+Asegúrate de contar con Node.js v18+ instalado.
+
+```bash
+npm install
+npm run dev
+npm run build # Validar siempre antes de empujar código
+npm run lint  # Cero advertencias permitidas
+```
+
+## 2. Reglas de Accesibilidad (Estricto WCAG 2.2)
+
+Todo PR que rompa las reglas de accesibilidad será rechazado.
+- **Etiquetas Semánticas y Foco**: Todo componente interactivo debe contener un `aria-label`. 
+- **Componentes Dinámicos**: Los *Loaders* o actualizaciones de estado deben utilizar `aria-live="polite"` y `role="status"`.
+- **Skip Links & FAB**: El botón de "Saltar al contenido" y el "Volver arriba" JAMÁS deben abandonar al usuario usando un simple `.blur()`. El foco debe transferirse programáticamente a un contenedor navegable (`<main id="main" tabIndex={-1}>`).
+
+## 3. Manejo de Estado y Rendimiento (Render Storm Prevention)
+
+**PROHIBICIÓN ESTRICTA**: No llamar a `setState` de manera síncrona dentro de un `useEffect` si el objetivo es sincronizar un estado derivado. Esto provoca *cascading renders*.
+Utiliza el patrón de *Render-Phase update* oficial de React 19:
+```jsx
+const [localVal, setLocalVal] = useState(globalVal);
+const [prevGlobalVal, setPrevGlobalVal] = useState(globalVal);
+
+if (globalVal !== prevGlobalVal) {
+  setPrevGlobalVal(globalVal);
+  setLocalVal(globalVal); // Actúa antes de que el repintado ocurra
+}
+```
+*Además, todos los inputs de texto global deben usar debounce de al menos 300ms.*
+
+## 4. Animaciones y GPU
+
+No utilizar *Event Listeners* atados al estado de React para observar eventos de ventana (`scroll`, `mousemove`). Se debe utilizar **Framer Motion** (`useScroll`, `useMotionValueEvent`) para inyectar los valores delta directamente en las variables CSS o transformaciones de los elementos `motion.div`.""",
+
+    "docs/USER_MANUAL.md": """# 📖 Manual de Usuario: Nexo Ágora
+
+Bienvenido a la terminal pública de la Zona Ágora. Este portal actúa como tu central para acceder a los archivos de investigación, leer los tomos profundos de Gravity y pedirle a tu propio cerebro local que investigue acontecimientos en el tejido global.
+
+## 1. La Biblioteca Soberana
+
+En la pestaña **Biblioteca**, encontrarás todos los tomos y ensayos exportados por el sistema Gravity AI.
+- Utiliza las **pestañas de categorías** (Ensayo, Ficción, Libro) para filtrar la vista.
+- Para leer un libro, presiona **Leer Tomo**. Esto abrirá nuestro **Lector Cuántico**, que está optimizado para dispositivos móviles y escritorio.
+- Dentro del Lector, puedes modificar el tamaño de la letra, alternar entre tipografía Serif y Sans, y cambiar la paleta de colores (Oscuro, Sepia, Claro) para tu comodidad.
+- Si prefieres llevarte el archivo fuera de línea, utiliza el botón **Descargar**.
+
+## 2. Nexo Multimedia (Películas y Documentales)
+
+El **Nexo Multimedia** se encuentra en la parte superior de la página de Noticias. Es una cartelera inteligente que filtra contenido global:
+- Usa las pestañas **Monitoreo Global**, **Cine de Resistencia** y **Archivos Desclasificados** para navegar entre noticieros en vivo, películas de ciencia ficción y filosofía, o documentales de inteligencia.
+- Haz clic en cualquier tarjeta para iniciar la reproducción al instante.
+- Utiliza el botón de **pantalla completa** (icono de flechas expansivas) en cualquier video para una experiencia inmersiva.
+- Usa el botón inferior **CARGAR MÁS ARCHIVOS** para ver el resto del catálogo (diseñado con "Carga Perezosa" para no saturar tu RAM).
+
+## 3. Investigador en Vivo (Conexión Cognitiva)
+
+En la página principal de **Noticias**, verás a la derecha (o al final si estás en tu móvil) el panel de **Conexión Cognitiva**.
+
+Este panel te conecta directamente al motor inteligente de Gravity ejecutándose en tu ordenador.
+1. Confirma que el indicador muestra estado **Online** (luz cian).
+2. En el recuadro negro, escribe el tema que deseas investigar (ej. *"Censura algorítmica en X"*).
+3. Presiona **Iniciar Investigación**.
+4. Espera unos segundos. Gravity hará la búsqueda, aplicará sus modelos filosófico-analíticos para redactar la pieza y la inyectará en tiempo real en la pantalla.
+
+> **Aviso:** Si el indicador marca **Offline**, asegúrate de haber ejecutado el puente de IA en tu computadora local.
+
+---
+
+## ⚠️ Cómo conectar la IA desde tu Celular (Contenido Mixto)
+
+Un problema común al acceder desde un teléfono celular a la página (`https://gravitynewsportal.netlify.app`) es que el panel marcará permanentemente "Offline" si intentas poner la IP local de tu casa (por ejemplo: `http://192.168.1.75:7860`).
+
+Esto **no es un fallo de la página**. Sucede porque la página es muy segura (`https://`), pero tu IP local no lo es (`http://`). A esto se le llama bloqueo de "Mixed Content" (Contenido Mixto) y Chrome o Safari bloquean la comunicación para "protegerte".
+
+Para evitar esta limitación, tienes **dos opciones**:
+
+### Opción A: Desactivar la seguridad en tu navegador móvil (Recomendado para uso casero)
+1. Abre el portal de noticias en el navegador de tu celular (Google Chrome).
+2. Toca el **icono del candadito** (o ícono de "Sitio seguro") que aparece en la barra superior al lado del enlace.
+3. Entra en la **Configuración de este sitio**.
+4. Busca el permiso llamado **Contenido Inseguro** o **Insecure Content**.
+5. Cambia el valor de *Bloquear* a **Permitir**.
+6. Refresca la página y verás que el panel se conecta instantáneamente.
+
+### Opción B: Usar Ngrok (Para conexiones seguras)
+1. En la computadora principal donde corre el Bridge, descarga **Ngrok**.
+2. Abre la consola y ejecuta: `ngrok http 7860`.
+3. Ngrok te entregará un enlace seguro (ej. `https://xxxx.ngrok-free.app`).
+4. Abre la web del portal en tu celular, pega ese enlace de ngrok en la caja de URL de la Conexión Cognitiva y listo.
+
+---
+
+## 4. Resiliencia y Anomalías de Conexión (V16.2)
+
+Debido a que el portal se actualiza constantemente de forma desatendida, es posible que tu navegador intente acceder a un archivo que acaba de ser reemplazado por la IA.
+Si esto ocurre, no verás una pantalla blanca o un fallo crítico. El sistema interceptará el fallo y mostrará una pantalla segura de **"Anomalía en la Conexión"**.
+Simplemente presiona el botón **Reestablecer Conexión** para resincronizar el enlace con la nube y cargar la versión más reciente del Nexo.""",
+
 }
 
 

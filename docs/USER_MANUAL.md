@@ -60,4 +60,4 @@ Para evitar esta limitación, tienes **dos opciones**:
 
 Debido a que el portal se actualiza constantemente de forma desatendida, es posible que tu navegador intente acceder a un archivo que acaba de ser reemplazado por la IA.
 Si esto ocurre, no verás una pantalla blanca o un fallo crítico. El sistema interceptará el fallo y mostrará una pantalla segura de **"Anomalía en la Conexión"**.
-Simplemente presiona el botón **Reestablecer Conexión** para resincronizar el enlace con la nube y cargar la versión más reciente del Nexo.
+Simplemente presiona el botón **Reestablecer Conexión** para resincronizar el enlace con la nube y cargar la versión más reciente del Nexo.\n

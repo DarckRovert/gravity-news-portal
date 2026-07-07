@@ -23,7 +23,7 @@ Todo PR que rompa las reglas de accesibilidad será rechazado.
 ## 3. Manejo de Estado y Rendimiento (Render Storm Prevention)
 
 **PROHIBICIÓN ESTRICTA**: No llamar a `setState` de manera síncrona dentro de un `useEffect` si el objetivo es sincronizar un estado derivado. Esto provoca *cascading renders*.
-Utiliza el patrón de *Render-Phase update* oficial de React 18:
+Utiliza el patrón de *Render-Phase update* oficial de React 19:
 ```jsx
 const [localVal, setLocalVal] = useState(globalVal);
 const [prevGlobalVal, setPrevGlobalVal] = useState(globalVal);
@@ -37,4 +37,4 @@ if (globalVal !== prevGlobalVal) {
 
 ## 4. Animaciones y GPU
 
-No utilizar *Event Listeners* atados al estado de React para observar eventos de ventana (`scroll`, `mousemove`). Se debe utilizar **Framer Motion** (`useScroll`, `useMotionValueEvent`) para inyectar los valores delta directamente en las variables CSS o transformaciones de los elementos `motion.div`.
+No utilizar *Event Listeners* atados al estado de React para observar eventos de ventana (`scroll`, `mousemove`). Se debe utilizar **Framer Motion** (`useScroll`, `useMotionValueEvent`) para inyectar los valores delta directamente en las variables CSS o transformaciones de los elementos `motion.div`.\n

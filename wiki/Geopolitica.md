@@ -11,4 +11,4 @@ La sección de Geopolítica (Radar) es una adición consolidada en la versión V
 
 ## Optimización Computacional
 
-La introducción de la etiqueta geográfica sustituye a las pesadas rutinas de generación de video MP4 (`crear_tiktok`), permitiendo que el Agente cierre su ciclo e indexe el repositorio de forma casi instantánea tras redactar la síntesis.
+La introducción de la etiqueta geográfica sustituye a las pesadas rutinas de generación de video MP4 (`crear_tiktok`), permitiendo que el Agente cierre su ciclo e indexe el repositorio de forma casi instantánea tras redactar la síntesis.\n

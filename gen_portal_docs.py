@@ -25,11 +25,12 @@ files_to_create = {
 ## 🏛 Arquitectura Frontend V16.2 PRO
 
 El **Gravity News Portal** no es un portal de noticias ordinario. Es la interfaz pública "Cloud-Side" de tu **Gravity AI Bridge**.
+Funciona de manera *Decoupled* (Desacoplada).
 
 1. **El Motor Local:** Un daemon invisible (`news_daemon.py`) corre en tu PC ejecutando LLMs locales (Llama 3, Qwen) u online (Nvidia NIM).
 2. **Web Search & Redacción:** El agente busca información de contingencia global, la redacta en formato periodístico con un tono materialista/geopolítico y genera JSON estructurados.
 3. **Despliegue Continuo (CI/CD):** El agente empuja (`git push`) automáticamente las noticias e imágenes a este repositorio.
-4. **Hosting Reactivo:** Netlify / Vercel detectan el *commit* y despliegan la página en segundos.
+4. **Hosting Reactivo:** Netlify / Vercel detectan el *commit*, compilan el proyecto con Vite y despliegan la página en segundos.
 
 ### 📰 Características del Portal (Actualización V16.2)
  - **Zero-Trust Dark Mode:** Diseño Premium Tactile Brutalism en Deep Onyx y Neón Cyan (Glassmorphism).
@@ -90,37 +91,69 @@ Bienvenido a la Wiki técnica del Frontend de Gravity AI.
 | [Arquitectura Técnica](../docs/ARCHITECTURE.md) | Detalles del VDOM, Render-Phase y Mitigación de Red |
 | [Guía de Desarrollo](../docs/DEVELOPER_GUIDE.md) | Estándares técnicos (WCAG 2.2, Anti-Storm) |
 | [Manual de Usuario](../docs/USER_MANUAL.md) | Instrucciones de uso e intercepción de anomalías |
+| [Guía de Contribución](../CONTRIBUTING.md) | Políticas de PRs y código cerrado |
+| [Políticas de Seguridad](../SECURITY.md) | Reporte de vulnerabilidades |
 
 ---
 *Para ver la Wiki del Backend y Motor Central, dirígete al repositorio de [Gravity AI Bridge](https://github.com/DarckRovert/Gravity_AI_bridge).*""",
 
     "wiki/Arquitectura.md": """# 🏛 Arquitectura Desacoplada (Decoupled Sync V16.2)
 
-El portal de noticias soluciona el problema de mantener un sitio web vivo 24/7 aunque el Backend local de IA se apague.
+El portal de noticias soluciona uno de los mayores problemas de la IA local: **¿Cómo mantengo un sitio web vivo 24/7 si mi PC de IA (Backend) se apaga en la noche?**
 
 ### Solución: Repositorio Estático Sincronizado
 
-El portal fue construido utilizando **React 18 + Vite** y es hospedado en Netlify (plataforma sin servidor).
-Esto significa que el portal **nunca** se apaga.
+El portal fue construido utilizando React 18 / Vite y es hospedado en Netlify (plataforma sin servidor).
+Esto significa que el portal **nunca** se apaga, incluso si tu PC está apagada.
 
 **El Flujo Estático (Offline):**
 1. Tu PC enciende. El Daemon `news_daemon.py` despierta.
-2. El LLM procesa contingencias y actualiza el archivo `src/data/news.json`.
-3. El Agente hace un `git push` a este repositorio.
-4. Netlify hace un *build* de 30 segundos y la web queda actualizada estáticamente.
+2. Descarga noticias, el LLM procesa y escribe la noticia.
+3. Se actualiza el archivo `src/data/news.json` y se descargan las imágenes.
+4. El Agente hace un `git push` a este repositorio.
+5. Netlify hace un *build* de 30 segundos y la web queda actualizada estáticamente.
 
 **Modo Híbrido en Tiempo Real (Telemetría Activa):**
 Cuando tu PC está encendida, el frontend React detecta el nodo en `http://localhost:7860`. Automáticamente activa el **Live Feed**:
-1. **Dynamic News Fetch:** Se fusionan los artículos del backend sin esperar el deploy de Netlify.
-2. **Terminal Feed:** Se visualizan los logs en la UI en vivo.
+1. **Dynamic News Fetch:** Se fusionan los artículos del backend sin necesidad de esperar el deploy de Netlify.
+2. **Terminal Feed:** Se visualizan los logs de los subagentes en la UI en vivo.
+3. **Vigía Dashboard:** El panel lateral expone métricas como entropía, hardware y estado del orquestador.
+Si el túnel local se cae, la interfaz realiza un _graceful degradation_ al modo Offline (cinemático) sin romper la UI.
 
-### Prevención de Cuellos de Botella (Render Storms)
-La V16.2 ha introducido la filosofía de diseño *Zero-Bottleneck*:
-- **Debounce y Local State:** Los buscadores usan *Render-Phase updates* para evitar que el árbol de DOM colapse al tipear rápidamente.
+---
+
+### Despliegue en Netlify (Vite SPA)
+
+Para evitar el error de *MIME Type* o pantallas blancas al desplegar, el portal incluye un archivo `netlify.toml` en la raíz. Esto le ordena a Netlify que enrute todo el tráfico a través de la carpeta `dist` compilada, soportando correctamente el enrutamiento del lado del cliente (Client-Side Routing) propio de React.
+
+### Integración Táctica (Bypass de Redes Sociales)
+
+Para integrar *Live Streams* de plataformas cerradas (como TikTok) que prohíben estrictamente el uso de etiquetas `<iframe>` para proteger su ecosistema, el portal utiliza **"Enlaces Terrestres" (Field Reporters)**. 
+En lugar de forzar un iframe que resultará en un error `X-Frame-Options: SAMEORIGIN`, se inyecta un HUD Holográfico con la metadata del reportero (ubicación, hora local, estado activo). Esto atrae la atención del usuario simulando un radar en tiempo real, brindándole un botón de intercepción directo para abrir el live original.
+
+---
+
+### Actualizaciones de Rendimiento (V16.2 PRO)
+
+La V16.2 ha introducido la filosofía de diseño *Zero-Bottleneck* y tolerancia asíncrona:
+- **Prevención de Render Storms:** Los buscadores usan *Render-Phase updates* para evitar que el árbol de DOM colapse al tipear rápidamente.
 - **ScrollTracker en GPU:** Todo rastreo visual de scroll bypassa el motor de React, inyectándose directamente en la GPU a través de `framer-motion`.
+- **Resiliencia ChunkLoadError:** Inyección de un `<ErrorBoundary>` enraizado bajo la arquitectura de `AnimatePresence` que intercepta fallos de red cuando la CDN despliega una nueva versión en segundo plano.""",
 
-### Despliegue SPA en Netlify
-Para evitar el error de *MIME Type* o pantallas blancas, el portal incluye un `netlify.toml` que enruta todo el tráfico a través de la carpeta `dist`, soportando el enrutamiento del cliente. A esto se le suma un `<ErrorBoundary>` enraizado bajo la arquitectura de `AnimatePresence` que intercepta caídas de red asíncronas (`ChunkLoadError`) de forma elegante.""",
+    "wiki/Geopolitica.md": """# Radar Geopolítico (V16.2)
+
+La sección de Geopolítica (Radar) es una adición consolidada en la versión V16.2 PRO del ecosistema Gravity. Permite mapear y visualizar noticias basándose en el vector de región inferido directamente por el LLM.
+
+## Funcionamiento del pipeline
+
+1. **Inferencia en el Motor (Backend)**: En el puente (`Gravity_AI_bridge`), los prompts de `reporter.json` exigen al Sintetizador extraer y definir una `"region"` para cada noticia interceptada (e.g., Eurasia, Latinoamérica, etc.).
+2. **Normalización**: El JSON estructurado viaja desde el LLM, pasa por la validación del esquema y se incrusta en `news.json`.
+3. **Consumo en el Portal (Frontend)**: El portal (React) consume `news.json` en `src/pages/Geopolitics.jsx`. Extrae dinámicamente el Set de regiones únicas e hidrata la UI con Filtros por región (chips interactivos).
+4. **Diseño Visual**: Cada `BentoGrid` despliega una etiqueta visible (`badge`) para demostrar al usuario a qué área geográfica corresponde la anomalía detectada, con el diseño clásico "Zero-Trust Dark Mode".
+
+## Optimización Computacional
+
+La introducción de la etiqueta geográfica sustituye a las pesadas rutinas de generación de video MP4 (`crear_tiktok`), permitiendo que el Agente cierre su ciclo e indexe el repositorio de forma casi instantánea tras redactar la síntesis.""",
 
     "CONTRIBUTING.md": """# 📜 Guía de Contribución
 
@@ -154,7 +187,7 @@ for file_path, content in files_to_create.items():
     full_path = os.path.join(BASE_DIR, file_path)
     os.makedirs(os.path.dirname(full_path), exist_ok=True)
     with open(full_path, "w", encoding="utf-8") as f:
-        f.write(content.strip() + "\n")
+        f.write(content.strip() + "\\n")
     print(f"Creado: {full_path}")
 
 print("Toda la documentacion generada.")

@@ -15,4 +15,4 @@ El repositorio en su iteración V16.2 ha pasado por una rigurosa auditoría manu
 - Se verificó el encapsulamiento seguro de `dangerouslySetInnerHTML`.
 - Se validaron los fallbacks (Graceful Degradation) para la telemetría en tiempo real, garantizando inmunidad ante XSS y Crashes (como la inyección robusta del `ErrorBoundary` dentro de `AnimatePresence`).
 - Se anularon vulnerabilidades de memoria (Render Storms) mediante *Render-Phase Updates*.
-- Zero-Trust: Incluso sin conexión al Bridge, la experiencia de usuario se mantiene intacta.
+- Zero-Trust: Incluso sin conexión al Bridge, la experiencia de usuario se mantiene intacta.\n

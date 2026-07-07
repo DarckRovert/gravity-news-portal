@@ -30,14 +30,16 @@ export default function Essays() {
   // Deep linking for essays
   useEffect(() => {
     const articleId = searchParams.get('article');
-    if (articleId && (!selectedEssay || selectedEssay.id !== articleId)) {
+    if (articleId) {
       const essay = essaysData.find(e => e.id === articleId);
       if (essay) {
-        setSelectedEssay(essay);
-      } else {
+        if (!selectedEssay || selectedEssay !== essay) {
+          setSelectedEssay(essay);
+        }
+      } else if (selectedEssay) {
         setSelectedEssay(null);
       }
-    } else if (!articleId && selectedEssay) {
+    } else if (selectedEssay) {
       setSelectedEssay(null);
     }
   }, [searchParams, selectedEssay]);

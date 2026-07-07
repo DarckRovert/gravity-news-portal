@@ -72,8 +72,8 @@ export default function Home() {
                 // Sort by date descending
                 merged.sort((a, b) => new Date(b.date) - new Date(a.date));
                 
-                // Evitar re-renderizados innecesarios que causan layout shifts
-                if (merged.length === prevNews.length && merged[0]?.id === prevNews[0]?.id) {
+                // Evitar re-renderizados innecesarios, pero detectando cualquier cambio de contenido
+                if (JSON.stringify(merged) === JSON.stringify(prevNews)) {
                   return prevNews;
                 }
                 return merged;
@@ -94,14 +94,16 @@ export default function Home() {
   // Deep linking for articles
   useEffect(() => {
     const articleId = searchParams.get('article');
-    if (articleId && (!selectedArticle || selectedArticle.id !== articleId)) {
+    if (articleId) {
       const article = news.find(a => a.id === articleId);
       if (article) {
-        setSelectedArticle(article);
-      } else {
+        if (!selectedArticle || selectedArticle !== article) {
+          setSelectedArticle(article);
+        }
+      } else if (selectedArticle) {
         setSelectedArticle(null);
       }
-    } else if (!articleId && selectedArticle) {
+    } else if (selectedArticle) {
       setSelectedArticle(null);
     }
   }, [searchParams, news, selectedArticle]);

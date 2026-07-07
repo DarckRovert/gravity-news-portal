@@ -30,14 +30,16 @@ export default function Science() {
   // Deep linking for articles
   useEffect(() => {
     const articleId = searchParams.get('article');
-    if (articleId && (!selectedArticle || selectedArticle.id !== articleId)) {
+    if (articleId) {
       const article = scienceData.find(a => a.id === articleId);
       if (article) {
-        setSelectedArticle(article);
-      } else {
+        if (!selectedArticle || selectedArticle !== article) {
+          setSelectedArticle(article);
+        }
+      } else if (selectedArticle) {
         setSelectedArticle(null);
       }
-    } else if (!articleId && selectedArticle) {
+    } else if (selectedArticle) {
       setSelectedArticle(null);
     }
   }, [searchParams, selectedArticle]);

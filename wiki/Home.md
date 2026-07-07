@@ -8,6 +8,7 @@ Bienvenido a la Wiki técnica del Frontend de Gravity AI.
 |---|---|
 | [Home](./Home.md) | Índice general |
 | [Arquitectura Desacoplada](./Arquitectura.md) | Cómo se comunica Netlify con el PC Local |
+| [Geopolítica Analítica](./Geopolitica.md) | Enfoque materialista y de inteligencia para redacción |
 
 ---
 *Para ver la Wiki del Backend y Motor Central, dirígete al repositorio de [Gravity AI Bridge](https://github.com/DarckRovert/Gravity_AI_bridge).*

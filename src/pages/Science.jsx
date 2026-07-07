@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, Microscope, ArrowRight, Bookmark } from 'lucide-react';
+import { Clock, BookOpen, Microscope, ArrowRight, Bookmark, Share2 } from 'lucide-react';
+import { playSound } from '../utils/audio';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
 import scienceData from '../data/science.json';
@@ -20,9 +22,55 @@ const getRelativeTime = (dateStr) => {
 
 export default function Science() {
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [selectedCategory, setSelectedCategory] = useState('Todos');
+
+  // Deep linking for articles
+  useEffect(() => {
+    const articleId = searchParams.get('article');
+    if (articleId && !selectedArticle) {
+      const article = scienceData.find(a => a.id === articleId);
+      if (article) {
+        setSelectedArticle(article);
+      }
+    }
+  }, [searchParams, selectedArticle]);
+
+  const handleOpenArticle = (article) => {
+    playSound('click');
+    setSelectedArticle(article);
+    setSearchParams({ article: article.id }, { replace: true });
+  };
+
+  const handleCloseArticle = () => {
+    playSound('click');
+    setSelectedArticle(null);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('article');
+    setSearchParams(newParams, { replace: true });
+  };
+
+  const handleShare = async (article) => {
+    playSound('click');
+    const shareUrl = `${window.location.origin}${window.location.pathname}?article=${article.id}`;
+    const shareData = {
+      title: article.title,
+      text: article.excerpt,
+      url: shareUrl,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${article.title}\n${shareUrl}`);
+        alert('Enlace cuántico copiado al portapapeles');
+      }
+    } catch (e) {
+      console.log('Error al compartir', e);
+    }
+  };
 
   const allCategories = useMemo(() => {
     const cats = new Set(['Todos', 'Guardados']);
@@ -65,7 +113,7 @@ export default function Science() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <button className="science-back-btn" onClick={() => setSelectedArticle(null)}>
+          <button className="science-back-btn" onClick={handleCloseArticle}>
             ← Volver a Ciencia
           </button>
           <div className="science-reader-header">
@@ -78,6 +126,13 @@ export default function Science() {
               <span><Microscope size={14} /> {selectedArticle.author}</span>
               <span><Clock size={14} /> {getRelativeTime(selectedArticle.date)}</span>
               <span><BookOpen size={14} /> {selectedArticle.readingTime} min</span>
+              <button 
+                onClick={() => handleShare(selectedArticle)}
+                style={{ background: 'transparent', border: 'none', color: '#60a5fa', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem' }}
+                title="Compartir"
+              >
+                <Share2 size={14} /> Compartir
+              </button>
             </div>
           </div>
           <div
@@ -138,7 +193,7 @@ export default function Science() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                onClick={() => setSelectedArticle(article)}
+                onClick={() => handleOpenArticle(article)}
               >
                 <div className="science-card-image">
                   <ProgressiveImage src={article.image} alt={article.title} className="science-img" />

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { AlertTriangle, Clock, BookOpen, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -20,6 +21,7 @@ import './Home.css';
 export default function Home() {
   const [news, setNews] = useState(newsData);
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [activeCategory, setActiveCategory] = useState('Todas');
@@ -89,20 +91,46 @@ export default function Home() {
     }
   }, [bridgeStatus, bridgeUrl]);
 
+  // Deep linking for articles
+  useEffect(() => {
+    const articleId = searchParams.get('article');
+    if (articleId && !selectedArticle) {
+      const article = news.find(a => a.id === articleId);
+      if (article) {
+        setSelectedArticle(article);
+      }
+    }
+  }, [searchParams, news, selectedArticle]);
+
+  const handleOpenArticle = (article) => {
+    playSound('click');
+    setSelectedArticle(article);
+    setSearchParams({ article: article.id }, { replace: true });
+  };
+
+  const handleCloseArticle = () => {
+    playSound('click');
+    setSelectedArticle(null);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('article');
+    setSearchParams(newParams, { replace: true });
+  };
+
   const categories = ['Todas', 'Guardados', ...new Set(news.map(item => item.category).filter(Boolean))];
 
   const handleShare = async (article) => {
     playSound('click');
+    const shareUrl = `${window.location.origin}${window.location.pathname}?article=${article.id}`;
     const shareData = {
       title: article.title,
       text: article.excerpt,
-      url: window.location.href,
+      url: shareUrl,
     };
     try {
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(`${article.title}\n${window.location.href}`);
+        await navigator.clipboard.writeText(`${article.title}\n${shareUrl}`);
         alert('Enlace cuántico copiado al portapapeles');
       }
     } catch (e) {
@@ -299,7 +327,7 @@ export default function Home() {
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="hero-article glass-panel hover-lift"
                     onMouseEnter={() => playSound('hover')}
-                    onClick={() => { playSound('click'); setSelectedArticle(featuredNews); }}
+                    onClick={() => handleOpenArticle(featuredNews)}
                   >
                     <ProgressiveImage src={featuredNews.image} alt={featuredNews.title} className="hero-bg-image" />
                     <div className="hero-gradient-overlay"></div>
@@ -330,7 +358,7 @@ export default function Home() {
                   regularNews={regularNews}
                   isBookmarked={isBookmarked}
                   toggleBookmark={toggleBookmark}
-                  setSelectedArticle={setSelectedArticle}
+                  setSelectedArticle={handleOpenArticle}
                   hasMore={hasMore}
                   setVisibleCount={setVisibleCount}
                 />
@@ -357,7 +385,7 @@ export default function Home() {
         {selectedArticle && (
           <ArticleModal 
             selectedArticle={selectedArticle}
-            setSelectedArticle={setSelectedArticle}
+            setSelectedArticle={handleCloseArticle}
             relatedNews={relatedNews}
             handleShare={handleShare}
           />

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { AlertTriangle, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearch } from '../contexts/SearchContext';
@@ -13,8 +14,54 @@ import './Home.css';
 export default function Geopolitics() {
   const news = newsData;
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const [activeRegion, setActiveRegion] = useState('Global');
+
+  // Deep linking for articles
+  useEffect(() => {
+    const articleId = searchParams.get('article');
+    if (articleId && !selectedArticle) {
+      const article = news.find(a => a.id === articleId);
+      if (article) {
+        setSelectedArticle(article);
+      }
+    }
+  }, [searchParams, news, selectedArticle]);
+
+  const handleOpenArticle = (article) => {
+    playSound('click');
+    setSelectedArticle(article);
+    setSearchParams({ article: article.id }, { replace: true });
+  };
+
+  const handleCloseArticle = () => {
+    playSound('click');
+    setSelectedArticle(null);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('article');
+    setSearchParams(newParams, { replace: true });
+  };
+
+  const handleShare = async (article) => {
+    playSound('click');
+    const shareUrl = `${window.location.origin}${window.location.pathname}?article=${article.id}`;
+    const shareData = {
+      title: article.title,
+      text: article.excerpt,
+      url: shareUrl,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${article.title}\n${shareUrl}`);
+        alert('Enlace cuántico copiado al portapapeles');
+      }
+    } catch (e) {
+      console.log('Error al compartir', e);
+    }
+  };
   
   // Extraer regiones únicas, asumiendo que los datos antiguos pueden no tener region
   const defaultRegions = ['Global', 'Norteamérica', 'Latinoamérica', 'Eurasia', 'Medio Oriente', 'África'];
@@ -127,10 +174,7 @@ export default function Geopolitics() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   className="bento-item regular-bento glass-panel interactive-card"
-                  onClick={() => {
-                    playSound('click');
-                    setSelectedArticle(item);
-                  }}
+                  onClick={() => handleOpenArticle(item)}
                 >
                   <div className="bento-image-wrapper">
                     <ProgressiveImage src={item.image} alt={item.title} className="bento-image" />
@@ -154,8 +198,9 @@ export default function Geopolitics() {
       <AnimatePresence>
         {selectedArticle && (
           <ArticleModal 
-            article={selectedArticle} 
-            onClose={() => setSelectedArticle(null)} 
+            selectedArticle={selectedArticle} 
+            setSelectedArticle={handleCloseArticle} 
+            handleShare={handleShare}
           />
         )}
       </AnimatePresence>

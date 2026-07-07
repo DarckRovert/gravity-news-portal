@@ -8,8 +8,8 @@ import TypewriterMarkdown from './TypewriterMarkdown';
 export default function ArticleModal({
   selectedArticle,
   setSelectedArticle,
-  relatedNews,
-  handleShare
+  relatedNews = [],
+  handleShare = () => {}
 }) {
   const [readingMode, setReadingMode] = useState(false);
   const [isPlayingTTS, setIsPlayingTTS] = useState(false);

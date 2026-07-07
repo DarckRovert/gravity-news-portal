@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, ArrowRight, PenTool, Bookmark } from 'lucide-react';
+import { Clock, BookOpen, ArrowRight, PenTool, Bookmark, Share2 } from 'lucide-react';
+import { playSound } from '../utils/audio';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
 import SEO from '../components/SEO';
@@ -20,9 +22,55 @@ const getRelativeTime = (dateStr) => {
 
 export default function Essays() {
   const [selectedEssay, setSelectedEssay] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [selectedTag, setSelectedTag] = useState('Todos');
+
+  // Deep linking for essays
+  useEffect(() => {
+    const articleId = searchParams.get('article');
+    if (articleId && !selectedEssay) {
+      const essay = essaysData.find(e => e.id === articleId);
+      if (essay) {
+        setSelectedEssay(essay);
+      }
+    }
+  }, [searchParams, selectedEssay]);
+
+  const handleOpenEssay = (essay) => {
+    playSound('click');
+    setSelectedEssay(essay);
+    setSearchParams({ article: essay.id }, { replace: true });
+  };
+
+  const handleCloseEssay = () => {
+    playSound('click');
+    setSelectedEssay(null);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('article');
+    setSearchParams(newParams, { replace: true });
+  };
+
+  const handleShare = async (essay) => {
+    playSound('click');
+    const shareUrl = `${window.location.origin}${window.location.pathname}?article=${essay.id}`;
+    const shareData = {
+      title: essay.title,
+      text: essay.excerpt,
+      url: shareUrl,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${essay.title}\n${shareUrl}`);
+        alert('Enlace cuántico copiado al portapapeles');
+      }
+    } catch (e) {
+      console.log('Error al compartir', e);
+    }
+  };
 
   const allTags = useMemo(() => {
     const tags = new Set(['Todos', 'Guardados']);
@@ -68,7 +116,7 @@ export default function Essays() {
           exit={{ opacity: 0 }}
         >
           <SEO title={selectedEssay.title} description={selectedEssay.excerpt} />
-          <button className="essay-back-btn" onClick={() => setSelectedEssay(null)}>
+          <button className="essay-back-btn" onClick={handleCloseEssay}>
             ← Volver a Ensayos
           </button>
           <div className="essay-reader-header">
@@ -81,6 +129,13 @@ export default function Essays() {
               <span><PenTool size={14} /> {selectedEssay.author}</span>
               <span><Clock size={14} /> {getRelativeTime(selectedEssay.date)}</span>
               <span><BookOpen size={14} /> {selectedEssay.readingTime} min</span>
+              <button 
+                onClick={() => handleShare(selectedEssay)}
+                style={{ background: 'transparent', border: 'none', color: 'var(--accent-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem' }}
+                title="Compartir"
+              >
+                <Share2 size={14} /> Compartir
+              </button>
             </div>
           </div>
           <div
@@ -146,7 +201,7 @@ export default function Essays() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                onClick={() => setSelectedEssay(essay)}
+                onClick={() => handleOpenEssay(essay)}
               >
                 <div className="essay-card-image">
                   <ProgressiveImage src={essay.image} alt={essay.title} className="essay-img" />

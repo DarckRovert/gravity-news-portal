@@ -94,11 +94,13 @@ export default function Home() {
   // Deep linking for articles
   useEffect(() => {
     const articleId = searchParams.get('article');
-    if (articleId && !selectedArticle) {
+    if (articleId && (!selectedArticle || selectedArticle.id !== articleId)) {
       const article = news.find(a => a.id === articleId);
       if (article) {
         setSelectedArticle(article);
       }
+    } else if (!articleId && selectedArticle) {
+      setSelectedArticle(null);
     }
   }, [searchParams, news, selectedArticle]);
 

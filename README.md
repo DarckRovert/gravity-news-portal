@@ -63,7 +63,7 @@ npm run dev
 
 > [!NOTE]
 > Ecosistema público V16.2 Frontend.
-> [**📖 WIKI CORPORATIVA**](./wiki/Home.md) | [📜 CONTRIBUCIÓN](./CONTRIBUTING.md) | [🔒 SEGURIDAD](./SECURITY.md) | [🏗️ ARQUITECTURA](./docs/ARCHITECTURE.md)
+> [**📖 WIKI CORPORATIVA**](./wiki/Home.md) | [📜 CONTRIBUCIÓN](./CONTRIBUTING.md) | [🔒 SEGURIDAD](./SECURITY.md) | [🏗️ ARQUITECTURA](./docs/ARCHITECTURE.md) | [🛠️ DESARROLLADORES](./docs/DEVELOPER_GUIDE.md) | [📘 MANUAL DE USUARIO](./docs/USER_MANUAL.md)
 
 <br>
 

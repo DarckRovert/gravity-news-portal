@@ -53,3 +53,11 @@ Para evitar esta limitación, tienes **dos opciones**:
 2. Abre la consola y ejecuta: `ngrok http 7860`.
 3. Ngrok te entregará un enlace seguro (ej. `https://xxxx.ngrok-free.app`).
 4. Abre la web del portal en tu celular, pega ese enlace de ngrok en la caja de URL de la Conexión Cognitiva y listo.
+
+---
+
+## 4. Resiliencia y Anomalías de Conexión (V16.2)
+
+Debido a que el portal se actualiza constantemente de forma desatendida, es posible que tu navegador intente acceder a un archivo que acaba de ser reemplazado por la IA.
+Si esto ocurre, no verás una pantalla blanca o un fallo crítico. El sistema interceptará el fallo y mostrará una pantalla segura de **"Anomalía en la Conexión"**.
+Simplemente presiona el botón **Reestablecer Conexión** para resincronizar el enlace con la nube y cargar la versión más reciente del Nexo.

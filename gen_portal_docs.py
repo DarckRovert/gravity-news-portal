@@ -295,7 +295,7 @@ Este panel te conecta directamente al motor inteligente de Gravity ejecutándose
 
 ## ⚠️ Cómo conectar la IA desde tu Celular (Contenido Mixto)
 
-Un problema común al acceder desde un teléfono celular a la página (`https://gravity-news-portal.netlify.app`) es que el panel marcará permanentemente "Offline" si intentas poner la IP local de tu casa (por ejemplo: `http://192.168.1.75:7860`).
+Un problema común al acceder desde un teléfono celular a la página (`https://gravitynewsportal.netlify.app`) es que el panel marcará permanentemente "Offline" si intentas poner la IP local de tu casa (por ejemplo: `http://192.168.1.75:7860`).
 
 Esto **no es un fallo de la página**. Sucede porque la página es muy segura (`https://`), pero tu IP local no lo es (`http://`). A esto se le llama bloqueo de "Mixed Content" (Contenido Mixto) y Chrome o Safari bloquean la comunicación para "protegerte".
 

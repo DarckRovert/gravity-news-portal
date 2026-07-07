@@ -45,6 +45,14 @@ export default function Geopolitics() {
     setSearchParams(newParams, { replace: true });
   };
 
+  const handleModalArticleChange = (article) => {
+    if (article) {
+      handleOpenArticle(article);
+    } else {
+      handleCloseArticle();
+    }
+  };
+
   const handleShare = async (article) => {
     playSound('click');
     const shareUrl = `${window.location.origin}${window.location.pathname}?article=${article.id}`;
@@ -201,7 +209,7 @@ export default function Geopolitics() {
         {selectedArticle && (
           <ArticleModal 
             selectedArticle={selectedArticle} 
-            setSelectedArticle={handleCloseArticle} 
+            setSelectedArticle={handleModalArticleChange} 
             handleShare={handleShare}
           />
         )}

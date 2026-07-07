@@ -118,6 +118,14 @@ export default function Home() {
     setSearchParams(newParams, { replace: true });
   };
 
+  const handleModalArticleChange = (article) => {
+    if (article) {
+      handleOpenArticle(article);
+    } else {
+      handleCloseArticle();
+    }
+  };
+
   const categories = ['Todas', 'Guardados', ...new Set(news.map(item => item.category).filter(Boolean))];
 
   const handleShare = async (article) => {
@@ -387,7 +395,7 @@ export default function Home() {
         {selectedArticle && (
           <ArticleModal 
             selectedArticle={selectedArticle}
-            setSelectedArticle={handleCloseArticle}
+            setSelectedArticle={handleModalArticleChange}
             relatedNews={relatedNews}
             handleShare={handleShare}
           />

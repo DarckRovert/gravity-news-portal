@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { BookOpen, Download, Library, Bookmark } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
 import booksData from '../data/books.json';
@@ -40,7 +42,16 @@ export default function Books() {
   });
 
   return (
-    <div className="books-page animate-fade-in">
+    <motion.div 
+      className="books-page"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <SEO 
+        title="Biblioteca" 
+        description="Archivos profundos y biblioteca de textos clave." 
+      />
       <header className="page-header">
         <h1 className="page-title animate-slide-up" style={{ animationDelay: '0.1s' }}>
           La <span className="brand-accent">Biblioteca Soberana</span>
@@ -142,6 +153,6 @@ export default function Books() {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

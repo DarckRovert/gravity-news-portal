@@ -40,7 +40,7 @@ export default function TypewriterMarkdown({ text, animated = true }) {
 
   useEffect(() => {
     if (!animated) {
-      setVisibleLines(lines.length);
+      setTimeout(() => setVisibleLines(lines.length), 0);
       return;
     }
     if (visibleLines < lines.length) {
@@ -58,7 +58,7 @@ export default function TypewriterMarkdown({ text, animated = true }) {
   // Update visibleLines if animated prop changes on the fly
   useEffect(() => {
     if (!animated) {
-      setVisibleLines(lines.length);
+      setTimeout(() => setVisibleLines(lines.length), 0);
     }
   }, [animated, lines.length]);
 

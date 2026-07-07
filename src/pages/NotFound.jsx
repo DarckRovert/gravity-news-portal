@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import './NotFound.css';
 
 function NotFound() {
@@ -11,6 +12,10 @@ function NotFound() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      <SEO 
+        title="Error 404 - No Encontrado"
+        description="Esta zona del Nexo está vacía o corrompida."
+      />
       <div className="not-found-content">
         <Terminal size={64} className="error-icon" />
         <h1 className="glitch-text" data-text="ERROR 404">ERROR 404</h1>

@@ -11,6 +11,8 @@ import LiveFeeds from '../components/LiveFeeds';
 import Sidebar from '../components/Sidebar';
 import ArticleModal from '../components/ArticleModal';
 import BentoGrid from '../components/BentoGrid';
+import Fuse from 'fuse.js';
+import SEO from '../components/SEO';
 import { playSound } from '../utils/audio';
 import { getRelativeTime, getReadingTime } from '../utils/helpers';
 import './Home.css';
@@ -108,20 +110,23 @@ export default function Home() {
     }
   };
 
-  const filteredNews = news.filter((item) => {
-    const title = item.title || '';
-    const excerpt = item.excerpt || '';
-    const matchesSearch = title.toLowerCase().includes((searchTerm || '').toLowerCase()) || 
-                          excerpt.toLowerCase().includes((searchTerm || '').toLowerCase());
-    
+  let searchResults = news;
+  if (searchTerm) {
+    const fuse = new Fuse(news, {
+      keys: ['title', 'excerpt', 'category'],
+      threshold: 0.3,
+    });
+    searchResults = fuse.search(searchTerm).map(result => result.item);
+  }
+
+  const filteredNews = searchResults.filter((item) => {
     let matchesCategory = true;
     if (activeCategory === 'Guardados') {
       matchesCategory = isBookmarked(item.id);
     } else if (activeCategory !== 'Todas') {
       matchesCategory = item.category === activeCategory;
     }
-
-    return matchesSearch && matchesCategory;
+    return matchesCategory;
   });
 
   const featuredNews = filteredNews.find(item => item.featured) || filteredNews[0];
@@ -200,6 +205,10 @@ export default function Home() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <SEO 
+        title="Inicio" 
+        description="Portal de noticias cuántico. Explora las últimas transmisiones del Nexo Ágora." 
+      />
       <header className="page-header">
         <div className="telemetry-panel glass-panel">
           <div className="telemetry-status">
@@ -248,6 +257,7 @@ export default function Home() {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
                 className={`category-chip ${activeCategory === cat ? 'active' : ''}`}
+                aria-pressed={activeCategory === cat}
                 onMouseEnter={() => playSound('hover')}
                 onClick={() => {
                   playSound('click');

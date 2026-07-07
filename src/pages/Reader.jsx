@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Sun, Moon, Book, Download, ZoomIn, ZoomOut, Type, Bookmark } from 'lucide-react';
 import booksData from '../data/books.json';
 import { useBookmarks } from '../contexts/BookmarkContext';
+import SEO from '../components/SEO';
 import './Reader.css';
 
 export default function Reader() {
@@ -69,6 +70,7 @@ export default function Reader() {
   if (!book) {
     return (
       <div className="reader-page error-state animate-fade-in">
+        <SEO title="Tomo No Registrado" description="Error de base de datos en la biblioteca." />
         <div className="error-panel glass-panel">
           <h2>Tomo No Registrado</h2>
           <p>La base de datos de la Zona Ágora no reconoce esta identificación criptográfica.</p>
@@ -88,6 +90,11 @@ export default function Reader() {
 
   return (
     <div className={`reader-page theme-${theme} animate-fade-in`}>
+      <SEO 
+        title={`Leyendo: ${book.title}`}
+        description={book.description}
+        article={true}
+      />
       {/* Scroll Progress Bar */}
       <div className="scroll-progress-container">
         <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />

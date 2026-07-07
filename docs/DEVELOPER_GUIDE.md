@@ -1,70 +1,40 @@
-# ⚙️ Guía de Desarrollo: Nexo Ágora
+# ⚙️ Guía de Desarrollo: Nexo Ágora V16.2
 
-Si deseas clonar, mejorar o auditar el código fuente del Portal Gravity, sigue estas instrucciones.
+Si deseas clonar, mejorar o auditar el código fuente del Portal Gravity, es obligatorio adherirse a los siguientes estándares técnicos inquebrantables.
 
 ## 1. Configuración del Entorno Local
 
 Asegúrate de contar con Node.js v18+ instalado.
 
 ```bash
-# Instalar dependencias
 npm install
-
-# Correr el servidor de desarrollo local
 npm run dev
-
-# Empaquetar para producción (auditoría)
-npm run build
+npm run build # Validar siempre antes de empujar código
+npm run lint  # Cero advertencias permitidas
 ```
 
-## 2. Base de Datos Estática (JSON)
+## 2. Reglas de Accesibilidad (Estricto WCAG 2.2)
 
-Para no depender de un backend SQL y maximizar el tiempo de carga, la aplicación consume bases de datos en JSON puro. Si vas a insertar un libro manualmente (sin el automatizador Python), sigue estas estructuras en `src/data/`:
+Todo PR que rompa las reglas de accesibilidad será rechazado.
+- **Etiquetas Semánticas y Foco**: Todo componente interactivo debe contener un `aria-label`. 
+- **Componentes Dinámicos**: Los *Loaders* o actualizaciones de estado deben utilizar `aria-live="polite"` y `role="status"`.
+- **Skip Links & FAB**: El botón de "Saltar al contenido" y el "Volver arriba" JAMÁS deben abandonar al usuario usando un simple `.blur()`. El foco debe transferirse programáticamente a un contenedor navegable (`<main id="main" tabIndex={-1}>`).
 
-### Estructura de `books.json`
-```json
-{
-  "id": "identificador-unico-del-libro",
-  "title": "El Título Visible",
-  "author": "DarckRovert (Gravity AI)",
-  "category": "Ensayo | Ficción | Libro",
-  "description": "Un resumen contundente.",
-  "htmlUrl": "/books/identificador-unico.html",
-  "cover": "https://picsum.photos/seed/id_del_libro/600/800"
+## 3. Manejo de Estado y Rendimiento (Render Storm Prevention)
+
+**PROHIBICIÓN ESTRICTA**: No llamar a `setState` de manera síncrona dentro de un `useEffect` si el objetivo es sincronizar un estado derivado. Esto provoca *cascading renders*.
+Utiliza el patrón de *Render-Phase update* oficial de React 18:
+```jsx
+const [localVal, setLocalVal] = useState(globalVal);
+const [prevGlobalVal, setPrevGlobalVal] = useState(globalVal);
+
+if (globalVal !== prevGlobalVal) {
+  setPrevGlobalVal(globalVal);
+  setLocalVal(globalVal); // Actúa antes de que el repintado ocurra
 }
 ```
-*Asegúrate de subir el archivo HTML correspondiente en la carpeta `public/books/`.*
+*Además, todos los inputs de texto global deben usar debounce de al menos 300ms.*
 
-### Estructura de `news.json`
-```json
-{
-  "id": "slug-url-amigable",
-  "category": "Control Biométrico",
-  "title": "Título del Artículo",
-  "excerpt": "Breve subtítulo.",
-  "fullText": "### Contenido estructurado\nCon párrafos en markdown ligero.",
-  "date": "2026-06-18",
-  "image": "https://picsum.photos/seed/id_noticia/800/600",
-  "featured": true
-}
-```
+## 4. Animaciones y GPU
 
-## 3. Estilos y Estética (CSS)
-
-Toda la aplicación obedece a un sistema de variables de CSS centralizado (`src/App.css` y el archivo global `index.css`).
-Para modificar el tema general del portal, no necesitas reescribir hojas de estilo, simplemente cambia las variables clave:
-
-```css
-:root {
-  --bg-primary: #08080a;     /* Fondo principal cibernético */
-  --bg-surface: #101014;     /* Paneles de tarjetas */
-  --accent-primary: #00f0ff; /* Color de botones primarios */
-  --accent-secondary: #00f0ff; /* Resplandores y tipografías clave */
-  --accent-glow: rgba(0, 240, 255, 0.4);
-  --border-subtle: rgba(255, 255, 255, 0.08); /* Bordes Glassmorphism */
-}
-```
-
-## 4. Integración con el Puente Python
-
-El portal depende de `gravity_reporter.py` (que habita fuera de este repo, en tu bridge local). Ese script lee `news.json`, agrega un elemento en la posición 0 del array JSON, hace un `git push` de este repositorio y espera que **Netlify** detecte el webhook y auto-compile la web en 40 segundos.
+No utilizar *Event Listeners* atados al estado de React para observar eventos de ventana (`scroll`, `mousemove`). Se debe utilizar **Framer Motion** (`useScroll`, `useMotionValueEvent`) para inyectar los valores delta directamente en las variables CSS o transformaciones de los elementos `motion.div`.

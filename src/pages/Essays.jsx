@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, BookOpen, ArrowRight, PenTool, Bookmark } from 'lucide-react';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
+import SEO from '../components/SEO';
 import essaysData from '../data/essays.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import './Essays.css';
@@ -66,6 +67,7 @@ export default function Essays() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
+          <SEO title={selectedEssay.title} description={selectedEssay.excerpt} />
           <button className="essay-back-btn" onClick={() => setSelectedEssay(null)}>
             ← Volver a Ensayos
           </button>
@@ -92,6 +94,10 @@ export default function Essays() {
 
   return (
     <div className="essays-container">
+      <SEO 
+        title="Ensayos" 
+        description="Textos profundos y de largo aliento sobre la Física del Poder y la Resistencia." 
+      />
       {/* Header */}
       <motion.div
         className="essays-header"

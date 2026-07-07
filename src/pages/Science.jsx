@@ -5,6 +5,7 @@ import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
 import scienceData from '../data/science.json';
 import ProgressiveImage from '../components/ProgressiveImage';
+import SEO from '../components/SEO';
 import './Science.css';
 
 const getRelativeTime = (dateStr) => {
@@ -90,6 +91,10 @@ export default function Science() {
 
   return (
     <div className="science-container">
+      <SEO 
+        title="Ciencia y Sustrato" 
+        description="Descubre los últimos avances en ciencia de frontera y el Sustrato Primordial." 
+      />
       <motion.div
         className="science-header"
         initial={{ opacity: 0, y: -20 }}

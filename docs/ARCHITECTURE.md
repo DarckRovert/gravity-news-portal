@@ -1,55 +1,37 @@
-# 🏗️ Arquitectura del Nexo Ágora
+# 🏗️ Arquitectura del Nexo Ágora (V16.2 PRO)
 
-Este documento describe la arquitectura de software detrás del **Gravity News Portal** y cómo interactúa con el ecosistema backend local (*Gravity AI Bridge*).
+Este documento describe la arquitectura de software de **Gravity News Portal** y sus mecanismos avanzados de renderizado y sincronización.
 
 ## 1. Topología del Ecosistema
 
-El sistema se divide fundamentalmente en dos bloques totalmente desacoplados:
+El sistema opera bajo un modelo **Decoupled Sync (Zero-Trust)**:
+- **Frontend React**: SPA estática (Vite + React 18) en Netlify.
+- **Data Source**: Archivos locales estáticos (`news.json`, `books.json`).
+- **Orquestador Backend (Offline/Online)**: El puente Python (`gravity_reporter.py`) hace `git push` en background para builds estáticos, o expone `/v1/journalist/news` para inyección de datos en tiempo real (Telemetría Activa).
 
-### A. Frontend React (El Portal)
-Es una aplicación estática Single Page Application (SPA) desarrollada con **Vite + React**. 
-- **Alojamiento:** Netlify.
-- **Enrutamiento:** `react-router-dom` con configuración genérica (`public/_redirects`) para evitar errores 404 al refrescar las sub-rutas (`/books`, `/book/:id`).
-- **Data Source Local:** Se nutre estáticamente de `src/data/news.json` y `src/data/books.json` al momento del build.
+## 2. Prevención de Bugs Arquitectónicos (El Estándar Mythos 5)
 
-### B. Backend Inteligente (Gravity Reporter)
-Un script de Python (`gravity_reporter.py`) alojado en la computadora local.
-- Se encarga de hacer _web scraping_ / _búsqueda_ sobre contingencias actuales.
-- Utiliza la API local del LLM (Ollama / Llama.cpp / Providers) bajo una óptica estrictamente científica y filosófica.
-- Inyecta directamente los resultados generados en los archivos `news.json` del repositorio local del Frontend y orquesta un **Git Push**.
-- El Git Push es el gatillo que despierta a Netlify, el cual reconstruye el sitio estático automáticamente en la nube, publicando la nueva noticia sin intervención humana manual.
+El archivo maestro `App.jsx` fue blindado mediante las siguientes implementaciones estrictas:
 
-## 2. Mapa de Componentes Clave
-
-```mermaid
-graph TD
-    App[App.jsx - Router] --> Home[Home.jsx - Portal de Noticias]
-    App --> Books[Books.jsx - Biblioteca Soberana]
-    App --> Reader[Reader.jsx - Lector Cuántico HTML]
-    
-    Home -->|Lee| NewsJSON[(news.json)]
-    Home -->|Lee| MediaJSON[(media.json)]
-    Books -->|Lee| BooksJSON[(books.json)]
-    Reader -->|Fetch HTML| PublicBooks[(public/books/*.html)]
-    
-    Home -->|POST HTTP| Bridge[Conexión Cognitiva Bridge]
+### A. Invulnerabilidad de Enrutamiento (`ChunkLoadError` Mitigation)
+Se mitigó la caída asíncrona de la red al intentar cargar vistas con `React.lazy()` estableciendo una jerarquía inquebrantable:
+```jsx
+<AnimatePresence mode="wait">
+  <ErrorBoundary key={location.pathname}>
+    <Routes>
+      <Route element={<Suspense fallback={<PageLoader />}> ... </Suspense>} />
 ```
+1. Si un chunk falla, el `ErrorBoundary` captura el error SIN desmontar el `AnimatePresence`.
+2. El uso de `key={location.pathname}` garantiza que, al navegar a otra ruta, el `ErrorBoundary` se destruya y reactive automáticamente, sin dejar al usuario bloqueado en el estado de error.
+3. La recuperación manual exige `window.location.reload()` para purgar la caché nativa de promesas fallidas de Vite.
 
-### `Home.jsx`
-- Responsable de la parrilla de noticias y filtros.
-- Aloja el widget lateral de la **Conexión Cognitiva** y la interfaz del **Nexo Multimedia** (`LiveFeeds.jsx`).
-- Maneja su propio estado de `localStorage` para guardar la IP personalizada del usuario, permitiendo conectarse al servidor local HTTP sin tener el código duro en `localhost`.
-- **Protección**: Si el campo `title` o `excerpt` en `news.json` falta o está corrupto, la aplicación ignora ese bloque y renderiza el resto de forma segura.
+### B. Rendimiento Anti-Storm (Render-Phase Updates)
+Se ha abolido el uso de `useEffect` para sincronizar estados derivados. En buscadores y contextos globales (ej. `searchTerm`), utilizar `setSearchTerm` directamente en cada pulsación del teclado (`onChange`) provocaría una *render storm* catastrófica. 
+**La solución React 18:**
+Implementación de un estado local con Debounce, sincronizado mediante **Render-Phase Updates** para no desatar re-renders en cascada (`react-hooks/set-state-in-effect` violation).
 
-### `LiveFeeds.jsx` (Nexo Multimedia)
-- Transforma la carga pesada de iframes de YouTube mediante una técnica arquitectónica de **Lazy Loading Extremo**: en lugar de cargar los iframes (`<iframe>`), carga la miniatura (`img.youtube.com/...`) en formato de imagen ligera. Al dar clic, permuta la imagen por el reproductor activo. Esto evita **OOM Crashes** y permite que `media.json` contenga miles de películas.
+### C. Foco de Accesibilidad (WCAG 2.2)
+Toda interacción que desplace el viewport (ej. `ScrollToTopFAB`) no abandona al usuario de teclado (`blur()`), sino que transfiere el foco de manera programática al nodo principal protegido (`<main id="main" tabIndex={-1}>`).
 
-### `Books.jsx` y `Reader.jsx`
-- **Books**: Mapea los tomos y genera una maqueta visual en 3D puramente por CSS.
-- **Reader**: Carga asíncronamente el contenido de archivos `.html` crudos subidos a la carpeta `public/books/`. Utiliza Regex para despojar al HTML original de estilos arcaicos o conflictivos antes de insertarlo en el DOM mediante `dangerouslySetInnerHTML`.
-
-## 3. Manejo de URLs y Contenido Estático
-
-Dado el bloqueo impuesto por proveedores como Unsplash, se optó por un esquema estricto y estable para las imágenes:
-- Las imágenes dinámicas (tanto en `news.json` como en las inyecciones generativas) usan la sintaxis sembrada estocástica de `https://picsum.photos/seed/{id}/800/600`.
-- Esto garantiza que cada noticia mantenga la misma imagen abstracta consistentemente sin caducar.
+### D. Optimización GPU (Framer Motion)
+El monitoreo del scroll (`ScrollTracker`) se realiza **fuera del ciclo de renderizado de React**, interceptando los deltas directamente hacia la GPU mediante `useScroll` y `useMotionValueEvent`, manteniendo la interfaz perpetuamente a 60 FPS.

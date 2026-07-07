@@ -4,6 +4,7 @@ import { Maximize2, X, Radio, Film, FolderLock, Play, Bookmark } from 'lucide-re
 import FieldReporters from './FieldReporters';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
+import Fuse from 'fuse.js';
 import './LiveFeeds.css';
 
 import mediaData from '../data/media.json';
@@ -54,13 +55,15 @@ const LiveFeeds = () => {
     ? allMediaFlat.filter(feed => isBookmarked(feed.id))
     : mediaData[activeTab] || [];
   
-  // Filter by search term
-  const filteredMedia = currentMedia.filter((feed) => {
-    const title = feed.title || '';
-    const badge = feed.badge || '';
-    return title.toLowerCase().includes((searchTerm || '').toLowerCase()) || 
-           badge.toLowerCase().includes((searchTerm || '').toLowerCase());
-  });
+  let searchResults = currentMedia;
+  if (searchTerm) {
+    const fuse = new Fuse(currentMedia, {
+      keys: ['title', 'badge'],
+      threshold: 0.3,
+    });
+    searchResults = fuse.search(searchTerm).map(result => result.item);
+  }
+  const filteredMedia = searchResults;
 
   const visibleMedia = filteredMedia.slice(0, visibleCount);
   const hasMore = visibleCount < filteredMedia.length;
@@ -91,6 +94,7 @@ const LiveFeeds = () => {
             <button
               key={cat.id}
               className={`nexus-tab-btn ${isActive ? 'active' : ''}`}
+              aria-pressed={isActive}
               onClick={() => handleTabChange(cat.id)}
             >
               <span className="tab-icon-wrapper">

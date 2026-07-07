@@ -290,6 +290,8 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  content-visibility: auto;
+  contain-intrinsic-size: 240px; /* Tamaño estimado para evitar salto de layout */
 }
 
 .bento-card:hover {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AlertTriangle, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearch } from '../contexts/SearchContext';
+import SEO from '../components/SEO';
 import newsData from '../data/news.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import ArticleModal from '../components/ArticleModal';
@@ -41,6 +42,10 @@ export default function Geopolitics() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <SEO 
+        title="Geopolítica Global" 
+        description="Análisis del tablero mundial y los movimientos del Macro-Leviatán." 
+      />
       <header className="page-header">
         <motion.h1 
           className="page-title"

@@ -10,8 +10,9 @@ El portal jamás almacena llaves de API (Nvidia NIM, DeepSeek) en su código fue
 - `/v1/journalist/log`
 - `/v1/autonomy/status`
 
-### Auditoría V16.1 Frontend
-El repositorio en su iteración V16.1 ha pasado por una rigurosa auditoría manual de infraestructura. 
+### Auditoría V16.2 Frontend
+El repositorio en su iteración V16.2 ha pasado por una rigurosa auditoría manual de infraestructura. 
 - Se verificó el encapsulamiento seguro de `dangerouslySetInnerHTML`.
-- Se validaron los fallbacks (Graceful Degradation) para la telemetría en tiempo real, garantizando inmunidad ante XSS y Crashes (como la inyección robusta de `AnimatePresence`).
+- Se validaron los fallbacks (Graceful Degradation) para la telemetría en tiempo real, garantizando inmunidad ante XSS y Crashes (como la inyección robusta del `ErrorBoundary` dentro de `AnimatePresence`).
+- Se anularon vulnerabilidades de memoria (Render Storms) mediante *Render-Phase Updates*.
 - Zero-Trust: Incluso sin conexión al Bridge, la experiencia de usuario se mantiene intacta.

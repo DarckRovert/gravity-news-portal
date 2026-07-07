@@ -1,6 +1,6 @@
-# Radar Geopolítico (V16.1)
+# Radar Geopolítico (V16.2)
 
-La sección de Geopolítica (Radar) es una adición a la versión V16.1 PRO del ecosistema Gravity. Permite mapear y visualizar noticias basándose en el vector de región inferido directamente por el LLM.
+La sección de Geopolítica (Radar) es una adición consolidada en la versión V16.2 PRO del ecosistema Gravity. Permite mapear y visualizar noticias basándose en el vector de región inferido directamente por el LLM.
 
 ## Funcionamiento del pipeline
 

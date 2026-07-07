@@ -8,32 +8,34 @@ files_to_create = {
   <br><br>
 
   [![Autor](https://img.shields.io/badge/Author-DarckRovert-818cf8.svg?style=flat-square)](https://github.com/DarckRovert)
-  [![Licencia](https://img.shields.io/badge/License-Proprietary-red.svg?style=flat-square)](LICENSE)
-  [![Release](https://img.shields.io/badge/Release-V16.1_Frontend-6366f1.svg?style=flat-square)]()
+  [![Licencia](https://img.shields.io/badge/License-Proprietary-red.svg?style=flat-square)](LICENSE.md)
+  [![Release](https://img.shields.io/badge/Release-V16.2_PRO-6366f1.svg?style=flat-square)]()
   [![Twitch](https://img.shields.io/badge/Twitch-DarckRovert-9146ff.svg?style=flat-square&logo=twitch)](https://twitch.tv/darckrovert)
 
   <p align="center">
      <i><strong>Nexo Ágora: El Portal de Noticias de la Resistencia.</strong><br>
      Frontend Desacoplado operando en Zero-Trust y mantenido de manera autónoma por el <strong>Agente Periodístico de Gravity AI</strong>.<br>
-     Renderización Glassmorphism · Vite/React · Actualización Continua y Telemetría en Tiempo Real.</i><br><br>
-     🛡️ <b>Auditoría V16.1 PRO: Cero Vulnerabilidades XSS - Zero-Trust Arquitectónico - Telemetría Vigía en Vivo</b>
+     Renderización Glassmorphism · Vite/React 18 · Actualización Continua y Telemetría en Tiempo Real.</i><br><br>
+     🛡️ <b>Auditoría V16.2 PRO: Arquitectura Anti-Render Storm - Resiliencia ChunkLoadError - Cumplimiento WCAG 2.2 Estricto</b>
    </p>
  </div>
 
 ---
 
-## 🏛 Arquitectura Frontend V16.1 PRO
+## 🏛 Arquitectura Frontend V16.2 PRO
 
 El **Gravity News Portal** no es un portal de noticias ordinario. Es la interfaz pública "Cloud-Side" de tu **Gravity AI Bridge**.
-Funciona de manera *Decoupled* (Desacoplada).
 
 1. **El Motor Local:** Un daemon invisible (`news_daemon.py`) corre en tu PC ejecutando LLMs locales (Llama 3, Qwen) u online (Nvidia NIM).
 2. **Web Search & Redacción:** El agente busca información de contingencia global, la redacta en formato periodístico con un tono materialista/geopolítico y genera JSON estructurados.
 3. **Despliegue Continuo (CI/CD):** El agente empuja (`git push`) automáticamente las noticias e imágenes a este repositorio.
-4. **Hosting Reactivo:** Netlify / Vercel detectan el *commit*, compilan el proyecto con Vite y despliegan la página en segundos.
+4. **Hosting Reactivo:** Netlify / Vercel detectan el *commit* y despliegan la página en segundos.
 
-### 📰 Características del Portal
- - **Zero-Trust Dark Mode:** Diseño Premium en Deep Onyx y Neón Cyan, inspirado en Glassmorphism.
+### 📰 Características del Portal (Actualización V16.2)
+ - **Zero-Trust Dark Mode:** Diseño Premium Tactile Brutalism en Deep Onyx y Neón Cyan (Glassmorphism).
+ - **Optimizaciones Anti-Storm (NUEVO):** Integración de *Render-Phase Updates* y *Debouncers* para proteger el hilo principal durante manipulaciones intensivas de búsquedas globales, previniendo caídas de 60FPS.
+ - **WCAG 2.2 Strict Compliant (NUEVO):** Tab-index transfer, aria-live politeness, skip-link focus recovery y navegación estructural blindada.
+ - **Resiliencia de Red Asíncrona (NUEVO):** ErrorBoundary anidado dentro de Framer Motion para capturar e invalidar de forma grácil errores transitorios de la CDN (`ChunkLoadError`) sin romper la UI.
  - **Sincronización Cuántica y Telemetría en Vivo:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860`. Cuando el Daemon local está activo, el portal intercepta:
    - *Live Terminal Feed* (`/v1/journalist/log`): Monitoreo de logs en tiempo real.
    - *Vigía Status Dashboard* (`/v1/autonomy/status`): Panel lateral que visualiza la salud del sistema y la entropía del periodista.
@@ -65,13 +67,13 @@ npm run dev
 ---
 
 > [!NOTE]
-> Ecosistema público V16.1 Frontend.
-> [**📖 WIKI CORPORATIVA**](./wiki/Home.md) | [📜 CONTRIBUCIÓN](./CONTRIBUTING.md) | [🔒 SEGURIDAD](./SECURITY.md)
+> Ecosistema público V16.2 Frontend.
+> [**📖 WIKI CORPORATIVA**](./wiki/Home.md) | [📜 CONTRIBUCIÓN](./CONTRIBUTING.md) | [🔒 SEGURIDAD](./SECURITY.md) | [🏗️ ARQUITECTURA](./docs/ARCHITECTURE.md) | [🛠️ DESARROLLADORES](./docs/DEVELOPER_GUIDE.md) | [📘 MANUAL DE USUARIO](./docs/USER_MANUAL.md)
 
 <br>
 
 <div align="center">
-  <sub><i>© 2026 DarckRovert · Gravity News Portal V16.1 PRO.</i></sub>
+  <sub><i>© 2026 DarckRovert · Gravity News Portal V16.2 PRO.</i></sub>
 </div>""",
 
     "wiki/Home.md": """# 📖 Wiki Corporativa: Nexo Ágora (News Portal)
@@ -82,45 +84,43 @@ Bienvenido a la Wiki técnica del Frontend de Gravity AI.
 
 | Documento | Descripción |
 |---|---|
-| [Home](./Home.md) | Índice general |
+| [Home](./Home.md) | Índice general de la Wiki |
 | [Arquitectura Desacoplada](./Arquitectura.md) | Cómo se comunica Netlify con el PC Local |
+| [Geopolítica Analítica](./Geopolitica.md) | Enfoque materialista y de inteligencia para redacción |
+| [Arquitectura Técnica](../docs/ARCHITECTURE.md) | Detalles del VDOM, Render-Phase y Mitigación de Red |
+| [Guía de Desarrollo](../docs/DEVELOPER_GUIDE.md) | Estándares técnicos (WCAG 2.2, Anti-Storm) |
+| [Manual de Usuario](../docs/USER_MANUAL.md) | Instrucciones de uso e intercepción de anomalías |
 
 ---
 *Para ver la Wiki del Backend y Motor Central, dirígete al repositorio de [Gravity AI Bridge](https://github.com/DarckRovert/Gravity_AI_bridge).*""",
 
-    "wiki/Arquitectura.md": """# 🏛 Arquitectura Desacoplada (Decoupled Sync)
+    "wiki/Arquitectura.md": """# 🏛 Arquitectura Desacoplada (Decoupled Sync V16.2)
 
-El portal de noticias soluciona uno de los mayores problemas de la IA local: **¿Cómo mantengo un sitio web vivo 24/7 si mi PC de IA (Backend) se apaga en la noche?**
+El portal de noticias soluciona el problema de mantener un sitio web vivo 24/7 aunque el Backend local de IA se apague.
 
 ### Solución: Repositorio Estático Sincronizado
 
-El portal fue construido utilizando React/Vite y es hospedado en Netlify (plataforma sin servidor).
-Esto significa que el portal **nunca** se apaga, incluso si tu PC está apagada.
+El portal fue construido utilizando **React 18 + Vite** y es hospedado en Netlify (plataforma sin servidor).
+Esto significa que el portal **nunca** se apaga.
 
 **El Flujo Estático (Offline):**
 1. Tu PC enciende. El Daemon `news_daemon.py` despierta.
-2. Descarga noticias, el LLM procesa y escribe la noticia.
-3. Se actualiza el archivo `src/data/news.json` y se descargan las imágenes.
-4. El Agente hace un `git push` a este repositorio.
-5. Netlify hace un *build* de 30 segundos y la web queda actualizada estáticamente.
+2. El LLM procesa contingencias y actualiza el archivo `src/data/news.json`.
+3. El Agente hace un `git push` a este repositorio.
+4. Netlify hace un *build* de 30 segundos y la web queda actualizada estáticamente.
 
 **Modo Híbrido en Tiempo Real (Telemetría Activa):**
 Cuando tu PC está encendida, el frontend React detecta el nodo en `http://localhost:7860`. Automáticamente activa el **Live Feed**:
-1. **Dynamic News Fetch:** Se fusionan los artículos del backend sin necesidad de esperar el deploy de Netlify.
-2. **Terminal Feed:** Se visualizan los logs de los subagentes en la UI en vivo.
-3. **Vigía Dashboard:** El panel lateral expone métricas como entropía, hardware y estado del orquestador.
-Si el túnel local se cae, la interfaz realiza un _graceful degradation_ al modo Offline (cinemático) sin romper la UI.
+1. **Dynamic News Fetch:** Se fusionan los artículos del backend sin esperar el deploy de Netlify.
+2. **Terminal Feed:** Se visualizan los logs en la UI en vivo.
 
----
+### Prevención de Cuellos de Botella (Render Storms)
+La V16.2 ha introducido la filosofía de diseño *Zero-Bottleneck*:
+- **Debounce y Local State:** Los buscadores usan *Render-Phase updates* para evitar que el árbol de DOM colapse al tipear rápidamente.
+- **ScrollTracker en GPU:** Todo rastreo visual de scroll bypassa el motor de React, inyectándose directamente en la GPU a través de `framer-motion`.
 
-### Despliegue en Netlify (Vite SPA)
-
-Para evitar el error de *MIME Type* o pantallas blancas al desplegar, el portal incluye un archivo `netlify.toml` en la raíz. Esto le ordena a Netlify que enrute todo el tráfico a través de la carpeta `dist` compilada, soportando correctamente el enrutamiento del lado del cliente (Client-Side Routing) propio de React.
-
-### Integración Táctica (Bypass de Redes Sociales)
-
-Para integrar *Live Streams* de plataformas cerradas (como TikTok) que prohíben estrictamente el uso de etiquetas `<iframe>` para proteger su ecosistema, el portal utiliza **"Enlaces Terrestres" (Field Reporters)**. 
-En lugar de forzar un iframe que resultará en un error `X-Frame-Options: SAMEORIGIN`, se inyecta un HUD Holográfico con la metadata del reportero (ubicación, hora local, estado activo). Esto atrae la atención del usuario simulando un radar en tiempo real, brindándole un botón de intercepción directo para abrir el live original.""",
+### Despliegue SPA en Netlify
+Para evitar el error de *MIME Type* o pantallas blancas, el portal incluye un `netlify.toml` que enruta todo el tráfico a través de la carpeta `dist`, soportando el enrutamiento del cliente. A esto se le suma un `<ErrorBoundary>` enraizado bajo la arquitectura de `AnimatePresence` que intercepta caídas de red asíncronas (`ChunkLoadError`) de forma elegante.""",
 
     "CONTRIBUTING.md": """# 📜 Guía de Contribución
 
@@ -140,10 +140,11 @@ El portal jamás almacena llaves de API (Nvidia NIM, DeepSeek) en su código fue
 - `/v1/journalist/log`
 - `/v1/autonomy/status`
 
-### Auditoría V16.1 Frontend
-El repositorio en su iteración V16.1 ha pasado por una rigurosa auditoría manual de infraestructura. 
+### Auditoría V16.2 Frontend
+El repositorio en su iteración V16.2 ha pasado por una rigurosa auditoría manual de infraestructura. 
 - Se verificó el encapsulamiento seguro de `dangerouslySetInnerHTML`.
-- Se validaron los fallbacks (Graceful Degradation) para la telemetría en tiempo real, garantizando inmunidad ante XSS y Crashes (como la inyección robusta de `AnimatePresence`).
+- Se validaron los fallbacks (Graceful Degradation) para la telemetría en tiempo real, garantizando inmunidad ante XSS y Crashes (como la inyección robusta del `ErrorBoundary` dentro de `AnimatePresence`).
+- Se anularon vulnerabilidades de memoria (Render Storms) mediante *Render-Phase Updates*.
 - Zero-Trust: Incluso sin conexión al Bridge, la experiencia de usuario se mantiene intacta.""",
 
 }

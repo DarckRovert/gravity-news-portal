@@ -15,7 +15,7 @@ files_to_create = {
   <p align="center">
      <i><strong>Nexo Ágora: El Portal de Noticias de la Resistencia.</strong><br>
      Frontend Desacoplado operando en Zero-Trust y mantenido de manera autónoma por el <strong>Agente Periodístico de Gravity AI</strong>.<br>
-     Renderización Glassmorphism · Vite/React 18 · Actualización Continua y Telemetría en Tiempo Real.</i><br><br>
+     Renderización Glassmorphism · Vite/React 19 · Actualización Continua y Telemetría en Tiempo Real.</i><br><br>
      🛡️ <b>Auditoría V16.2 PRO: Arquitectura Anti-Render Storm - Resiliencia ChunkLoadError - Cumplimiento WCAG 2.2 Estricto</b>
    </p>
  </div>
@@ -103,7 +103,7 @@ El portal de noticias soluciona uno de los mayores problemas de la IA local: **�
 
 ### Solución: Repositorio Estático Sincronizado
 
-El portal fue construido utilizando React 18 / Vite y es hospedado en Netlify (plataforma sin servidor).
+El portal fue construido utilizando **React 19 + Vite** y es hospedado en Netlify (plataforma sin servidor).
 Esto significa que el portal **nunca** se apaga, incluso si tu PC está apagada.
 
 **El Flujo Estático (Offline):**

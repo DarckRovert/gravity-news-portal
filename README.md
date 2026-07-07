@@ -10,7 +10,7 @@
   <p align="center">
      <i><strong>Nexo Ágora: El Portal de Noticias de la Resistencia.</strong><br>
      Frontend Desacoplado operando en Zero-Trust y mantenido de manera autónoma por el <strong>Agente Periodístico de Gravity AI</strong>.<br>
-     Renderización Glassmorphism · Vite/React 18 · Actualización Continua y Telemetría en Tiempo Real.</i><br><br>
+     Renderización Glassmorphism · Vite/React 19 · Actualización Continua y Telemetría en Tiempo Real.</i><br><br>
      🛡️ <b>Auditoría V16.2 PRO: Arquitectura Anti-Render Storm - Resiliencia ChunkLoadError - Cumplimiento WCAG 2.2 Estricto</b>
    </p>
  </div>

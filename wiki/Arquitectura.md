@@ -4,7 +4,7 @@ El portal de noticias soluciona uno de los mayores problemas de la IA local: **�
 
 ### Solución: Repositorio Estático Sincronizado
 
-El portal fue construido utilizando React 18 / Vite y es hospedado en Netlify (plataforma sin servidor).
+El portal fue construido utilizando **React 19 + Vite** y es hospedado en Netlify (plataforma sin servidor).
 Esto significa que el portal **nunca** se apaga, incluso si tu PC está apagada.
 
 **El Flujo Estático (Offline):**

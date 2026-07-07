@@ -34,6 +34,8 @@ export default function Essays() {
       const essay = essaysData.find(e => e.id === articleId);
       if (essay) {
         setSelectedEssay(essay);
+      } else {
+        setSelectedEssay(null);
       }
     } else if (!articleId && selectedEssay) {
       setSelectedEssay(null);
@@ -43,7 +45,9 @@ export default function Essays() {
   const handleOpenEssay = (essay) => {
     playSound('click');
     setSelectedEssay(essay);
-    setSearchParams({ article: essay.id });
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('article', essay.id);
+    setSearchParams(newParams);
   };
 
   const handleCloseEssay = () => {

@@ -34,6 +34,8 @@ export default function Science() {
       const article = scienceData.find(a => a.id === articleId);
       if (article) {
         setSelectedArticle(article);
+      } else {
+        setSelectedArticle(null);
       }
     } else if (!articleId && selectedArticle) {
       setSelectedArticle(null);
@@ -43,7 +45,9 @@ export default function Science() {
   const handleOpenArticle = (article) => {
     playSound('click');
     setSelectedArticle(article);
-    setSearchParams({ article: article.id });
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('article', article.id);
+    setSearchParams(newParams);
   };
 
   const handleCloseArticle = () => {

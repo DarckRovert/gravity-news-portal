@@ -31,7 +31,15 @@ El **Gravity News Portal** no es un portal de noticias ordinario. Es la interfaz
  - **Optimizaciones Anti-Storm (NUEVO):** Integración de *Render-Phase Updates* y *Debouncers* para proteger el hilo principal durante manipulaciones intensivas de búsquedas globales, previniendo caídas de 60FPS.
  - **WCAG 2.2 Strict Compliant (NUEVO):** Tab-index transfer, aria-live politeness, skip-link focus recovery y navegación estructural blindada.
  - **Resiliencia de Red Asíncrona (NUEVO):** ErrorBoundary anidado dentro de Framer Motion para capturar e invalidar de forma grácil errores transitorios de la CDN (`ChunkLoadError`) sin romper la UI.
- - **Sincronización Cuántica y Telemetría en Vivo:** Comunicación directa vía REST API (`http://localhost:7860`) con interceptores para Live Terminal Feed y Vigía Status Dashboard.
+ - **Sincronización Cuántica y Telemetría en Vivo:** Capacidad para comunicarse directamente vía REST API con tu Bridge local a través de `http://localhost:7860`. Cuando el Daemon local está activo, el portal intercepta:
+   - *Live Terminal Feed* (`/v1/journalist/log`): Monitoreo de logs en tiempo real.
+   - *Vigía Status Dashboard* (`/v1/autonomy/status`): Panel lateral que visualiza la salud del sistema y la entropía del periodista.
+   - *Dynamic News Merging* (`/v1/journalist/news`): Las noticias generadas se transmiten inmediatamente al frontend antes de que ocurra el commit, eliminando el tiempo de espera del build.
+ - **Resiliencia Offline:** Si la PC/Bridge falla o se apaga, el portal cambiará a modo offline (estático, cinemático y mostrando noticias cacheadas en `news.json`) sin interrupciones visuales, demostrando su naturaleza Zero-Trust.
+ - **Renderizado Seguro:** La limpieza de libros utiliza Regex locales para remover estilos y garantizar que el contenido Markdown/HTML generado por el Bridge no rompa la estructura del portal.
+ - **Auto-Mantenimiento:** Limpieza de librerías y portadas automáticas (Script `sync_books.py`).
+ - **Field Reporters Context-Aware:** Sistema Zero-Trust que asigna dinámicamente corresponsales según la región (ej. Arquímedes para Norteamérica, RT para Eurasia).
+ - **Resiliencia de Imágenes:** Componentes `ProgressiveImage` inyectan visuales Cyberpunk de emergencia si la IA de imágenes falla.
 
 ---
 

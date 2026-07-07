@@ -12,8 +12,8 @@ const NewsTicker = () => {
   ];
 
   return (
-    <div className="ticker-container">
-      <div className="ticker-label">LIVE FEED</div>
+    <div className="ticker-container" aria-label="Titulares en vivo" aria-live="off" role="marquee">
+      <div className="ticker-label" aria-hidden="true">LIVE FEED</div>
       <div className="ticker-scroll">
         <div className="ticker-content">
           {headlines.map((text, i) => (

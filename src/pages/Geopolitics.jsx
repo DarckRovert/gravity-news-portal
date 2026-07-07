@@ -10,6 +10,7 @@ import ArticleModal from '../components/ArticleModal';
 import { playSound } from '../utils/audio';
 import { getRelativeTime, getReadingTime } from '../utils/helpers';
 import './Home.css';
+import './Geopolitics.css';
 
 export default function Geopolitics() {
   const news = newsData;

@@ -1,5 +1,5 @@
 import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
-import { Newspaper, Library, Menu, X, PenTool, Microscope, ChevronUp, Terminal, Search, Palette, Globe } from 'lucide-react';
+import { Newspaper, Library, Menu, X, PenTool, Microscope, ChevronUp, Search, Palette, Globe } from 'lucide-react';
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useTheme } from './contexts/ThemeContext';
 import { useSearch } from './contexts/SearchContext';
@@ -334,21 +334,48 @@ function App() {
         </AnimatePresence>
       </main>
       
-      {/* Enhanced Dynamic Footer */}
-      <footer className="footer glass-panel">
-        <div className="footer-content">
-          <div className="footer-status">
-            <span className="status-dot"></span>
-            <span>SYSTEMS ONLINE</span>
+      {/* Full Footer */}
+      <footer className="footer-full glass-panel">
+        <div className="footer-inner">
+          {/* Col 1: Brand + Nav */}
+          <div className="footer-col">
+            <span className="footer-brand-name"><span className="brand-accent">Gravity</span>Portal</span>
+            <p className="footer-tagline">Inteligencia descentralizada.<br />Detección de anomalías globales.</p>
+            <nav className="footer-nav" aria-label="Navegación del pie de página">
+              <Link to="/">Noticias</Link>
+              <Link to="/geopolitica">Geopolítica</Link>
+              <Link to="/ciencia">Ciencia</Link>
+              <Link to="/ensayos">Ensayos</Link>
+              <Link to="/books">Biblioteca</Link>
+            </nav>
           </div>
-          <div className="footer-brand">
-            <Terminal size={14} className="footer-icon" />
-            <p>© 2026 Gravity Portal. Redefiniendo los límites.</p>
+
+          {/* Col 2: Status */}
+          <div className="footer-col footer-col-center">
+            <div className="footer-status-block">
+              <div className="footer-status-dot" />
+              <span className="footer-status-text">SISTEMAS EN LÍNEA</span>
+            </div>
+            <div className="footer-clock-display" aria-hidden="true">
+              <LiveClock />
+            </div>
+            <p className="footer-note">Hora Local de Combate (LCT)</p>
           </div>
-          <div className="footer-time" aria-hidden="true">
-            <LiveClock />
+
+          {/* Col 3: Legal */}
+          <div className="footer-col footer-col-right">
+            <p className="footer-legal">© 2026 Gravity Portal</p>
+            <p className="footer-legal">Construido con IA · Código Abierto</p>
+            <p className="footer-legal" style={{ marginTop: '8px', fontSize: '0.72rem', opacity: 0.5 }}>
+              El contenido es generado por inteligencia artificial y no constituye asesoramiento profesional.
+              Los análisis son especulativos y de carácter editorial.
+            </p>
           </div>
         </div>
+        <div className="footer-divider" />
+        <p className="footer-bottom-bar">
+          Gravity Portal · Redefiniendo los límites del periodismo digital · 2026
+        </p>
       </footer>
 
       <ScrollToTopFAB />

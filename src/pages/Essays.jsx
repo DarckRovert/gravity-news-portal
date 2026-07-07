@@ -5,20 +5,14 @@ import { Clock, BookOpen, ArrowRight, PenTool, Bookmark, Share2 } from 'lucide-r
 import { playSound } from '../utils/audio';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
+import { getRelativeTime } from '../utils/helpers';
 import SEO from '../components/SEO';
 import essaysData from '../data/essays.json';
 import ProgressiveImage from '../components/ProgressiveImage';
+import TypewriterMarkdown from '../components/TypewriterMarkdown';
 import './Essays.css';
 
-const getRelativeTime = (dateStr) => {
-  if (!dateStr) return '';
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `Hace ${mins}m`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `Hace ${hours}h`;
-  return `Hace ${Math.floor(hours / 24)}d`;
-};
+
 
 export default function Essays() {
   const [selectedEssay, setSelectedEssay] = useState(null);
@@ -103,16 +97,7 @@ export default function Essays() {
     });
   }, [searchTerm, selectedTag, isBookmarked]);
 
-  const renderMarkdown = (text) => {
-    if (!text) return '';
-    return text
-      .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-      .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g, '<em>$1</em>')
-      .replace(/^---$/gm, '<hr/>')
-      .replace(/\n/g, '<br/>');
-  };
+
 
   if (selectedEssay) {
     return (
@@ -123,8 +108,8 @@ export default function Essays() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <SEO title={selectedEssay.title} description={selectedEssay.excerpt} />
-          <button className="essay-back-btn" onClick={handleCloseEssay}>
+          <SEO title={selectedEssay.title} description={selectedEssay.excerpt} image={selectedEssay.image} article={true} url={`${window.location.origin}/ensayos?article=${selectedEssay.id}`} />
+          <button type="button" className="essay-back-btn" onClick={handleCloseEssay}>
             ← Volver a Ensayos
           </button>
           <div className="essay-reader-header">
@@ -137,7 +122,8 @@ export default function Essays() {
               <span><PenTool size={14} /> {selectedEssay.author}</span>
               <span><Clock size={14} /> {getRelativeTime(selectedEssay.date)}</span>
               <span><BookOpen size={14} /> {selectedEssay.readingTime} min</span>
-              <button 
+              <button
+                type="button"
                 onClick={() => handleShare(selectedEssay)}
                 style={{ background: 'transparent', border: 'none', color: 'var(--accent-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem' }}
                 title="Compartir"
@@ -146,10 +132,13 @@ export default function Essays() {
               </button>
             </div>
           </div>
-          <div
-            className="essay-reader-body"
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(selectedEssay.fullText) }}
-          />
+          <div className="essay-reader-body">
+            <TypewriterMarkdown
+              key={selectedEssay.id}
+              text={selectedEssay.fullText || (selectedEssay.excerpt || '')}
+              animated={false}
+            />
+          </div>
         </motion.div>
       </AnimatePresence>
     );

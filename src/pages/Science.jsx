@@ -5,20 +5,14 @@ import { Clock, BookOpen, Microscope, ArrowRight, Bookmark, Share2 } from 'lucid
 import { playSound } from '../utils/audio';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
+import { getRelativeTime } from '../utils/helpers';
 import scienceData from '../data/science.json';
 import ProgressiveImage from '../components/ProgressiveImage';
+import TypewriterMarkdown from '../components/TypewriterMarkdown';
 import SEO from '../components/SEO';
 import './Science.css';
 
-const getRelativeTime = (dateStr) => {
-  if (!dateStr) return '';
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `Hace ${mins}m`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `Hace ${hours}h`;
-  return `Hace ${Math.floor(hours / 24)}d`;
-};
+
 
 export default function Science() {
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -101,16 +95,7 @@ export default function Science() {
     });
   }, [searchTerm, selectedCategory, isBookmarked]);
 
-  const renderMarkdown = (text) => {
-    if (!text) return '';
-    return text
-      .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-      .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g, '<em>$1</em>')
-      .replace(/^---$/gm, '<hr/>')
-      .replace(/\n/g, '<br/>');
-  };
+
 
   if (selectedArticle) {
     return (
@@ -121,7 +106,14 @@ export default function Science() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <button className="science-back-btn" onClick={handleCloseArticle}>
+          <SEO
+            title={selectedArticle.title}
+            description={selectedArticle.excerpt || ''}
+            image={selectedArticle.image}
+            article={true}
+            url={`${window.location.origin}/ciencia?article=${selectedArticle.id}`}
+          />
+          <button type="button" className="science-back-btn" onClick={handleCloseArticle}>
             ← Volver a Ciencia
           </button>
           <div className="science-reader-header">
@@ -134,7 +126,8 @@ export default function Science() {
               <span><Microscope size={14} /> {selectedArticle.author}</span>
               <span><Clock size={14} /> {getRelativeTime(selectedArticle.date)}</span>
               <span><BookOpen size={14} /> {selectedArticle.readingTime} min</span>
-              <button 
+              <button
+                type="button"
                 onClick={() => handleShare(selectedArticle)}
                 style={{ background: 'transparent', border: 'none', color: '#60a5fa', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem' }}
                 title="Compartir"
@@ -143,10 +136,13 @@ export default function Science() {
               </button>
             </div>
           </div>
-          <div
-            className="science-reader-body"
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(selectedArticle.fullText) }}
-          />
+          <div className="science-reader-body">
+            <TypewriterMarkdown
+              key={selectedArticle.id}
+              text={selectedArticle.fullText || (selectedArticle.excerpt || '')}
+              animated={false}
+            />
+          </div>
         </motion.div>
       </AnimatePresence>
     );

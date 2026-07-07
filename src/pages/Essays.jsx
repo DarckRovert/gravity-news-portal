@@ -43,7 +43,7 @@ export default function Essays() {
   const handleOpenEssay = (essay) => {
     playSound('click');
     setSelectedEssay(essay);
-    setSearchParams({ article: essay.id }, { replace: true });
+    setSearchParams({ article: essay.id });
   };
 
   const handleCloseEssay = () => {
@@ -51,7 +51,7 @@ export default function Essays() {
     setSelectedEssay(null);
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('article');
-    setSearchParams(newParams, { replace: true });
+    setSearchParams(newParams);
   };
 
   const handleShare = async (essay) => {

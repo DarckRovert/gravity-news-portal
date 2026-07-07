@@ -107,7 +107,7 @@ export default function Home() {
   const handleOpenArticle = (article) => {
     playSound('click');
     setSelectedArticle(article);
-    setSearchParams({ article: article.id }, { replace: true });
+    setSearchParams({ article: article.id });
   };
 
   const handleCloseArticle = () => {
@@ -115,7 +115,7 @@ export default function Home() {
     setSelectedArticle(null);
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('article');
-    setSearchParams(newParams, { replace: true });
+    setSearchParams(newParams);
   };
 
   const handleModalArticleChange = (article) => {

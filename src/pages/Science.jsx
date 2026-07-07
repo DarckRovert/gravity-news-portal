@@ -43,7 +43,7 @@ export default function Science() {
   const handleOpenArticle = (article) => {
     playSound('click');
     setSelectedArticle(article);
-    setSearchParams({ article: article.id }, { replace: true });
+    setSearchParams({ article: article.id });
   };
 
   const handleCloseArticle = () => {
@@ -51,7 +51,7 @@ export default function Science() {
     setSelectedArticle(null);
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('article');
-    setSearchParams(newParams, { replace: true });
+    setSearchParams(newParams);
   };
 
   const handleShare = async (article) => {

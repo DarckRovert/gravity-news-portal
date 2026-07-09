@@ -1,5 +1,20 @@
 [
   {
+    "category": "Computación Cuántica",
+    "title": "El Laberinto del Conectoma: Avances en Neurociencia y su Impacto en la Sociedad",
+    "excerpt": "En este artículo, exploramos los avances recientes en neurociencia y conectomas, y su impacto potencial en la sociedad.",
+    "subtitle": "Un análisis profundo de la relación entre la tecnología de conectomas y la comprensión del cerebro humano",
+    "fullText": "En la era de la tecnología de conectomas, estamos asistiendo a un cambio radical en nuestra comprensión del cerebro humano. Los conectomas, que son mapas detallados de las conexiones neuronales en el cerebro, han permitido a los investigadores obtener una visión más profunda de cómo funciona el cerebro y cómo se relacionan las diferentes áreas cerebrales.",
+    "featured": true,
+    "type": "science",
+    "author": "Nexo Ágora — Redacción Científica",
+    "date": "2026-07-09T14:42:28.818853",
+    "tags": [],
+    "id": "el-laberinto-del-conectoma-avances-en-neurociencia-y-su-impa",
+    "readingTime": 3,
+    "image": "/images/el-laberinto-del-conectoma-avances-en-neurociencia-y-su-impa.jpg"
+  },
+  {
     "category": "Biología y Genética",
     "title": "El Sustrato Cuántico: Cuando la Vida se convierte en Tecnología",
     "subtitle": "La biología cuántica revela que los organismos vivos operan bajo leyes de coherencia. El control sobre estos procesos es el nuevo campo de batalla biopolítico.",

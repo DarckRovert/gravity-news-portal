@@ -93,7 +93,9 @@ export default function Geopolitics() {
     
     let matchesRegion = true;
     if (activeRegion !== 'Global') {
-      matchesRegion = item.region === activeRegion || (!item.region && activeRegion === 'Global');
+      matchesRegion = item.region && item.region.includes(activeRegion);
+    } else {
+      matchesRegion = !item.region || item.region.includes('Global');
     }
 
     return matchesSearch && matchesRegion;

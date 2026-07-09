@@ -80,8 +80,8 @@ export default function Geopolitics() {
     }
   };
   
-  // Extraer regiones únicas, asumiendo que los datos antiguos pueden no tener region
-  const defaultRegions = ['Global', 'Norteamérica', 'Latinoamérica', 'Eurasia', 'Medio Oriente', 'África'];
+  // Obtener regiones únicas de las noticias para los filtros
+  const defaultRegions = ['Global', 'Norteamérica', 'Latinoamérica', 'Perú', 'Eurasia', 'Medio Oriente', 'África'];
   const extractedRegions = [...new Set(news.map(item => item.region).filter(Boolean))];
   const regions = [...new Set([...defaultRegions, ...extractedRegions])];
 

@@ -1,5 +1,20 @@
 [
   {
+    "category": "Biología y Genética",
+    "title": "Epigenética y Herencia: Un Enfoque Crítico",
+    "excerpt": "La epigenética es un campo en constante evolución que nos está enseñando mucho sobre la complejidad de la herencia y el desarrollo. Sin embargo, es fundamental considerar las implicaciones éticas y sociales de nuestros descubrimientos.",
+    "subtitle": "La epigenética y sus implicaciones éticas y sociales",
+    "fullText": "La epigenética, el estudio de cómo los factores ambientales y genéticos influyen en la expresión de los genes, ha revolucionado nuestra comprensión de la herencia y el desarrollo. Sin embargo, a medida que avanzamos en este campo, es fundamental considerar las implicaciones éticas y sociales de nuestros descubrimientos.\n\nLa epigenética se refiere a los cambios en la expresión de los genes que no están relacionados con la secuencia del ADN en sí mismo. Estos cambios pueden ser influenciados por factores ambientales, como la dieta, el estrés y la exposición a toxinas, y pueden ser heredados por las generaciones futuras.\n\nUn ejemplo de epigenética es el estudio de la enfermedad de Huntington, una condición genética que causa la degeneración de las células cerebrales. Aunque la enfermedad es causada por una mutación en el gen de la huntingtina, la expresión de la enfermedad puede ser influenciada por factores epigenéticos, como la metilación del ADN y la acetilación de las histonas.\n\nLa epigenética plantea importantes implicaciones éticas y sociales. Por ejemplo, si los factores ambientales pueden influir en la expresión de los genes, ¿qué responsabilidad tienen los padres y los cuidadores en la salud epigenética de sus hijos? ¿Deberían los gobiernos y las empresas tomar medidas para reducir la exposición a toxinas y otros factores ambientales que pueden afectar la salud epigenética?\n\nAdemás, la epigenética también plantea preguntas sobre la identidad y la herencia. Si los genes no son la única determinante de la identidad y la herencia, ¿qué papel juegan los factores epigenéticos en la formación de la identidad y la herencia?\n\nLa epigenética es un campo en constante evolución que nos está enseñando mucho sobre la complejidad de la herencia y el desarrollo. Sin embargo, es fundamental considerar las implicaciones éticas y sociales de nuestros descubrimientos y trabajar para asegurarnos de que la epigenética se utilice para mejorar la salud y el bienestar de las personas, y no para perpetuar la desigualdad y la injusticia.",
+    "featured": true,
+    "type": "science",
+    "author": "Nexo Ágora — Redacción Científica",
+    "date": "2026-07-16T04:38:39.777589",
+    "tags": [],
+    "id": "epigentica-y-herencia-un-enfoque-crtico",
+    "readingTime": 3,
+    "image": "/images/epigentica-y-herencia-un-enfoque-crtico.jpg"
+  },
+  {
     "category": "Computación Cuántica",
     "title": "El Laberinto del Conectoma: Avances en Neurociencia y su Impacto en la Sociedad",
     "excerpt": "En este artículo, exploramos los avances recientes en neurociencia y conectomas, y su impacto potencial en la sociedad.",

@@ -28,8 +28,17 @@ const FieldReporters = () => {
     const timer = setInterval(() => {
       setTime(new Date().toLocaleTimeString());
     }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && fullScreenReporter) {
+        setFullScreenReporter(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [fullScreenReporter]);
 
   const handleExpand = (reporter) => {
     setFullScreenReporter(reporter);

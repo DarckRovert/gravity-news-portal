@@ -248,7 +248,7 @@ const ScrollTracker = () => {
 
   return (
     <motion.div 
-      className="scroll-progress-bar" 
+      className="global-scroll-progress-bar" 
       style={{ scaleX, transformOrigin: '0%' }}
       role="progressbar"
       aria-hidden="true"
@@ -297,16 +297,17 @@ const ScrollToTopFAB = () => {
 
 function App() {
   const location = useLocation();
+  const isReaderPage = location.pathname.startsWith('/book/');
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${isReaderPage ? 'reader-active' : ''}`}>
       <a href="#main" className="skip-to-content" style={{ position: 'absolute', top: '-40px', left: '0', background: 'var(--bg-card)', color: 'var(--text-primary)', padding: '8px 16px', zIndex: '9999', transition: 'top 0.3s' }} onFocus={(e) => e.target.style.top = '0'} onBlur={(e) => e.target.style.top = '-40px'}>
         Saltar al contenido principal
       </a>
       
       <CustomCursor />
       
-      <ScrollTracker />
+      {!isReaderPage && <ScrollTracker />}
 
       {/* Background Aurora Engine */}
       <div className="god-tier-aurora">
@@ -315,10 +316,10 @@ function App() {
         <div className="aurora-orb aurora-3"></div>
       </div>
       
-      <Navbar />
-      <NewsTicker />
+      {!isReaderPage && <Navbar />}
+      {!isReaderPage && <NewsTicker />}
       
-      <main className="main-content" id="main" tabIndex={-1} style={{ outline: 'none' }}>
+      <main className="main-content" id="main" tabIndex={-1} style={{ outline: 'none', padding: isReaderPage ? 0 : undefined }}>
         <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
           <ErrorBoundary key={location.pathname}>
             <Routes location={location}>
@@ -335,48 +336,50 @@ function App() {
       </main>
       
       {/* Full Footer */}
-      <footer className="footer-full glass-panel">
-        <div className="footer-inner">
-          {/* Col 1: Brand + Nav */}
-          <div className="footer-col">
-            <span className="footer-brand-name"><span className="brand-accent">Gravity</span>Portal</span>
-            <p className="footer-tagline">Inteligencia descentralizada.<br />Detección de anomalías globales.</p>
-            <nav className="footer-nav" aria-label="Navegación del pie de página">
-              <Link to="/">Noticias</Link>
-              <Link to="/geopolitica">Geopolítica</Link>
-              <Link to="/ciencia">Ciencia</Link>
-              <Link to="/ensayos">Ensayos</Link>
-              <Link to="/books">Biblioteca</Link>
-            </nav>
-          </div>
-
-          {/* Col 2: Status */}
-          <div className="footer-col footer-col-center">
-            <div className="footer-status-block">
-              <div className="footer-status-dot" />
-              <span className="footer-status-text">SISTEMAS EN LÍNEA</span>
+      {!isReaderPage && (
+        <footer className="footer-full glass-panel">
+          <div className="footer-inner">
+            {/* Col 1: Brand + Nav */}
+            <div className="footer-col">
+              <span className="footer-brand-name"><span className="brand-accent">Gravity</span>Portal</span>
+              <p className="footer-tagline">Inteligencia descentralizada.<br />Detección de anomalías globales.</p>
+              <nav className="footer-nav" aria-label="Navegación del pie de página">
+                <Link to="/">Noticias</Link>
+                <Link to="/geopolitica">Geopolítica</Link>
+                <Link to="/ciencia">Ciencia</Link>
+                <Link to="/ensayos">Ensayos</Link>
+                <Link to="/books">Biblioteca</Link>
+              </nav>
             </div>
-            <div className="footer-clock-display" aria-hidden="true">
-              <LiveClock />
-            </div>
-            <p className="footer-note">Hora Local de Combate (LCT)</p>
-          </div>
 
-          {/* Col 3: Legal */}
-          <div className="footer-col footer-col-right">
-            <p className="footer-legal">© 2026 Gravity Portal</p>
-            <p className="footer-legal">Construido con IA · Código Abierto</p>
-            <p className="footer-legal" style={{ marginTop: '8px', fontSize: '0.72rem', opacity: 0.5 }}>
-              El contenido es generado por inteligencia artificial y no constituye asesoramiento profesional.
-              Los análisis son especulativos y de carácter editorial.
-            </p>
+            {/* Col 2: Status */}
+            <div className="footer-col footer-col-center">
+              <div className="footer-status-block">
+                <div className="footer-status-dot" />
+                <span className="footer-status-text">SISTEMAS EN LÍNEA</span>
+              </div>
+              <div className="footer-clock-display" aria-hidden="true">
+                <LiveClock />
+              </div>
+              <p className="footer-note">Hora Local de Combate (LCT)</p>
+            </div>
+
+            {/* Col 3: Legal */}
+            <div className="footer-col footer-col-right">
+              <p className="footer-legal">© 2026 Gravity Portal</p>
+              <p className="footer-legal">Construido con IA · Código Abierto</p>
+              <p className="footer-legal" style={{ marginTop: '8px', fontSize: '0.72rem', opacity: 0.5 }}>
+                El contenido es generado por inteligencia artificial y no constituye asesoramiento profesional.
+                Los análisis son especulativos y de carácter editorial.
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="footer-divider" />
-        <p className="footer-bottom-bar">
-          Gravity Portal · Redefiniendo los límites del periodismo digital · 2026
-        </p>
-      </footer>
+          <div className="footer-divider" />
+          <p className="footer-bottom-bar">
+            Gravity Portal · Redefiniendo los límites del periodismo digital · 2026
+          </p>
+        </footer>
+      )}
 
       <ScrollToTopFAB />
     </div>

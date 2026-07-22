@@ -1,46 +1,31 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, BookOpen, ArrowRight, PenTool, Bookmark, Share2 } from 'lucide-react';
 import { playSound } from '../utils/audio';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
-import { getRelativeTime } from '../utils/helpers';
+import { getRelativeTime, copyToClipboard } from '../utils/helpers';
 import SEO from '../components/SEO';
 import essaysData from '../data/essays.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import TypewriterMarkdown from '../components/TypewriterMarkdown';
 import './Essays.css';
 
-
-
 export default function Essays() {
-  const [selectedEssay, setSelectedEssay] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [selectedTag, setSelectedTag] = useState('Todos');
 
-  // Deep linking for essays
-  useEffect(() => {
-    const articleId = searchParams.get('article');
-    if (articleId) {
-      const essay = essaysData.find(e => e.id === articleId);
-      if (essay) {
-        if (!selectedEssay || selectedEssay !== essay) {
-          setSelectedEssay(essay);
-        }
-      } else if (selectedEssay) {
-        setSelectedEssay(null);
-      }
-    } else if (selectedEssay) {
-      setSelectedEssay(null);
-    }
-  }, [searchParams, selectedEssay]);
+  const articleId = searchParams.get('article');
+  const selectedEssay = useMemo(() => {
+    if (!articleId) return null;
+    return essaysData.find(e => e.id === articleId) || null;
+  }, [articleId]);
 
   const handleOpenEssay = (essay) => {
     playSound('click');
-    setSelectedEssay(essay);
     const newParams = new URLSearchParams(searchParams);
     newParams.set('article', essay.id);
     setSearchParams(newParams);
@@ -48,7 +33,6 @@ export default function Essays() {
 
   const handleCloseEssay = () => {
     playSound('click');
-    setSelectedEssay(null);
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('article');
     setSearchParams(newParams);
@@ -63,14 +47,13 @@ export default function Essays() {
       url: shareUrl,
     };
     try {
-      if (navigator.share) {
+      if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(`${essay.title}\n${shareUrl}`);
-        alert('Enlace cuántico copiado al portapapeles');
+        await copyToClipboard(shareUrl);
       }
-    } catch (e) {
-      console.log('Error al compartir', e);
+    } catch {
+      await copyToClipboard(shareUrl);
     }
   };
 

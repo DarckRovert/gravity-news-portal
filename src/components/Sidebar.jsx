@@ -6,6 +6,7 @@ import booksData from '../data/books.json';
 import essaysData from '../data/essays.json';
 import scienceData from '../data/science.json';
 import { playSound } from '../utils/audio';
+import { DEFAULT_IMAGE_FALLBACK } from '../utils/helpers';
 
 export default function Sidebar({
   bridgeStatus,
@@ -170,7 +171,7 @@ export default function Sidebar({
           {booksData.slice(0, 3).map((book) => (
             <div key={book.id} className="sidebar-book-item" onMouseEnter={() => playSound('hover')}>
               <div className="mini-cover">
-                <img src={book.cover} alt={book.title} onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80'; }}/>
+                <img src={book.cover} alt={book.title} onError={(e) => { e.target.onerror = null; e.target.src = DEFAULT_IMAGE_FALLBACK; }}/>
               </div>
               <div className="mini-details">
                 <h4>{book.title}</h4>
@@ -199,7 +200,7 @@ export default function Sidebar({
           {essaysData.slice(0, 2).map((essay) => (
             <div key={essay.id} className="sidebar-book-item hover-lift" onClick={() => navigate('/ensayos')}>
               <div className="mini-cover">
-                <img src={essay.image} alt={essay.title} onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80'; }}/>
+                <img src={essay.image} alt={essay.title} onError={(e) => { e.target.onerror = null; e.target.src = DEFAULT_IMAGE_FALLBACK; }}/>
               </div>
               <div className="mini-details">
                 <h4 style={{ fontSize: '0.85rem' }}>{essay.title}</h4>
@@ -228,7 +229,7 @@ export default function Sidebar({
           {scienceData.slice(0, 2).map((article) => (
             <div key={article.id} className="sidebar-book-item hover-lift" onClick={() => navigate('/ciencia')}>
               <div className="mini-cover">
-                <img src={article.image} alt={article.title} onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80'; }}/>
+                <img src={article.image} alt={article.title} onError={(e) => { e.target.onerror = null; e.target.src = DEFAULT_IMAGE_FALLBACK; }}/>
               </div>
               <div className="mini-details">
                 <h4 style={{ fontSize: '0.85rem' }}>{article.title}</h4>

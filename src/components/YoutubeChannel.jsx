@@ -25,6 +25,16 @@ const YoutubeChannel = () => {
   const [videos, setVideos] = useState(channel.latestVideos);
 
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isLiveOpen) {
+        setIsLiveOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isLiveOpen]);
+
+  useEffect(() => {
     const fetchLatest = async () => {
       try {
         const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=UC8WwqW8uW2X6ys3PWMiDSzg';

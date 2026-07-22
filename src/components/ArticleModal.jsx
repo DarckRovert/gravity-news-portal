@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { X, Clock, Share2, Wifi, BookOpen, Terminal, Play, Square, Check, Link, Minus, Plus } from 'lucide-react';
 import { playSound } from '../utils/audio';
-import { getRelativeTime, getReadingTime } from '../utils/helpers';
+import { getRelativeTime, getReadingTime, DEFAULT_IMAGE_FALLBACK, copyToClipboard } from '../utils/helpers';
 import TypewriterMarkdown from './TypewriterMarkdown';
 
 export default function ArticleModal({
@@ -16,7 +16,15 @@ export default function ArticleModal({
   const [readingProgress, setReadingProgress] = useState(0);
   const [fontSize, setFontSize] = useState(16); // px base
   const [shareCopied, setShareCopied] = useState(false);
+  const [prevArticleId, setPrevArticleId] = useState(selectedArticle?.id);
   const contentRef = useRef(null);
+
+  // Synchronize state resets during render phase when article changes
+  if (selectedArticle?.id !== prevArticleId) {
+    setPrevArticleId(selectedArticle?.id);
+    setReadingProgress(0);
+    setFontSize(16);
+  }
 
   // Stop TTS on unmount
   useEffect(() => {
@@ -27,22 +35,21 @@ export default function ArticleModal({
     };
   }, []);
 
-  // Lock body scroll
+  // Lock body scroll and Listen for ESC key
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        playSound('click');
+        setSelectedArticle(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
       document.body.style.overflow = 'auto';
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
-
-  // Reset state when article changes
-  useEffect(() => {
-    setReadingProgress(0);
-    setFontSize(16);
-    if (contentRef.current) {
-      contentRef.current.scrollTop = 0;
-    }
-  }, [selectedArticle?.id]);
+  }, [setSelectedArticle]);
 
   // Reading progress tracker
   const handleScroll = useCallback(() => {
@@ -93,17 +100,19 @@ export default function ArticleModal({
       if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(shareUrl);
-        setShareCopied(true);
-        setTimeout(() => setShareCopied(false), 2500);
+        const success = await copyToClipboard(shareUrl);
+        if (success) {
+          setShareCopied(true);
+          setTimeout(() => setShareCopied(false), 2500);
+        }
       }
-    } catch (e) {
-      // User cancelled or clipboard failed
-      try {
-        await navigator.clipboard.writeText(shareUrl);
+    } catch {
+      // User cancelled or share failed fallback
+      const success = await copyToClipboard(shareUrl);
+      if (success) {
         setShareCopied(true);
         setTimeout(() => setShareCopied(false), 2500);
-      } catch {
+      } else {
         handleShare(selectedArticle);
       }
     }
@@ -170,7 +179,7 @@ export default function ArticleModal({
             loading="lazy"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80';
+              e.target.src = DEFAULT_IMAGE_FALLBACK;
             }}
           />
           <div className="modal-image-overlay" />

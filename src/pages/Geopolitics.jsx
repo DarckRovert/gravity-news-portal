@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AlertTriangle, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,37 +8,24 @@ import newsData from '../data/news.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import ArticleModal from '../components/ArticleModal';
 import { playSound } from '../utils/audio';
-import { getRelativeTime, getReadingTime } from '../utils/helpers';
+import { getRelativeTime, getReadingTime, copyToClipboard } from '../utils/helpers';
 import './Home.css';
 import './Geopolitics.css';
 
 export default function Geopolitics() {
   const news = newsData;
-  const [selectedArticle, setSelectedArticle] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const [activeRegion, setActiveRegion] = useState('Global');
 
-  // Deep linking for articles
-  useEffect(() => {
-    const articleId = searchParams.get('article');
-    if (articleId) {
-      const article = news.find(a => a.id === articleId);
-      if (article) {
-        if (!selectedArticle || selectedArticle !== article) {
-          setSelectedArticle(article);
-        }
-      } else if (selectedArticle) {
-        setSelectedArticle(null);
-      }
-    } else if (selectedArticle) {
-      setSelectedArticle(null);
-    }
-  }, [searchParams, news, selectedArticle]);
+  const articleId = searchParams.get('article');
+  const selectedArticle = useMemo(() => {
+    if (!articleId) return null;
+    return news.find(a => a.id === articleId) || null;
+  }, [articleId, news]);
 
   const handleOpenArticle = (article) => {
     playSound('click');
-    setSelectedArticle(article);
     const newParams = new URLSearchParams(searchParams);
     newParams.set('article', article.id);
     setSearchParams(newParams);
@@ -46,7 +33,6 @@ export default function Geopolitics() {
 
   const handleCloseArticle = () => {
     playSound('click');
-    setSelectedArticle(null);
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('article');
     setSearchParams(newParams);
@@ -69,14 +55,13 @@ export default function Geopolitics() {
       url: shareUrl,
     };
     try {
-      if (navigator.share) {
+      if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(`${article.title}\n${shareUrl}`);
-        alert('Enlace cuántico copiado al portapapeles');
+        await copyToClipboard(shareUrl);
       }
-    } catch (e) {
-      console.log('Error al compartir', e);
+    } catch {
+      await copyToClipboard(shareUrl);
     }
   };
   
@@ -91,12 +76,9 @@ export default function Geopolitics() {
     const matchesSearch = title.toLowerCase().includes((searchTerm || '').toLowerCase()) || 
                           excerpt.toLowerCase().includes((searchTerm || '').toLowerCase());
     
-    let matchesRegion = true;
-    if (activeRegion !== 'Global') {
-      matchesRegion = item.region && item.region.includes(activeRegion);
-    } else {
-      matchesRegion = !item.region || item.region.includes('Global');
-    }
+    const matchesRegion = activeRegion === 'Global' 
+      ? true 
+      : Boolean(item.region && item.region.includes(activeRegion));
 
     return matchesSearch && matchesRegion;
   });

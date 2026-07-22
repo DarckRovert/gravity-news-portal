@@ -37,3 +37,29 @@ export const getReadingTime = (article) => {
   const words = text.split(/\s+/).filter(w => w.trim().length > 0).length;
   return Math.max(1, Math.ceil(words / 200));
 };
+
+export const DEFAULT_IMAGE_FALLBACK = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80';
+
+export const copyToClipboard = async (text) => {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } else {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      document.execCommand('copy');
+      textArea.remove();
+      return true;
+    }
+  } catch (err) {
+    console.error('Copy failed:', err);
+    return false;
+  }
+};
+

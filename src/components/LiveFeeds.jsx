@@ -7,6 +7,7 @@ import { useBookmarks } from '../contexts/BookmarkContext';
 import Fuse from 'fuse.js';
 import './LiveFeeds.css';
 
+import { DEFAULT_IMAGE_FALLBACK } from '../utils/helpers';
 import mediaData from '../data/media.json';
 
 const mediaCategories = [
@@ -37,15 +38,24 @@ const LiveFeeds = () => {
     setFullScreenVideo(null);
   };
 
-  // Lock body scroll when in fullscreen
+  // Lock body scroll when in fullscreen & listen for ESC key
   useEffect(() => {
     if (fullScreenVideo) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && fullScreenVideo) {
+        setFullScreenVideo(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       document.body.style.overflow = 'auto';
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [fullScreenVideo]);
 
@@ -159,7 +169,7 @@ const LiveFeeds = () => {
                             e.target.src = `https://img.youtube.com/vi/${feed.videoId}/mqdefault.jpg`;
                           } else if (!e.target.dataset.triedFallback) {
                             e.target.dataset.triedFallback = 'true';
-                            e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80'; // generic matrix/cyber fallback
+                            e.target.src = DEFAULT_IMAGE_FALLBACK;
                           }
                         }}
                         alt={feed.title} 

@@ -1,46 +1,31 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, BookOpen, Microscope, ArrowRight, Bookmark, Share2 } from 'lucide-react';
 import { playSound } from '../utils/audio';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
-import { getRelativeTime } from '../utils/helpers';
+import { getRelativeTime, copyToClipboard } from '../utils/helpers';
 import scienceData from '../data/science.json';
 import ProgressiveImage from '../components/ProgressiveImage';
 import TypewriterMarkdown from '../components/TypewriterMarkdown';
 import SEO from '../components/SEO';
 import './Science.css';
 
-
-
 export default function Science() {
-  const [selectedArticle, setSelectedArticle] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [selectedCategory, setSelectedCategory] = useState('Todos');
 
-  // Deep linking for articles
-  useEffect(() => {
-    const articleId = searchParams.get('article');
-    if (articleId) {
-      const article = scienceData.find(a => a.id === articleId);
-      if (article) {
-        if (!selectedArticle || selectedArticle !== article) {
-          setSelectedArticle(article);
-        }
-      } else if (selectedArticle) {
-        setSelectedArticle(null);
-      }
-    } else if (selectedArticle) {
-      setSelectedArticle(null);
-    }
-  }, [searchParams, selectedArticle]);
+  const articleId = searchParams.get('article');
+  const selectedArticle = useMemo(() => {
+    if (!articleId) return null;
+    return scienceData.find(a => a.id === articleId) || null;
+  }, [articleId]);
 
   const handleOpenArticle = (article) => {
     playSound('click');
-    setSelectedArticle(article);
     const newParams = new URLSearchParams(searchParams);
     newParams.set('article', article.id);
     setSearchParams(newParams);
@@ -48,7 +33,6 @@ export default function Science() {
 
   const handleCloseArticle = () => {
     playSound('click');
-    setSelectedArticle(null);
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('article');
     setSearchParams(newParams);
@@ -63,14 +47,13 @@ export default function Science() {
       url: shareUrl,
     };
     try {
-      if (navigator.share) {
+      if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(`${article.title}\n${shareUrl}`);
-        alert('Enlace cuántico copiado al portapapeles');
+        await copyToClipboard(shareUrl);
       }
-    } catch (e) {
-      console.log('Error al compartir', e);
+    } catch {
+      await copyToClipboard(shareUrl);
     }
   };
 

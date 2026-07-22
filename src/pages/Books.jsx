@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import { useSearch } from '../contexts/SearchContext';
 import { useBookmarks } from '../contexts/BookmarkContext';
+import { DEFAULT_IMAGE_FALLBACK } from '../utils/helpers';
 import booksData from '../data/books.json';
 import './Books.css';
 
@@ -119,7 +120,15 @@ export default function Books() {
             {/* 3D Book Cover Simulator */}
             <div className="book-3d-wrapper">
               <div className="book-cover-container">
-                <img src={book.cover} alt={`Portada de ${book.title}`} className="book-cover" />
+                <img 
+                  src={book.cover} 
+                  alt={`Portada de ${book.title}`} 
+                  className="book-cover" 
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = DEFAULT_IMAGE_FALLBACK;
+                  }}
+                />
                 <div className="book-spine"></div>
                 <div className="book-cover-overlay"></div>
                 <div className="book-category-tag">{book.category}</div>

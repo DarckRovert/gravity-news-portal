@@ -9,7 +9,7 @@
 }
 
 /* Scroll Progress indicator */
-.scroll-progress-container {
+.tome-progress-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -19,7 +19,7 @@
   z-index: 1020;
 }
 
-.scroll-progress-bar {
+.tome-progress-bar {
   height: 100%;
   transition: width 0.1s ease-out;
 }
@@ -30,7 +30,7 @@
   background-color: #060608;
   color: #e4e4e7;
 }
-.reader-page.theme-dark .scroll-progress-bar {
+.reader-page.theme-dark .tome-progress-bar {
   background: var(--accent-secondary);
   box-shadow: 0 0 10px var(--accent-glow);
 }
@@ -76,7 +76,7 @@
   background-color: #f4edd8;
   color: #433422;
 }
-.reader-page.theme-sepia .scroll-progress-bar {
+.reader-page.theme-sepia .tome-progress-bar {
   background: #c084fc; /* soft purple */
 }
 .reader-page.theme-sepia .reader-nav-bar {
@@ -119,7 +119,7 @@
   background-color: #fbfbfb;
   color: #18181b;
 }
-.reader-page.theme-light .scroll-progress-bar {
+.reader-page.theme-light .tome-progress-bar {
   background: #27272a;
 }
 .reader-page.theme-light .reader-nav-bar {

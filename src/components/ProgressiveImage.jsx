@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { DEFAULT_IMAGE_FALLBACK } from '../utils/helpers';
 import './ProgressiveImage.css';
 
 const ProgressiveImage = ({ src, alt, className }) => {
@@ -26,7 +27,7 @@ const ProgressiveImage = ({ src, alt, className }) => {
         aria-hidden="true"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80';
+          e.target.src = DEFAULT_IMAGE_FALLBACK;
         }}
       />
       
@@ -41,7 +42,7 @@ const ProgressiveImage = ({ src, alt, className }) => {
         loading="lazy"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80';
+          e.target.src = DEFAULT_IMAGE_FALLBACK;
           setIsLoaded(true); // force load state to show the fallback
         }}
       />

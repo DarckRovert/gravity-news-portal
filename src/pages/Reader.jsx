@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Sun, Moon, Book, Download, ZoomIn, ZoomOut, Type, Bookmark } from 'lucide-react';
 import booksData from '../data/books.json';
 import { useBookmarks } from '../contexts/BookmarkContext';
@@ -8,6 +8,7 @@ import './Reader.css';
 
 export default function Reader() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
@@ -21,19 +22,36 @@ export default function Reader() {
   const bookRef = useRef(null);
   const book = booksData.find(b => b.id === id);
 
+  const [prevBookId, setPrevBookId] = useState(book?.id);
+
+  if (book?.id !== prevBookId) {
+    setPrevBookId(book?.id);
+    setLoading(true);
+  }
+
+  // ESC key listener to return to books library
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        navigate('/books');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [navigate]);
+
   useEffect(() => {
     if (book) {
-      // eslint-disable-next-line
-      setLoading(true);
       fetch(book.htmlUrl)
         .then(res => res.text())
         .then(html => {
           // Extract body content from the HTML document
           const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-          const rawContent = bodyMatch ? bodyMatch[1] : html;
+          let rawContent = bodyMatch ? bodyMatch[1] : html;
           
-          // Clean typical local path anomalies if any, and wrap headers
-          let parsedContent = rawContent.replace(/style="[^"]*"/gi, ''); // remove hardcoded local styles
+          // Clean scripts and hardcoded local styles
+          rawContent = rawContent.replace(/<script[\s\S]*?<\/script>/gi, '');
+          let parsedContent = rawContent.replace(/style="[^"]*"/gi, '');
           setContent(parsedContent);
           setLoading(false);
         })
@@ -51,7 +69,10 @@ export default function Reader() {
       if (!bookRef.current) return;
       const element = bookRef.current;
       const totalHeight = element.scrollHeight - element.clientHeight;
-      if (totalHeight === 0) return;
+      if (totalHeight <= 0) {
+        setScrollProgress(100);
+        return;
+      }
       const progress = (element.scrollTop / totalHeight) * 100;
       setScrollProgress(Math.min(100, Math.max(0, Math.round(progress))));
     };
@@ -96,8 +117,8 @@ export default function Reader() {
         article={true}
       />
       {/* Scroll Progress Bar */}
-      <div className="scroll-progress-container">
-        <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />
+      <div className="tome-progress-container">
+        <div className="tome-progress-bar" style={{ width: `${scrollProgress}%` }} />
       </div>
 
       {/* Reader Navigation Header */}

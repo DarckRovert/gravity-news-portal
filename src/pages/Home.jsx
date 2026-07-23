@@ -239,22 +239,18 @@ export default function Home() {
         title="Inicio" 
         description="Portal de noticias cuántico. Explora las últimas transmisiones del Nexo Ágora." 
       />
-      <header className="page-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h1 className="glitch-text" data-text="TRANSMISIONES INTERCEPTADAS">
-            TRANSMISIONES INTERCEPTADAS
-          </h1>
+      <header className="page-header">
+        <div className="telemetry-panel glass-panel" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+          <div>
+            <div className="telemetry-status">
+              <span className="blinking-dot"></span>
+              GRAVITY DAEMON: <span className="status-text">{bridgeStatus === 'online' ? 'CONECTADO AL NODO LOCAL' : 'MODO DESCONECTADO (ESTÁTICO)'}</span>
+            </div>
+            <div className="telemetry-last-sync">
+              ÚLTIMA TRANSMISIÓN INTERCEPTADA: {news.length > 0 ? getRelativeTime(news[0].date) : 'N/A'}
+            </div>
+          </div>
           <CoreStatusBadge />
-        </div>
-        
-        <div className="telemetry-panel glass-panel">
-          <div className="telemetry-status">
-            <span className="blinking-dot"></span>
-            GRAVITY DAEMON: <span className="status-text">{bridgeStatus === 'online' ? 'CONECTADO AL NODO LOCAL' : 'MODO DESCONECTADO (ESTÁTICO)'}</span>
-          </div>
-          <div className="telemetry-last-sync">
-            ÚLTIMA TRANSMISIÓN INTERCEPTADA: {news.length > 0 ? getRelativeTime(news[0].date) : 'N/A'}
-          </div>
         </div>
         
         <motion.h1 

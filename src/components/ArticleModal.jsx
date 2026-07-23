@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { X, Clock, Share2, Wifi, BookOpen, Terminal, Play, Square, Check, Link, Minus, Plus } from 'lucide-react';
+import { X, Clock, Share2, Wifi, BookOpen, Terminal, Play, Square, Check, Link, Minus, Plus, Video } from 'lucide-react';
 import { playSound } from '../utils/audio';
 import { getRelativeTime, getReadingTime, DEFAULT_IMAGE_FALLBACK, copyToClipboard } from '../utils/helpers';
 import TypewriterMarkdown from './TypewriterMarkdown';
+import ShortsPlayer from './ShortsPlayer';
 
 export default function ArticleModal({
   selectedArticle,
@@ -16,6 +17,7 @@ export default function ArticleModal({
   const [readingProgress, setReadingProgress] = useState(0);
   const [fontSize, setFontSize] = useState(16); // px base
   const [shareCopied, setShareCopied] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
   const [prevArticleId, setPrevArticleId] = useState(selectedArticle?.id);
   const contentRef = useRef(null);
 
@@ -233,6 +235,21 @@ export default function ArticleModal({
               {isPlayingTTS ? 'Detener' : 'Audio'}
             </button>
 
+            {/* Video / Shorts Button */}
+            {selectedArticle.videoUrl && (
+              <button
+                type="button"
+                className={`btn-action hover-lift`}
+                onClick={() => { playSound('click'); setShowVideoModal(true); }}
+                onMouseEnter={() => playSound('hover')}
+                title="Ver Resumen en Video"
+                style={{ ...btnStyle, background: 'var(--accent-glow)', border: '1px solid var(--accent-secondary)' }}
+              >
+                <Video size={14} />
+                Video
+              </button>
+            )}
+
             {/* Share — improved with toast */}
             <div style={{ position: 'relative' }}>
               <button
@@ -327,6 +344,14 @@ export default function ArticleModal({
           )}
         </div>
       </motion.div>
+
+      {/* Video Shorts Player Modal */}
+      {showVideoModal && selectedArticle.videoUrl && (
+        <ShortsPlayer
+          videoUrl={selectedArticle.videoUrl}
+          onClose={() => setShowVideoModal(false)}
+        />
+      )}
     </motion.div>
   );
 }

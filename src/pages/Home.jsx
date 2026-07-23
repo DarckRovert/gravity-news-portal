@@ -12,6 +12,7 @@ import LiveFeeds from '../components/LiveFeeds';
 import Sidebar from '../components/Sidebar';
 import ArticleModal from '../components/ArticleModal';
 import BentoGrid from '../components/BentoGrid';
+import CoreStatusBadge from '../components/CoreStatusBadge';
 import Fuse from 'fuse.js';
 import SEO from '../components/SEO';
 import { playSound } from '../utils/audio';
@@ -238,7 +239,14 @@ export default function Home() {
         title="Inicio" 
         description="Portal de noticias cuántico. Explora las últimas transmisiones del Nexo Ágora." 
       />
-      <header className="page-header">
+      <header className="page-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h1 className="glitch-text" data-text="TRANSMISIONES INTERCEPTADAS">
+            TRANSMISIONES INTERCEPTADAS
+          </h1>
+          <CoreStatusBadge />
+        </div>
+        
         <div className="telemetry-panel glass-panel">
           <div className="telemetry-status">
             <span className="blinking-dot"></span>

@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   server: {
     watch: {
-      ignored: ['**/src/data/**/*.json']
+      ignored: ['**/src/data/**/*.json', '**/public/books/**']
     }
   },
   plugins: [

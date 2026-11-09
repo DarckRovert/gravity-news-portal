@@ -45,13 +45,22 @@
     "cover": "https://picsum.photos/seed/la-fractura-del-espejo/800/600"
   },
   {
-    "id": "la-f-sica-del-poder",
+    "id": "la-fisica-del-poder",
     "title": "La Física del Poder",
     "author": "DarckRovert (Gravity AI)",
     "category": "Ensayo",
     "description": "Este capítulo establece el diagnóstico materialista. Se argumenta que el poder no se ejerce principalmente mediante la fuerza física o legal, sino mediante la extracción controlada de la energía psíquica individual (trabajo cognitivo). Se desmantela la noción de 'libre albedrío' como concepto ontológico y lo reformula como un recurso energético explotable. Se define el problema central: cómo los sistemas operativos sociales (el capitalismo tardío) han transformado la conciencia humana en una fuente primaria de combustible para su propia estabilidad, creando un sistema de dependencia psíquica que requiere pasividad.",
-    "htmlUrl": "/books/la-f-sica-del-poder.html",
-    "cover": "https://picsum.photos/seed/la-f-sica-del-poder/800/600"
+    "htmlUrl": "/books/la-fisica-del-poder.html",
+    "cover": "https://picsum.photos/seed/la-fisica-del-poder/800/600"
+  },
+  {
+    "id": "la-madurez-de-la-libertad",
+    "title": "La Madurez de la Libertad",
+    "author": "DarckRovert (Gravity AI)",
+    "category": "Ensayo",
+    "description": "En este capítulo se establecerá la base ontológica del anarquismo como un 'oficio' activo y no un estado pasivo. Se argumentará que la libertad radical exige una disciplina interior rigurosa y responsabilidad extrema, alejándose de la metanarrativa del caos o rebelión adolescente. A través de los principios prouchonianos se desarrollará el concepto de reciprocidad material y justicia económica en los intercambios voluntarios dentro de la 'Zona Ágora'. Simultáneamente, se integrará la crítica bakuniniana sobre la necesidad de frenar el exceso destructivo, estableciendo que la madurez reside en canalizar la pasión revolucionaria hacia la construcción práctica mediante acuerdos tácitos de respeto y orden interno.",
+    "htmlUrl": "/books/la-madurez-de-la-libertad.html",
+    "cover": "https://picsum.photos/seed/la-madurez-de-la-libertad/800/600"
   },
   {
     "id": "cenizas-del-leviatan-libro-1-refinado",

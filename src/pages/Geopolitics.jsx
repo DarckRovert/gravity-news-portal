@@ -13,7 +13,19 @@ import './Home.css';
 import './Geopolitics.css';
 
 export default function Geopolitics() {
-  const news = newsData;
+  const news = useMemo(() => {
+    try {
+      const custom = JSON.parse(localStorage.getItem('gravity-custom-news') || '[]');
+      if (Array.isArray(custom) && custom.length > 0) {
+        const customIds = new Set(custom.map(n => n.id));
+        return [...custom, ...newsData.filter(n => !customIds.has(n.id))];
+      }
+    } catch {
+      // fallback a noticias estáticas
+    }
+    return newsData;
+  }, []);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const [activeRegion, setActiveRegion] = useState('Global');
@@ -65,23 +77,27 @@ export default function Geopolitics() {
     }
   };
   
-  // Obtener regiones únicas de las noticias para los filtros
-  const defaultRegions = ['Global', 'Norteamérica', 'Latinoamérica', 'Perú', 'Eurasia', 'Medio Oriente', 'África'];
-  const extractedRegions = [...new Set(news.map(item => item.region).filter(Boolean))];
-  const regions = [...new Set([...defaultRegions, ...extractedRegions])];
+  // Obtener regiones únicas de las noticias para los filtros memoizadas
+  const regions = useMemo(() => {
+    const defaultRegions = ['Global', 'Norteamérica', 'Latinoamérica', 'Perú', 'Eurasia', 'Medio Oriente', 'África'];
+    const extractedRegions = news.map(item => item.region).filter(Boolean);
+    return Array.from(new Set([...defaultRegions, ...extractedRegions]));
+  }, [news]);
 
-  const filteredNews = news.filter((item) => {
-    const title = item.title || '';
-    const excerpt = item.excerpt || '';
-    const matchesSearch = title.toLowerCase().includes((searchTerm || '').toLowerCase()) || 
-                          excerpt.toLowerCase().includes((searchTerm || '').toLowerCase());
-    
-    const matchesRegion = activeRegion === 'Global' 
-      ? true 
-      : Boolean(item.region && item.region.includes(activeRegion));
+  const filteredNews = useMemo(() => {
+    const term = (searchTerm || '').toLowerCase();
+    return news.filter((item) => {
+      const title = (item.title || '').toLowerCase();
+      const excerpt = (item.excerpt || '').toLowerCase();
+      const matchesSearch = !term || title.includes(term) || excerpt.includes(term);
+      
+      const matchesRegion = activeRegion === 'Global' 
+        ? true 
+        : Boolean(item.region && item.region.includes(activeRegion));
 
-    return matchesSearch && matchesRegion;
-  });
+      return matchesSearch && matchesRegion;
+    });
+  }, [news, searchTerm, activeRegion]);
 
   return (
     <motion.div 

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, ArrowRight, ChevronDown } from 'lucide-react';
+import { Clock, ArrowRight, ChevronDown, Bookmark } from 'lucide-react';
 import { playSound } from '../utils/audio';
 import { getRelativeTime } from '../utils/helpers';
 import ProgressiveImage from './ProgressiveImage';
@@ -41,9 +41,19 @@ export default function BentoGrid({
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.5, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
                 key={item.id} 
+                tabIndex={0}
+                role="button"
+                aria-label={`Leer artículo: ${item.title}`}
                 className={`bento-card ${bentoType} glass-panel hover-lift`}
                 onMouseEnter={() => playSound('hover')}
                 onClick={() => { playSound('click'); setSelectedArticle(item); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    playSound('click');
+                    setSelectedArticle(item);
+                  }
+                }}
               >
                 <div className="bento-image-wrapper">
                   <ProgressiveImage src={item.image} alt={item.title} className="bento-image" />
@@ -61,8 +71,10 @@ export default function BentoGrid({
                       <button 
                         className={`btn-bookmark-small ${isBookmarked(item.id) ? 'bookmarked' : ''}`}
                         onClick={(e) => { e.stopPropagation(); toggleBookmark(item.id); }}
+                        aria-label={isBookmarked(item.id) ? "Quitar de Guardados" : "Guardar noticia"}
+                        title={isBookmarked(item.id) ? "Quitar de Guardados" : "Guardar noticia"}
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill={isBookmarked(item.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                        <Bookmark size={14} fill={isBookmarked(item.id) ? 'currentColor' : 'none'} />
                       </button>
                       <div className="bento-read-icon"><ArrowRight size={16} /></div>
                     </div>

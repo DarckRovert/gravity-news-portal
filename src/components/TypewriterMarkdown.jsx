@@ -1,6 +1,15 @@
 import { useState, useEffect, useMemo } from 'react';
 import { playSound } from '../utils/audio';
 
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Advanced parser to render markdown headers, paragraphs, bold, italic, and lists
 function parseMarkdown(text) {
   if (!text) return '';
@@ -9,9 +18,10 @@ function parseMarkdown(text) {
     const trimmed = line.trim();
     
     const parseInline = (str) => {
-      let parsed = str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      parsed = parsed.replace(/\*(.*?)\*/g, '<em>$1</em>');
-      return parsed;
+      const safe = escapeHtml(str);
+      return safe
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>');
     };
 
     if (trimmed.startsWith('### ')) {

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BookOpen, Download, Library, Bookmark } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { BookOpen, Download, Library, Bookmark, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
@@ -14,33 +14,35 @@ export default function Books() {
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [activeTab, setActiveTab] = useState('Todos');
 
-  // Library statistics
-  const stats = {
+  // Library statistics memoizadas
+  const stats = useMemo(() => ({
     total: booksData.length,
     ensayos: booksData.filter(b => b.category === 'Ensayo').length,
     ficcion: booksData.filter(b => b.category === 'Ficción').length,
     libros: booksData.filter(b => b.category === 'Libro').length,
-  };
+  }), []);
 
   const tabs = ['Todos', 'Guardados', 'Ensayo', 'Ficción', 'Libro'];
 
-  // Filter books based on search query and category tab
-  const filteredBooks = booksData.filter((book) => {
-    const title = book.title || '';
-    const description = book.description || '';
-    
-    const matchesSearch = title.toLowerCase().includes((searchTerm || '').toLowerCase()) || 
-                          description.toLowerCase().includes((searchTerm || '').toLowerCase());
-    
-    let matchesTab = true;
-    if (activeTab === 'Guardados') {
-      matchesTab = isBookmarked(book.id);
-    } else if (activeTab !== 'Todos') {
-      matchesTab = book.category === activeTab;
-    }
-    
-    return matchesSearch && matchesTab;
-  });
+  // Filter books based on search query and category tab memoizado
+  const filteredBooks = useMemo(() => {
+    const term = (searchTerm || '').toLowerCase();
+    return booksData.filter((book) => {
+      const title = (book.title || '').toLowerCase();
+      const description = (book.description || '').toLowerCase();
+      
+      const matchesSearch = !term || title.includes(term) || description.includes(term);
+      
+      let matchesTab = true;
+      if (activeTab === 'Guardados') {
+        matchesTab = isBookmarked(book.id);
+      } else if (activeTab !== 'Todos') {
+        matchesTab = book.category === activeTab;
+      }
+      
+      return matchesSearch && matchesTab;
+    });
+  }, [searchTerm, activeTab, isBookmarked]);
 
   return (
     <motion.div 
@@ -110,58 +112,69 @@ export default function Books() {
       </div>
 
       {/* Showcase Grid */}
-      <div className="books-showcase animate-slide-up" style={{ animationDelay: '0.5s' }}>
-        {filteredBooks.map((book, index) => (
-          <div 
-            key={book.id} 
-            className="book-card glass-panel hover-lift"
-            style={{ animationDelay: `${0.1 * index}s` }}
-          >
-            {/* 3D Book Cover Simulator */}
-            <div className="book-3d-wrapper">
-              <div className="book-cover-container">
-                <img 
-                  src={book.cover} 
-                  alt={`Portada de ${book.title}`} 
-                  className="book-cover" 
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = DEFAULT_IMAGE_FALLBACK;
-                  }}
-                />
-                <div className="book-spine"></div>
-                <div className="book-cover-overlay"></div>
-                <div className="book-category-tag">{book.category}</div>
+      {filteredBooks.length === 0 ? (
+        <div className="empty-state-books glass-panel animate-slide-up" style={{ textAlign: 'center', padding: '3.5rem 1.5rem', marginTop: '2rem', borderRadius: '16px' }}>
+          <AlertTriangle size={36} style={{ color: 'var(--accent-primary)', marginBottom: '1rem' }} />
+          <h3 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem', fontSize: '1.2rem' }}>No se encontraron tomos coincidentes</h3>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '420px', margin: '0 auto', fontSize: '0.9rem' }}>
+            Ajusta los términos de búsqueda o cambia la categoría de filtro para explorar el archivo de la biblioteca.
+          </p>
+        </div>
+      ) : (
+        <div className="books-showcase animate-slide-up" style={{ animationDelay: '0.5s' }}>
+          {filteredBooks.map((book, index) => (
+            <div 
+              key={book.id} 
+              className="book-card glass-panel hover-lift"
+              style={{ animationDelay: `${0.1 * index}s` }}
+            >
+              {/* 3D Book Cover Simulator */}
+              <div className="book-3d-wrapper">
+                <div className="book-cover-container">
+                  <img 
+                    src={book.cover} 
+                    alt={`Portada de ${book.title}`} 
+                    className="book-cover" 
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = DEFAULT_IMAGE_FALLBACK;
+                    }}
+                  />
+                  <div className="book-spine"></div>
+                  <div className="book-cover-overlay"></div>
+                  <div className="book-category-tag">{book.category}</div>
+                </div>
               </div>
-            </div>
-            
-            <div className="book-details">
-              <h3 className="book-title">{book.title}</h3>
-              <p className="book-author">Por <span>{book.author}</span></p>
-              <p className="book-description">{book.description}</p>
               
-              <div className="book-footer">
-                <div className="book-actions">
-                  <Link to={`/book/${book.id}`} className="btn-book-action primary" title="Leer online">
-                    <BookOpen size={16} />
-                    <span>Leer Tomo</span>
-                  </Link>
-                  <a href={book.htmlUrl} download={`${book.id}.html`} className="btn-book-action secondary" title="Descargar HTML">
-                    <Download size={16} />
-                  </a>
-                  <button 
-                    className={`btn-bookmark-book ${isBookmarked(book.id) ? 'bookmarked' : ''}`}
-                    onClick={(e) => { e.preventDefault(); toggleBookmark(book.id); }}
-                    title={isBookmarked(book.id) ? "Quitar de Guardados" : "Guardar para después"}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill={isBookmarked(book.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
-                  </button>
+              <div className="book-details">
+                <h3 className="book-title">{book.title}</h3>
+                <p className="book-author">Por <span>{book.author}</span></p>
+                <p className="book-description">{book.description}</p>
+                
+                <div className="book-footer">
+                  <div className="book-actions">
+                    <Link to={`/book/${book.id}`} className="btn-book-action primary" title="Leer online">
+                      <BookOpen size={16} />
+                      <span>Leer Tomo</span>
+                    </Link>
+                    <a href={book.htmlUrl} download={`${book.id}.html`} className="btn-book-action secondary" title="Descargar HTML">
+                      <Download size={16} />
+                    </a>
+                    <button 
+                      className={`btn-bookmark-book ${isBookmarked(book.id) ? 'bookmarked' : ''}`}
+                      onClick={(e) => { e.preventDefault(); toggleBookmark(book.id); }}
+                      title={isBookmarked(book.id) ? "Quitar de Guardados" : "Guardar para después"}
+                      aria-label={isBookmarked(book.id) ? "Quitar de Guardados" : "Guardar para después"}
+                    >
+                      <Bookmark size={18} fill={isBookmarked(book.id) ? 'currentColor' : 'none'} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 }

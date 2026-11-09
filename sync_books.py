@@ -2,6 +2,7 @@ import os
 import re
 import json
 import shutil
+import unicodedata
 
 PORTAL_DIR = os.path.dirname(os.path.abspath(__file__))
 BRIDGE_DIR = "F:/Gravity_AI_bridge"
@@ -20,6 +21,7 @@ os.makedirs(PUBLIC_BOOKS_DIR, exist_ok=True)
 os.makedirs(DATA_DIR, exist_ok=True)
 
 def slugify(text):
+    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8')
     text = text.lower()
     text = re.sub(r'[^a-z0-9]+', '-', text)
     return text.strip('-')

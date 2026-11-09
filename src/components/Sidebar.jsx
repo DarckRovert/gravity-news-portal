@@ -22,10 +22,16 @@ export default function Sidebar({
 
   useEffect(() => {
     if (bridgeStatus === 'online' && bridgeUrl) {
+      let isMounted = true;
+      const controller = new AbortController();
+
       const fetchVigia = async () => {
+        if (document.hidden) return;
         try {
-          const res = await fetch(`${bridgeUrl}/v1/autonomy/status`);
-          if (res.ok) {
+          const res = await fetch(`${bridgeUrl}/v1/autonomy/status`, {
+            signal: controller.signal
+          });
+          if (res.ok && isMounted) {
             const data = await res.json();
             if (data.autonomy_engine && data.autonomy_engine.vigia) {
               setVigiaStatus(data.autonomy_engine.vigia);
@@ -35,9 +41,21 @@ export default function Sidebar({
           // Silent fail
         }
       };
+
       fetchVigia();
       const interval = setInterval(fetchVigia, 5000);
-      return () => clearInterval(interval);
+
+      const handleVisibility = () => {
+        if (!document.hidden) fetchVigia();
+      };
+      document.addEventListener('visibilitychange', handleVisibility);
+
+      return () => {
+        isMounted = false;
+        controller.abort();
+        clearInterval(interval);
+        document.removeEventListener('visibilitychange', handleVisibility);
+      };
     }
   }, [bridgeStatus, bridgeUrl]);
 
@@ -55,7 +73,7 @@ export default function Sidebar({
           <h3>Conexión Cognitiva</h3>
           <div className={`status-indicator ${bridgeStatus}`}>
             {bridgeStatus === 'online' ? <Wifi size={14} /> : <WifiOff size={14} />}
-            <span>{bridgeStatus === 'online' ? 'Online' : bridgeStatus === 'checking' ? 'Buscando...' : 'Offline'}</span>
+            <span>{bridgeStatus === 'online' ? 'Online' : bridgeStatus === 'checking' ? 'Buscando...' : bridgeStatus === 'mixed-content-blocked' ? 'SSL Bloqueado' : 'Offline'}</span>
           </div>
         </div>
         <div className="bridge-url-input">
@@ -100,10 +118,12 @@ export default function Sidebar({
         ) : (
           <div className="bridge-fallback animate-fade-in">
             <p className="fallback-text">
-              [!] <strong>Nexo local desconectado.</strong>
+              [!] <strong>{bridgeStatus === 'mixed-content-blocked' ? 'Bloqueo de Seguridad (Mixed Content)' : 'Nexo local desconectado.'}</strong>
             </p>
             <p className="fallback-hint">
-              Arranca <code>INICIAR_TODO.bat</code> en la carpeta de Gravity para activar el Ojo de IA y desbloquear el panel en vivo.
+              {bridgeStatus === 'mixed-content-blocked'
+                ? 'El navegador impide conexiones HTTP a localhost desde HTTPS. Ejecuta el portal en modo local (http://localhost:5173) o configura un túnel HTTPS para el Bridge.'
+                : 'Arranca INICIAR_TODO.bat en la carpeta de Gravity para activar el Ojo de IA y desbloquear el panel en vivo.'}
             </p>
           </div>
         )}

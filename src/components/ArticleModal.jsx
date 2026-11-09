@@ -20,22 +20,25 @@ export default function ArticleModal({
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [prevArticleId, setPrevArticleId] = useState(selectedArticle?.id);
   const contentRef = useRef(null);
+  const utteranceRef = useRef(null);
 
   // Synchronize state resets during render phase when article changes
   if (selectedArticle?.id !== prevArticleId) {
     setPrevArticleId(selectedArticle?.id);
     setReadingProgress(0);
     setFontSize(16);
+    setIsPlayingTTS(false);
   }
 
-  // Stop TTS on unmount
+  // Stop TTS on article change or unmount
   useEffect(() => {
+    utteranceRef.current = null;
     return () => {
       if (window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
     };
-  }, []);
+  }, [selectedArticle?.id]);
 
   // Lock body scroll and Listen for ESC key
   useEffect(() => {
@@ -71,6 +74,7 @@ export default function ArticleModal({
     if (isPlayingTTS) {
       window.speechSynthesis.cancel();
       setIsPlayingTTS(false);
+      utteranceRef.current = null;
     } else {
       playSound('click');
       const textToRead = [
@@ -83,7 +87,15 @@ export default function ArticleModal({
       const utterance = new SpeechSynthesisUtterance(textToRead);
       utterance.lang = 'es-ES';
       utterance.rate = 1.0;
-      utterance.onend = () => setIsPlayingTTS(false);
+      utterance.onend = () => {
+        setIsPlayingTTS(false);
+        utteranceRef.current = null;
+      };
+      utterance.onerror = () => {
+        setIsPlayingTTS(false);
+        utteranceRef.current = null;
+      };
+      utteranceRef.current = utterance;
       window.speechSynthesis.speak(utterance);
       setIsPlayingTTS(true);
     }

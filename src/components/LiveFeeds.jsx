@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X, Radio, Film, FolderLock, Play, Bookmark } from 'lucide-react';
 import FieldReporters from './FieldReporters';
@@ -60,20 +60,24 @@ const LiveFeeds = () => {
   }, [fullScreenVideo]);
 
   // Combine all media arrays to find bookmarks easily
-  const allMediaFlat = Object.values(mediaData).flat();
-  const currentMedia = activeTab === 'guardados' 
-    ? allMediaFlat.filter(feed => isBookmarked(feed.id))
-    : mediaData[activeTab] || [];
+  const allMediaFlat = useMemo(() => Object.values(mediaData).flat(), []);
+  const currentMedia = useMemo(() => {
+    return activeTab === 'guardados' 
+      ? allMediaFlat.filter(feed => isBookmarked(feed.id))
+      : mediaData[activeTab] || [];
+  }, [activeTab, allMediaFlat, isBookmarked]);
   
-  let searchResults = currentMedia;
-  if (searchTerm) {
-    const fuse = new Fuse(currentMedia, {
+  const fuse = useMemo(() => {
+    return new Fuse(currentMedia, {
       keys: ['title', 'badge'],
       threshold: 0.3,
     });
-    searchResults = fuse.search(searchTerm).map(result => result.item);
-  }
-  const filteredMedia = searchResults;
+  }, [currentMedia]);
+
+  const filteredMedia = useMemo(() => {
+    if (!searchTerm) return currentMedia;
+    return fuse.search(searchTerm).map(result => result.item);
+  }, [searchTerm, currentMedia, fuse]);
 
   const visibleMedia = filteredMedia.slice(0, visibleCount);
   const hasMore = visibleCount < filteredMedia.length;

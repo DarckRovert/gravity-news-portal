@@ -20,7 +20,18 @@ import { getRelativeTime, getReadingTime, copyToClipboard } from '../utils/helpe
 import './Home.css';
 
 export default function Home() {
-  const [news, setNews] = useState(newsData);
+  const [news, setNews] = useState(() => {
+    try {
+      const persisted = JSON.parse(localStorage.getItem('gravity-custom-news') || '[]');
+      if (Array.isArray(persisted) && persisted.length > 0) {
+        const liveIds = new Set(persisted.map(n => n.id));
+        return [...persisted, ...newsData.filter(n => !liveIds.has(n.id))];
+      }
+    } catch {
+      // Fallback a noticias estáticas
+    }
+    return newsData;
+  });
   const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm } = useSearch();
   const { toggleBookmark, isBookmarked } = useBookmarks();
@@ -29,7 +40,21 @@ export default function Home() {
   
   // Bridge State
   const [bridgeUrl, setBridgeUrl] = useState(() => localStorage.getItem('bridgeUrl') || 'http://localhost:7860');
-  const [bridgeStatus, setBridgeStatus] = useState('checking');
+  const isMixedContent = typeof window !== 'undefined' && 
+    window.location.protocol === 'https:' && 
+    bridgeUrl.startsWith('http://');
+  const [bridgeStatus, setBridgeStatus] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:' && (localStorage.getItem('bridgeUrl') || 'http://localhost:7860').startsWith('http://')) {
+      return 'mixed-content-blocked';
+    }
+    return 'checking';
+  });
+  const [prevBridgeUrl, setPrevBridgeUrl] = useState(bridgeUrl);
+  if (bridgeUrl !== prevBridgeUrl) {
+    setPrevBridgeUrl(bridgeUrl);
+    setBridgeStatus(isMixedContent ? 'mixed-content-blocked' : 'checking');
+  }
+
   const [bridgePrompt, setBridgePrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -43,58 +68,99 @@ export default function Home() {
     localStorage.setItem('bridgeUrl', bridgeUrl);
   }, [bridgeUrl]);
 
+  // Sondeo del estado del Bridge con detección de Mixed Content y Page Visibility API
   useEffect(() => {
+    if (isMixedContent) {
+      return;
+    }
+
+    let isMounted = true;
+    const controller = new AbortController();
+
     const checkBridge = async () => {
+      if (document.hidden) return;
       try {
-        const res = await fetch(`${bridgeUrl}/v1/models`, { mode: 'cors' });
-        if (res.ok) {
-          setBridgeStatus('online');
-        } else {
-          setBridgeStatus('offline');
-        }
-      } catch {
-        setBridgeStatus('offline');
+        const res = await fetch(`${bridgeUrl}/v1/models`, { 
+          mode: 'cors',
+          signal: controller.signal
+        });
+        if (!isMounted) return;
+        setBridgeStatus(res.ok ? 'online' : 'offline');
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        if (isMounted) setBridgeStatus('offline');
       }
     };
+
     checkBridge();
     const interval = setInterval(checkBridge, 15000);
-    return () => clearInterval(interval);
-  }, [bridgeUrl]);
+
+    const handleVisibility = () => {
+      if (!document.hidden) checkBridge();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [bridgeUrl, isMixedContent]);
 
   // Dynamic live fetch for news from local daemon
   useEffect(() => {
-    if (bridgeStatus === 'online' && bridgeUrl) {
-      const fetchLiveNews = async () => {
-        try {
-          const res = await fetch(`${bridgeUrl}/v1/journalist/news`);
-          if (res.ok) {
-            const data = await res.json();
-            if (data.ok && data.news && Array.isArray(data.news)) {
-              // Merge dynamic news with static news, favoring dynamic by ID
-              setNews(prevNews => {
-                const liveIds = new Set(data.news.map(n => n.id));
-                const filteredPrev = prevNews.filter(n => !liveIds.has(n.id));
-                const merged = [...data.news, ...filteredPrev];
-                // Sort by date descending
-                merged.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                // Evitar re-renderizados innecesarios, pero detectando cualquier cambio de contenido
-                if (JSON.stringify(merged) === JSON.stringify(prevNews)) {
-                  return prevNews;
-                }
-                return merged;
-              });
-            }
+    if (bridgeStatus !== 'online' || !bridgeUrl) return;
+
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const fetchLiveNews = async () => {
+      if (document.hidden) return;
+      try {
+        const res = await fetch(`${bridgeUrl}/v1/journalist/news`, {
+          signal: controller.signal
+        });
+        if (res.ok && isMounted) {
+          const data = await res.json();
+          if (data.ok && data.news && Array.isArray(data.news)) {
+            // Merge dynamic news with static news, favoring dynamic by ID
+            setNews(prevNews => {
+              const liveIds = new Set(data.news.map(n => n.id));
+              const filteredPrev = prevNews.filter(n => !liveIds.has(n.id));
+              const merged = [...data.news, ...filteredPrev];
+              // Sort by date descending
+              merged.sort((a, b) => new Date(b.date) - new Date(a.date));
+              
+              // Verificación O(1) en vez de serializar 100KB con JSON.stringify
+              const hasChanged = merged.length !== prevNews.length ||
+                merged.some((item, i) => i < 5 && (item.id !== prevNews[i]?.id || item.date !== prevNews[i]?.date));
+
+              return hasChanged ? merged : prevNews;
+            });
           }
-        } catch {
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') {
           // Silent fail
         }
-      };
-      
-      fetchLiveNews();
-      const interval = setInterval(fetchLiveNews, 10000); // Check every 10s
-      return () => clearInterval(interval);
-    }
+      }
+    };
+    
+    fetchLiveNews();
+    const interval = setInterval(fetchLiveNews, 10000); // Check every 10s
+
+    const handleVisibility = () => {
+      if (!document.hidden) fetchLiveNews();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, [bridgeStatus, bridgeUrl]);
 
   const handleOpenArticle = (article) => {
@@ -140,24 +206,29 @@ export default function Home() {
     }
   };
 
-  let searchResults = news;
-  if (searchTerm) {
-    const fuse = new Fuse(news, {
+  const fuse = useMemo(() => {
+    return new Fuse(news, {
       keys: ['title', 'excerpt', 'category'],
       threshold: 0.3,
     });
-    searchResults = fuse.search(searchTerm).map(result => result.item);
-  }
+  }, [news]);
 
-  const filteredNews = searchResults.filter((item) => {
-    let matchesCategory = true;
-    if (activeCategory === 'Guardados') {
-      matchesCategory = isBookmarked(item.id);
-    } else if (activeCategory !== 'Todas') {
-      matchesCategory = item.category === activeCategory;
-    }
-    return matchesCategory;
-  });
+  const searchResults = useMemo(() => {
+    if (!searchTerm) return news;
+    return fuse.search(searchTerm).map(result => result.item);
+  }, [searchTerm, news, fuse]);
+
+  const filteredNews = useMemo(() => {
+    return searchResults.filter((item) => {
+      let matchesCategory = true;
+      if (activeCategory === 'Guardados') {
+        matchesCategory = isBookmarked(item.id);
+      } else if (activeCategory !== 'Todas') {
+        matchesCategory = item.category === activeCategory;
+      }
+      return matchesCategory;
+    });
+  }, [searchResults, activeCategory, isBookmarked]);
 
   const featuredNews = filteredNews.find(item => item.featured) || filteredNews[0];
   const regularNewsAll = filteredNews.filter(item => item.id !== (featuredNews?.id || ''));
@@ -217,7 +288,18 @@ export default function Home() {
         featured: false
       };
 
-      setNews([fullArticle, ...news]);
+      setNews(prev => {
+        const updated = [fullArticle, ...prev];
+        try {
+          const currentCustom = JSON.parse(localStorage.getItem('gravity-custom-news') || '[]');
+          const fifo = [fullArticle, ...currentCustom.filter(n => n.id !== fullArticle.id)].slice(0, 15);
+          localStorage.setItem('gravity-custom-news', JSON.stringify(fifo));
+          window.dispatchEvent(new Event('gravity-news-updated'));
+        } catch (e) {
+          console.warn('Almacenamiento local no disponible para persistir noticia temporal:', e);
+        }
+        return updated;
+      });
       setBridgePrompt('');
       playSound('click');
     } catch (e) {

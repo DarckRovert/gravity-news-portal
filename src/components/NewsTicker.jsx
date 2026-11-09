@@ -1,15 +1,50 @@
+import { useState, useEffect, useCallback } from 'react';
+import newsData from '../data/news.json';
 import './NewsTicker.css';
 
 const NewsTicker = () => {
-  const headlines = [
-    "INTERCEPTANDO NODO PRINCIPAL...",
-    "CONEXIÓN ENCRIPTADA ESTABLECIDA",
-    "EL SALVADOR: LEYES DE IA ANTES DE INFRAESTRUCTURA",
-    "PERÚ: GARITAS CONVERTIDAS EN NODOS BIOMÉTRICOS",
-    "MERCADO INMOBILIARIO EXTRAE DATOS COGNITIVOS",
-    "INICIANDO DESCARGA DE DATOS...",
-    "VIGILANCIA DEL LEVIATÁN ACTIVA"
-  ];
+  const getHeadlines = useCallback(() => {
+    let custom = [];
+    try {
+      custom = JSON.parse(localStorage.getItem('gravity-custom-news') || '[]');
+    } catch {
+      // fallback
+    }
+
+    const combined = Array.isArray(custom) && custom.length > 0
+      ? [...custom, ...newsData]
+      : newsData;
+
+    const dynamicHeadlines = combined
+      .map(item => item.title?.toUpperCase())
+      .filter(Boolean)
+      .slice(0, 10);
+
+    if (dynamicHeadlines.length > 0) {
+      return dynamicHeadlines;
+    }
+
+    return [
+      "INTERCEPTANDO NODO PRINCIPAL...",
+      "CONEXIÓN ENCRIPTADA ESTABLECIDA",
+      "VIGILANCIA DEL LEVIATÁN ACTIVA",
+      "TELEMETRÍA COGNITIVA SINCRONIZADA"
+    ];
+  }, []);
+
+  const [headlines, setHeadlines] = useState(getHeadlines);
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setHeadlines(getHeadlines());
+    };
+    window.addEventListener('gravity-news-updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('gravity-news-updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, [getHeadlines]);
 
   return (
     <div className="ticker-container" aria-label="Titulares en vivo" aria-live="off" role="marquee">

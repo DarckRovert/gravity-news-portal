@@ -5,6 +5,13 @@ import './ProgressiveImage.css';
 
 const ProgressiveImage = ({ src, alt, className }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [prevSrc, setPrevSrc] = useState(src);
+
+  // Reiniciar estado de carga durante render phase si cambia la URL de la imagen
+  if (src !== prevSrc) {
+    setPrevSrc(src);
+    setIsLoaded(false);
+  }
 
   // Generamos un thumbnail de baja resolución si es de picsum, o usamos un blur por CSS
   const lowResSrc = src && typeof src === 'string' && src.includes('picsum.photos') 
@@ -12,9 +19,18 @@ const ProgressiveImage = ({ src, alt, className }) => {
     : src;
 
   useEffect(() => {
+    let active = true;
     const img = new Image();
     img.src = src;
-    img.onload = () => setIsLoaded(true);
+    img.onload = () => {
+      if (active) setIsLoaded(true);
+    };
+    img.onerror = () => {
+      if (active) setIsLoaded(true);
+    };
+    return () => {
+      active = false;
+    };
   }, [src]);
 
   return (

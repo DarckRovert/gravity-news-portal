@@ -41,26 +41,49 @@ export default function Reader() {
   }, [navigate]);
 
   useEffect(() => {
-    if (book) {
-      fetch(book.htmlUrl)
-        .then(res => res.text())
-        .then(html => {
-          // Extract body content from the HTML document
-          const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-          let rawContent = bodyMatch ? bodyMatch[1] : html;
-          
-          // Clean scripts and hardcoded local styles
-          rawContent = rawContent.replace(/<script[\s\S]*?<\/script>/gi, '');
-          let parsedContent = rawContent.replace(/style="[^"]*"/gi, '');
-          setContent(parsedContent);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error('Error loading book:', err);
-          setContent('<p style="text-align:center;">Error de enlace cuántico al cargar el contenido del tomo.</p>');
-          setLoading(false);
+    if (!book) return;
+
+    const controller = new AbortController();
+
+    fetch(book.htmlUrl, { signal: controller.signal })
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.text();
+      })
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // Eliminar elementos no deseados o potencialmente peligrosos
+        const dangerousElements = doc.querySelectorAll('script, style, iframe, object, embed, link');
+        dangerousElements.forEach(el => el.remove());
+
+        // Desactivar listeners inline y estilos incrustados
+        const allElements = doc.querySelectorAll('*');
+        allElements.forEach(el => {
+          el.removeAttribute('style');
+          const attrs = Array.from(el.attributes);
+          for (const attr of attrs) {
+            if (attr.name.toLowerCase().startsWith('on')) {
+              el.removeAttribute(attr.name);
+            }
+          }
         });
-    }
+
+        const bodyContent = doc.body ? doc.body.innerHTML : '';
+        setContent(bodyContent || '<p style="text-align:center;">Contenido no disponible.</p>');
+        setLoading(false);
+      })
+      .catch(err => {
+        if (err.name === 'AbortError') return;
+        console.error('Error loading book:', err);
+        setContent('<p style="text-align:center;">Error de enlace cuántico al cargar el contenido del tomo.</p>');
+        setLoading(false);
+      });
+
+    return () => {
+      controller.abort();
+    };
   }, [book]);
 
   // Track scroll progress inside reader container

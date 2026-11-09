@@ -19,12 +19,17 @@ const TerminalFeed = ({ bridgeUrl, bridgeStatus }) => {
   useEffect(() => {
     if (bridgeStatus === 'online' && bridgeUrl) {
       let isMounted = true;
+      const controller = new AbortController();
+
       const fetchLogs = async () => {
+        if (document.hidden) return;
         try {
-          const res = await fetch(`${bridgeUrl}/v1/journalist/log`);
-          if (res.ok) {
+          const res = await fetch(`${bridgeUrl}/v1/journalist/log`, {
+            signal: controller.signal
+          });
+          if (res.ok && isMounted) {
             const data = await res.json();
-            if (data.ok && data.logs && isMounted) {
+            if (data.ok && data.logs) {
               const lines = data.logs.split('\n').filter(l => l.trim().length > 0);
               // Take the last 20 lines to avoid blowing up the UI
               setLogs(lines.slice(-20));
@@ -38,9 +43,17 @@ const TerminalFeed = ({ bridgeUrl, bridgeStatus }) => {
       // Fetch immediately and then poll
       fetchLogs();
       const interval = setInterval(fetchLogs, 2000);
+
+      const handleVisibility = () => {
+        if (!document.hidden) fetchLogs();
+      };
+      document.addEventListener('visibilitychange', handleVisibility);
+
       return () => {
         isMounted = false;
+        controller.abort();
         clearInterval(interval);
+        document.removeEventListener('visibilitychange', handleVisibility);
       };
     } else {
       // Fallback cinematic mode
@@ -56,6 +69,7 @@ const TerminalFeed = ({ bridgeUrl, bridgeStatus }) => {
       ];
 
       const interval = setInterval(() => {
+        if (document.hidden) return;
         const newLog = `> ${possibleLogs[Math.floor(Math.random() * possibleLogs.length)]}`;
         setLogs(prev => {
           const newLogs = [...prev, newLog];

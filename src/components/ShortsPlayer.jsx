@@ -8,13 +8,17 @@ const ShortsPlayer = ({ videoUrl, onClose }) => {
   const [progress, setProgress] = useState(0);
   const videoRef = useRef(null);
 
-  // Close on Escape key
+  // Close on Escape key & Lock body scroll
   useEffect(() => {
+    document.body.style.overflow = 'hidden';
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [onClose]);
 
   const togglePlay = () => {

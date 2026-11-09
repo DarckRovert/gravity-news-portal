@@ -33,8 +33,16 @@ export default function Sidebar({
           });
           if (res.ok && isMounted) {
             const data = await res.json();
-            if (data.autonomy_engine && data.autonomy_engine.vigia) {
-              setVigiaStatus(data.autonomy_engine.vigia);
+            if (data.autonomy_engine) {
+              const engine = data.autonomy_engine;
+              setVigiaStatus({
+                overall_status: engine.vigia?.overall_status || engine.last_status_level || (engine.running ? 'ONLINE' : 'NORMAL'),
+                journalist_entropy: engine.vigia?.journalist_entropy ?? (engine.actions_pending_hitl ? 0.75 : 0.15),
+                consecutive_errors: engine.vigia?.consecutive_errors ?? engine.actions_pending_hitl ?? 0,
+                last_anomaly: engine.vigia?.last_anomaly || (engine.last_decision ? String(engine.last_decision) : 'Homeostasis Nominal'),
+                cycles: engine.cycles_done ?? 0,
+                budget_remaining: engine.budget_remaining_usd ?? 0.5
+              });
             }
           }
         } catch {

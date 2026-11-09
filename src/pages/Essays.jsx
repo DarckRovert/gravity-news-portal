@@ -182,6 +182,15 @@ export default function Essays() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
                 onClick={() => handleOpenEssay(essay)}
+                tabIndex={0}
+                role="button"
+                aria-label={`Leer ensayo: ${essay.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleOpenEssay(essay);
+                  }
+                }}
               >
                 <div className="essay-card-image">
                   <ProgressiveImage src={essay.image} alt={essay.title} className="essay-img" />

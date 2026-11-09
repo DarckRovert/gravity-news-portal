@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AlertTriangle, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,7 +13,7 @@ import './Home.css';
 import './Geopolitics.css';
 
 export default function Geopolitics() {
-  const news = useMemo(() => {
+  const [news, setNews] = useState(() => {
     try {
       const custom = JSON.parse(localStorage.getItem('gravity-custom-news') || '[]');
       if (Array.isArray(custom) && custom.length > 0) {
@@ -24,6 +24,29 @@ export default function Geopolitics() {
       // fallback a noticias estáticas
     }
     return newsData;
+  });
+
+  useEffect(() => {
+    const handleSync = () => {
+      try {
+        const custom = JSON.parse(localStorage.getItem('gravity-custom-news') || '[]');
+        if (Array.isArray(custom) && custom.length > 0) {
+          const customIds = new Set(custom.map(n => n.id));
+          setNews([...custom, ...newsData.filter(n => !customIds.has(n.id))]);
+          return;
+        }
+      } catch {
+        // fallback
+      }
+      setNews(newsData);
+    };
+
+    window.addEventListener('gravity-news-updated', handleSync);
+    window.addEventListener('storage', handleSync);
+    return () => {
+      window.removeEventListener('gravity-news-updated', handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
   }, []);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -192,6 +215,15 @@ export default function Geopolitics() {
                   transition={{ duration: 0.3 }}
                   className="bento-item regular-bento glass-panel interactive-card"
                   onClick={() => handleOpenArticle(item)}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`Leer artículo: ${item.title}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleOpenArticle(item);
+                    }
+                  }}
                 >
                   <div className="bento-image-wrapper">
                     <ProgressiveImage src={item.image} alt={item.title} className="bento-image" />

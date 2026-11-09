@@ -181,6 +181,15 @@ export default function Science() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
                 onClick={() => handleOpenArticle(article)}
+                tabIndex={0}
+                role="button"
+                aria-label={`Leer artículo: ${article.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleOpenArticle(article);
+                  }
+                }}
               >
                 <div className="science-card-image">
                   <ProgressiveImage src={article.image} alt={article.title} className="science-img" />

@@ -25,23 +25,36 @@ const YoutubeChannel = () => {
   const [videos, setVideos] = useState(channel.latestVideos);
 
   useEffect(() => {
+    if (isLiveOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isLiveOpen) {
         setIsLiveOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isLiveOpen]);
 
   useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
     const fetchLatest = async () => {
       try {
         const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=UC8WwqW8uW2X6ys3PWMiDSzg';
-        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`, {
+          signal: controller.signal
+        });
         const data = await res.json();
         
-        if (data.status === 'ok' && data.items && data.items.length > 0) {
+        if (isMounted && data.status === 'ok' && data.items && data.items.length > 0) {
           // Extraemos los IDs de los videos (ya sean regulares o shorts)
           const parsedVideos = data.items.map(item => {
             let vidId = null;
@@ -62,11 +75,18 @@ const YoutubeChannel = () => {
           }
         }
       } catch (err) {
-        console.error("Failed to fetch latest YT videos", err);
+        if (err.name !== 'AbortError') {
+          console.error("Failed to fetch latest YT videos", err);
+        }
       }
     };
     
     fetchLatest();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
 
   return (

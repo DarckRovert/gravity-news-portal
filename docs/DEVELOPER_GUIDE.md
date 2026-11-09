@@ -1,40 +1,103 @@
-# ⚙️ Guía de Desarrollo: Nexo Ágora V16.2
+# ⚙️ Guía de Desarrollo: Nexo Ágora V16.2 PRO
 
-Si deseas clonar, mejorar o auditar el código fuente del Portal Gravity, es obligatorio adherirse a los siguientes estándares técnicos inquebrantables.
+Este documento establece las instrucciones de desarrollo, pruebas locales y directrices de contribución para el código base de **Gravity News Portal**.
+
+---
 
 ## 1. Configuración del Entorno Local
 
-Asegúrate de contar con Node.js v18+ instalado.
+Asegúrate de contar con Node.js (v18 o superior) y Python 3.10+ para los scripts de sincronización.
+
+### Inicio Rápido con Lanzadores Nativos (.bat)
+
+En la raíz del proyecto se incluyen lanzadores para simplificar la inicialización:
+
+```cmd
+:: Opción A: Iniciar solo el Frontend (Vite)
+INICIAR_PORTAL.bat
+
+:: Opción B: Iniciar Ecosistema Completo (Bridge Backend en :7860 + Frontend en :5173)
+INICIAR_ECOSISTEMA_COMPLETO.bat
+```
+
+### Ejecución Manual vía Consola
 
 ```bash
+# 1. Instalar dependencias
 npm install
+
+# 2. Servidor de desarrollo con HMR
 npm run dev
-npm run build # Validar siempre antes de empujar código
-npm run lint  # Cero advertencias permitidas
+
+# 3. Compilación de producción (PWA)
+npm run build
+
+# 4. Auditoría estricta de linter (0 advertencias permitidas)
+npm run lint
 ```
 
-## 2. Reglas de Accesibilidad (Estricto WCAG 2.2)
+---
 
-Todo PR que rompa las reglas de accesibilidad será rechazado.
-- **Etiquetas Semánticas y Foco**: Todo componente interactivo debe contener un `aria-label`. 
-- **Componentes Dinámicos**: Los *Loaders* o actualizaciones de estado deben utilizar `aria-live="polite"` y `role="status"`.
-- **Skip Links & FAB**: El botón de "Saltar al contenido" y el "Volver arriba" JAMÁS deben abandonar al usuario usando un simple `.blur()`. El foco debe transferirse programáticamente a un contenedor navegable (`<main id="main" tabIndex={-1}>`).
+## 2. Sincronización de Libros y Archivos
 
-## 3. Manejo de Estado y Rendimiento (Render Storm Prevention)
+Para actualizar el catálogo de la biblioteca desde los manuscritos fuente:
 
-**PROHIBICIÓN ESTRICTA**: No llamar a `setState` de manera síncrona dentro de un `useEffect` si el objetivo es sincronizar un estado derivado. Esto provoca *cascading renders*.
-Utiliza el patrón de *Render-Phase update* oficial de React 19:
-```jsx
-const [localVal, setLocalVal] = useState(globalVal);
-const [prevGlobalVal, setPrevGlobalVal] = useState(globalVal);
-
-if (globalVal !== prevGlobalVal) {
-  setPrevGlobalVal(globalVal);
-  setLocalVal(globalVal); // Actúa antes de que el repintado ocurra
-}
+```bash
+python sync_books.py
 ```
-*Además, todos los inputs de texto global deben usar debounce de al menos 300ms.*
 
-## 4. Animaciones y GPU
+* `sync_books.py` procesa los archivos en `public/books/`, normaliza los caracteres acentuados mediante `NFKD` (evitando nombres corruptos como `la-f-sica-del-poder.html`) y actualiza `src/data/books.json`.
+* **Nota Técnica:** `vite.config.js` ignora la ruta `**/public/books/**` en su observador de archivos para evitar errores `EBUSY: resource busy or locked` en sistemas Windows.
 
-No utilizar *Event Listeners* atados al estado de React para observar eventos de ventana (`scroll`, `mousemove`). Se debe utilizar **Framer Motion** (`useScroll`, `useMotionValueEvent`) para inyectar los valores delta directamente en las variables CSS o transformaciones de los elementos `motion.div`.\n
+---
+
+## 3. Estándar de Accesibilidad (WCAG 2.2)
+
+Todo componente interactivo debe respetar las siguientes normas:
+
+1. **Interactividad de Tarjetas:** Toda tarjeta de artículo o ensayo implementada como `motion.article` o `div` con `onClick` debe incluir:
+   ```jsx
+   tabIndex={0}
+   role="button"
+   aria-label={`Leer artículo: ${item.title}`}
+   onKeyDown={(e) => {
+     if (e.key === 'Enter' || e.key === ' ') {
+       e.preventDefault();
+       handleOpenArticle(item);
+     }
+   }}
+   ```
+2. **Transferencia de Foco:** Acciones globales como el botón "Volver arriba" (`ScrollToTopFAB`) no deben llamar a `.blur()`. Deben transferir el foco a `<main id="main" tabIndex={-1}>`.
+3. **Cargas Asíncronas:** Los indicadores de carga deben declarar `role="status"` y `aria-live="polite"`.
+
+---
+
+## 4. Reglas de Estado y Ciclo de Vida (React 19)
+
+1. **Prohibición de `setState` Síncrono en `useEffect`:**
+   No utilices `useEffect` para sincronizar estados derivados de propiedades o contextos. Aplica el patrón oficial de React 19 de actualización en fase de render:
+   ```jsx
+   const [localVal, setLocalVal] = useState(propVal);
+   const [prevPropVal, setPrevPropVal] = useState(propVal);
+
+   if (propVal !== prevPropVal) {
+     setPrevPropVal(propVal);
+     setLocalVal(propVal);
+   }
+   ```
+2. **Page Visibility en Polling:**
+   Todo temporizador de sondeo hacia APIs debe pausarse cuando la pestaña no esté visible:
+   ```jsx
+   const handleVisibility = () => {
+     if (!document.hidden) fetchData();
+   };
+   document.addEventListener('visibilitychange', handleVisibility);
+   ```
+3. **AbortControllers en Efectos de Red:**
+   Todo `fetch` dentro de un `useEffect` debe recibir un `signal: controller.signal` y abortarse en la función de limpieza (`return () => controller.abort()`).
+
+---
+
+## 5. Política de Costo $0 en CI/CD
+
+Queda estrictamente prohibido commitear flujos de trabajo de GitHub Actions (`.github/workflows/*.yml`) con runners de pago o minutos consumibles. Toda verificación debe ejecutarse localmente con `npm run lint` y `npm run build` antes de realizar `git push`. Netlify gestiona los despliegues de producción automáticamente a costo $0.

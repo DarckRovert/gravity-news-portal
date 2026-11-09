@@ -1,37 +1,61 @@
 # 🏗️ Arquitectura del Nexo Ágora (V16.2 PRO)
 
-Este documento describe la arquitectura de software de **Gravity News Portal** y sus mecanismos avanzados de renderizado y sincronización.
+Este documento detalla la topología de software, subsistemas y mecanismos avanzados de resiliencia implementados en **Gravity News Portal**.
 
-## 1. Topología del Ecosistema
+---
 
-El sistema opera bajo un modelo **Decoupled Sync (Zero-Trust)**:
-- **Frontend React**: SPA estática (Vite + React 19) en Netlify.
-- **Data Source**: Archivos locales estáticos (`news.json`, `books.json`).
-- **Orquestador Backend (Offline/Online)**: El puente Python (`gravity_reporter.py`) hace `git push` en background para builds estáticos, o expone `/v1/journalist/news` para inyección de datos en tiempo real (Telemetría Activa).
+## 1. Topología del Ecosistema Decoupled Zero-Trust
 
-## 2. Prevención de Bugs Arquitectónicos (El Estándar Mythos 5)
+El portal se fundamenta en una separación estricta entre la capa de presentación pública y el motor de inteligencia privado:
 
-El archivo maestro `App.jsx` fue blindado mediante las siguientes implementaciones estrictas:
+```mermaid
+flowchart LR
+    A["Gravity AI Bridge\n(Local :7860)"] -->|"REST Telemetry & Ingestion"| B["Frontend React 19\n(Vite Dev :5173)"]
+    A -->|"Autonamous Git Sync"| C["GitHub Repository\n(origin/main)"]
+    C -->|"Automated Webhook Build"| D["Netlify CDN\n(PWA Production)"]
+    D -.->|"Zero-Trust Offline Fallback"| E["Static Fallback Data\n(news.json / books.json)"]
+```
 
-### A. Invulnerabilidad de Enrutamiento (`ChunkLoadError` Mitigation)
-Se mitigó la caída asíncrona de la red al intentar cargar vistas con `React.lazy()` estableciendo una jerarquía inquebrantable:
+1. **Frontend React 19 (SPA + PWA):** Construido sobre Vite 8, React 19, Framer Motion y Workbox Service Worker. Desplegable en cualquier CDN estática con costo de infraestructura \$0.00.
+2. **Backend Local (Gravity AI Bridge):** Servidor HTTP multi-sesión residente en `http://localhost:7860` con catálogo multi-modelo (LM Studio, Groq, Nvidia NIM) y motor de homeostasis Vigía.
+3. **Persistencia Local Reactiva:** Las noticias generadas se almacenan en una cola FIFO de 15 artículos en `localStorage` (`gravity-custom-news`), transmitiéndose mediante eventos personalizados `gravity-news-updated` para sincronizar vistas en tiempo real sin requerir recarga.
+
+---
+
+## 2. Fortificaciones Arquitectónicas (Estándar Mythos 5)
+
+### A. Sanitización Estricta Multi-Capa (Anti-XSS)
+* **Pre-escape de Markdown:** [`TypewriterMarkdown.jsx`](../src/components/TypewriterMarkdown.jsx) sanea el texto eliminando caracteres de control y escapando etiquetas antes del análisis sintáctico.
+* **Aislamiento DOM con DOMParser:** En [`Reader.jsx`](../src/pages/Reader.jsx), el HTML crudo de los libros se procesa a través de una instancia aislada de `DOMParser`, eliminando de forma recursiva elementos `<script>`, hojas de estilo externas no autorizadas y controladores de eventos inline (`onclick`, `onerror`, etc.).
+
+### B. Ciclos de Vida Controlados (Page Visibility & AbortControllers)
+* **Sondeo Reactivo al Enfoque:** Componentes con polling (`Home.jsx`, `Sidebar.jsx`, `TerminalFeed.jsx`) interceptan el evento `visibilitychange`. Si `document.hidden === true`, los temporizadores pausan su ejecución para no consumir CPU ni ancho de banda.
+* **Cancelación de Peticiones:** Todo `fetch` se enlaza a una señal `controller.signal`. Al desmontar el componente, la señal aborta inmediatamente la conexión, previniendo advertencias de fugas de memoria o ejecuciones huérfanas.
+
+### C. Mapeo Telemetría Vigía / Homeostasis
+* En [`Sidebar.jsx`](../src/components/Sidebar.jsx), la deserialización del endpoint `/v1/autonomy/status` se adapta a la estructura real emitida por `bridge_server.py`:
+  - `last_status_level` (NORMAL / CRITICAL / ANOMALY)
+  - `cycles_done` y `actions_taken`
+  - `budget_remaining_usd`
+  - Métricas de entropía homeostática del reportero.
+
+### D. Audio Synthesis Persistente
+* En [`ArticleModal.jsx`](../src/components/ArticleModal.jsx), se evita el bug histórico de Chromium en el que instancias huérfanas de `SpeechSynthesisUtterance` eran recolectadas por el *Garbage Collector* a los 15 segundos cortando el audio. Se mantiene una referencia mutable persistente (`utteranceRef.current`) hasta el evento `onend`.
+
+### E. Invulnerabilidad de Enrutamiento (`ChunkLoadError`)
 ```jsx
 <AnimatePresence mode="wait">
   <ErrorBoundary key={location.pathname}>
     <Routes>
       <Route element={<Suspense fallback={<PageLoader />}> ... </Suspense>} />
+    </Routes>
+  </ErrorBoundary>
+</AnimatePresence>
 ```
-1. Si un chunk falla, el `ErrorBoundary` captura el error SIN desmontar el `AnimatePresence`.
-2. El uso de `key={location.pathname}` garantiza que, al navegar a otra ruta, el `ErrorBoundary` se destruya y reactive automáticamente, sin dejar al usuario bloqueado en el estado de error.
-3. La recuperación manual exige `window.location.reload()` para purgar la caché nativa de promesas fallidas de Vite.
+* La clave `key={location.pathname}` regenera el límite de error al cambiar de ruta, evitando que un fallo transitorio de la red bloquee la navegación general.
 
-### B. Rendimiento Anti-Storm (Render-Phase Updates)
-Se ha abolido el uso de `useEffect` para sincronizar estados derivados. En buscadores y contextos globales (ej. `searchTerm`), utilizar `setSearchTerm` directamente en cada pulsación del teclado (`onChange`) provocaría una *render storm* catastrófica. 
-**La solución React 19:**
-Implementación de un estado local con Debounce, sincronizado mediante **Render-Phase Updates** para no desatar re-renders en cascada (`react-hooks/set-state-in-effect` violation).
+### F. Rendimiento Anti-Storm (Render-Phase Updates)
+* En contextos y entradas globales (búsqueda, tickers), se prohíbe el uso de `useEffect` para actualizar estados derivados. Se emplea el patrón nativo de React 19 de actualización en fase de render con `prevValue` y debounce de 300 ms.
 
-### C. Foco de Accesibilidad (WCAG 2.2)
-Toda interacción que desplace el viewport (ej. `ScrollToTopFAB`) no abandona al usuario de teclado (`blur()`), sino que transfiere el foco de manera programática al nodo principal protegido (`<main id="main" tabIndex={-1}>`).
-
-### D. Optimización GPU (Framer Motion)
-El monitoreo del scroll (`ScrollTracker`) se realiza **fuera del ciclo de renderizado de React**, interceptando los deltas directamente hacia la GPU mediante `useScroll` y `useMotionValueEvent`, manteniendo la interfaz perpetuamente a 60 FPS.\n
+### G. Resiliencia del Filesystem en Windows (Vite Watcher)
+* La directiva `server.watch.ignored: ['**/src/data/**/*.json', '**/public/books/**']` en `vite.config.js` evita que procesos automáticos como `sync_books.py` bloqueen descriptores de archivos (`EBUSY`) e interrumpan el servidor de desarrollo.

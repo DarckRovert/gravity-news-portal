@@ -1,63 +1,67 @@
-# 📖 Manual de Usuario: Nexo Ágora
+# 📖 Manual de Usuario: Nexo Ágora (V16.2 PRO)
 
-Bienvenido a la terminal pública de la Zona Ágora. Este portal actúa como tu central para acceder a los archivos de investigación, leer los tomos profundos de Gravity y pedirle a tu propio cerebro local que investigue acontecimientos en el tejido global.
-
-## 1. La Biblioteca Soberana
-
-En la pestaña **Biblioteca**, encontrarás todos los tomos y ensayos exportados por el sistema Gravity AI.
-- Utiliza las **pestañas de categorías** (Ensayo, Ficción, Libro) para filtrar la vista.
-- Para leer un libro, presiona **Leer Tomo**. Esto abrirá nuestro **Lector Cuántico**, que está optimizado para dispositivos móviles y escritorio.
-- Dentro del Lector, puedes modificar el tamaño de la letra, alternar entre tipografía Serif y Sans, y cambiar la paleta de colores (Oscuro, Sepia, Claro) para tu comodidad.
-- Si prefieres llevarte el archivo fuera de línea, utiliza el botón **Descargar**.
-
-## 2. Nexo Multimedia (Películas y Documentales)
-
-El **Nexo Multimedia** se encuentra en la parte superior de la página de Noticias. Es una cartelera inteligente que filtra contenido global:
-- Usa las pestañas **Monitoreo Global**, **Cine de Resistencia** y **Archivos Desclasificados** para navegar entre noticieros en vivo, películas de ciencia ficción y filosofía, o documentales de inteligencia.
-- Haz clic en cualquier tarjeta para iniciar la reproducción al instante.
-- Utiliza el botón de **pantalla completa** (icono de flechas expansivas) en cualquier video para una experiencia inmersiva.
-- Usa el botón inferior **CARGAR MÁS ARCHIVOS** para ver el resto del catálogo (diseñado con "Carga Perezosa" para no saturar tu RAM).
-
-## 3. Investigador en Vivo (Conexión Cognitiva)
-
-En la página principal de **Noticias**, verás a la derecha (o al final si estás en tu móvil) el panel de **Conexión Cognitiva**.
-
-Este panel te conecta directamente al motor inteligente de Gravity ejecutándose en tu ordenador.
-1. Confirma que el indicador muestra estado **Online** (luz cian).
-2. En el recuadro negro, escribe el tema que deseas investigar (ej. *"Censura algorítmica en X"*).
-3. Presiona **Iniciar Investigación**.
-4. Espera unos segundos. Gravity hará la búsqueda, aplicará sus modelos filosófico-analíticos para redactar la pieza y la inyectará en tiempo real en la pantalla.
-
-> **Aviso:** Si el indicador marca **Offline**, asegúrate de haber ejecutado el puente de IA en tu computadora local.
+Bienvenido a la terminal pública de la Zona Ágora. Este portal te permite consultar reportes de inteligencia en tiempo real, acceder a la Biblioteca Soberana, interactuar con corresponsales globales y conectar tu propio cerebro local de IA para generar investigaciones bajo demanda.
 
 ---
 
-## ⚠️ Cómo conectar la IA desde tu Celular (Contenido Mixto)
+## 1. Inicio Rápido en tu Computadora
 
-Un problema común al acceder desde un teléfono celular a la página (`https://gravitynewsportal.netlify.app`) es que el panel marcará permanentemente "Offline" si intentas poner la IP local de tu casa (por ejemplo: `http://192.168.1.75:7860`).
+En la carpeta raíz del portal encontrarás dos accesos directos principales:
 
-Esto **no es un fallo de la página**. Sucede porque la página es muy segura (`https://`), pero tu IP local no lo es (`http://`). A esto se le llama bloqueo de "Mixed Content" (Contenido Mixto) y Chrome o Safari bloquean la comunicación para "protegerte".
-
-Para evitar esta limitación, tienes **dos opciones**:
-
-### Opción A: Desactivar la seguridad en tu navegador móvil (Recomendado para uso casero)
-1. Abre el portal de noticias en el navegador de tu celular (Google Chrome).
-2. Toca el **icono del candadito** (o ícono de "Sitio seguro") que aparece en la barra superior al lado del enlace.
-3. Entra en la **Configuración de este sitio**.
-4. Busca el permiso llamado **Contenido Inseguro** o **Insecure Content**.
-5. Cambia el valor de *Bloquear* a **Permitir**.
-6. Refresca la página y verás que el panel se conecta instantáneamente.
-
-### Opción B: Usar Ngrok (Para conexiones seguras)
-1. En la computadora principal donde corre el Bridge, descarga **Ngrok**.
-2. Abre la consola y ejecuta: `ngrok http 7860`.
-3. Ngrok te entregará un enlace seguro (ej. `https://xxxx.ngrok-free.app`).
-4. Abre la web del portal en tu celular, pega ese enlace de ngrok en la caja de URL de la Conexión Cognitiva y listo.
+1. **`INICIAR_PORTAL.bat`**: Inicia el frontend del portal en tu navegador en `http://localhost:5173`. Si es la primera vez que lo abres, instalará las dependencias necesarias de forma transparente.
+2. **`INICIAR_ECOSISTEMA_COMPLETO.bat`**: Si tienes instalado el backend local en `F:\Gravity_AI_bridge`, este archivo levanta en simultáneo tanto el servidor de IA (`http://localhost:7860`) como el portal web, conectándolos al instante.
 
 ---
 
-## 4. Resiliencia y Anomalías de Conexión (V16.2)
+## 2. La Biblioteca Soberana y Lector Cuántico
 
-Debido a que el portal se actualiza constantemente de forma desatendida, es posible que tu navegador intente acceder a un archivo que acaba de ser reemplazado por la IA.
-Si esto ocurre, no verás una pantalla blanca o un fallo crítico. El sistema interceptará el fallo y mostrará una pantalla segura de **"Anomalía en la Conexión"**.
-Simplemente presiona el botón **Reestablecer Conexión** para resincronizar el enlace con la nube y cargar la versión más reciente del Nexo.\n
+En la sección **Biblioteca** (`/books`), encontrarás tomos y ensayos exportados por el motor de Gravity AI:
+
+* **Categorías:** Filtra entre Ensayos, Ficción y Libros de Investigación.
+* **Lector Cuántico (`/book/:id`):** Al presionar *Leer Tomo*, se abrirá una interfaz optimizada para lectura nocturna con soporte para dispositivos táctiles y modo lectura ininterrumpida.
+* **Descarga Offline:** Cada tomo dispone de un botón de descarga para guardar el archivo HTML limpio y leerlo sin conexión a internet.
+* **Guardados:** Puedes marcar cualquier tomo con el botón de marcador (icono de bandera) para guardarlo en tu pestaña personal de *Guardados*.
+
+---
+
+## 3. Radar Geopolítico Reactivo
+
+En la pestaña **Geopolítica** (`/geopolitica`):
+
+* Explora noticias clasificadas por regiones geográficas: *Global, Norteamérica, Latinoamérica, Perú, Eurasia, Medio Oriente, África*.
+* **Sincronización en Caliente:** Cualquier noticia o reporte recién redactado por la IA se inyectará de inmediato en el radar sin necesidad de recargar la página.
+* **Navegación por Teclado:** Puedes navegar por todas las tarjetas usando la tecla `Tab` y abrirlas pulsando `Enter` o la `Barra Espaciadora`.
+
+---
+
+## 4. Conexión Cognitiva e Investigador en Vivo
+
+En la columna lateral de la página de Inicio encontrarás el panel de **Conexión Cognitiva**:
+
+1. **Indicador de Estado:**
+   * 🟢 **Online:** Conectado exitosamente a tu Gravity AI Bridge local (`:7860`).
+   * 🔴 **Offline:** El backend local no está corriendo o la conexión fue interrumpida.
+   * 🟡 **SSL Bloqueado:** Detectado bloqueo por contenido mixto en conexiones móviles seguras.
+2. **Generar un Reporte con IA:**
+   * Escribe el tema a investigar en la caja de texto (ej. *"Transición energética y control de divisas"*).
+   * Pulsa **Iniciar Investigación**.
+   * El Bridge seleccionará el modelo óptimo disponible (LM Studio, Groq o Nvidia NIM) y redactará un análisis periodístico que se insertará al tope de tu página.
+3. **Panel de Homeostasis del Vigía:**
+   * Si el Bridge está activo, el panel lateral muestra en vivo las métricas de entropía, errores consecutivos y presupuesto restante de tu motor autónomo.
+
+---
+
+## 5. Conexión desde el Teléfono Móvil (Solución a Contenido Mixto)
+
+Al ingresar a la web pública (`https://gravitynewsportal.netlify.app`) desde tu smartphone, el navegador bloqueará por seguridad cualquier petición a tu IP local `http://192.168.x.x:7860` (Bloqueo de Mixed Content).
+
+Para solucionarlo:
+
+* **Opción A (Recomendada con Ngrok / Cloudflare Tunnel):**
+  1. En tu PC donde corre el Bridge, ejecuta: `ngrok http 7860`.
+  2. Copia la URL HTTPS que te entrega (ej. `https://xxxx.ngrok-free.app`).
+  3. En tu teléfono, abre la página del portal y pega esa URL segura en la configuración del panel Bridge.
+* **Opción B (Habilitar contenido no seguro en Chrome móvil):**
+  1. Toca el candado o icono de ajustes al lado de la barra de direcciones en Chrome.
+  2. Selecciona *Configuración de sitios* ➔ *Contenido no seguro*.
+  3. Cambia la opción a **Permitir** y recarga la página.
